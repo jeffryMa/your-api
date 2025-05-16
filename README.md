@@ -86,7 +86,7 @@ docker run --name yourapi -d --restart always -p 3000:3000 -e TZ=Asia/Shanghai y
 docker run --name yourapi -d --restart always -p 3000:3000 -e TZ=Asia/Shanghai -v /home/ubuntu/data/new-api:/data yourapi/yourapi:latest
 
 # 使用MySQL
-docker run --name yourapi -d --restart always -p 3000:3000 -e SQL_DSN="root:123456@tcp(localhost:3306)/yourapi" -e TZ=Asia/Shanghai -v /home/ubuntu/data/new-api:/data your-api/your-api:latest
+docker run --name yourapi -d --restart always -p 3000:3000 -e SQL_DSN="root:123456@tcp(localhost:3306)/yourapi" -e TZ=Asia/Shanghai -v /home/ubuntu/data/new-api:/data yourapi/yourapi:latest
 ```
 
 #### 使用docker-compose
