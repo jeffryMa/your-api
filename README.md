@@ -72,7 +72,7 @@
 - [x] 预设更多模型
 - [x] 前端新增tailwind css以及redux支持，更便于敏捷开发
 - [x] 新增快速接入的说明
-- [x] 兼容newapi数据库
+- [x] 兼容newapi数据库,方便一键迁移
 
 **欢迎提交 Issue、Pull Request（PR）、Merge Request（MR）或提出各类需求与建议。我们非常重视您的反馈，并期待与您共同完善项目。**
 
