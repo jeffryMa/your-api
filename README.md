@@ -50,6 +50,7 @@
 ### 增加及优化
 
 - [x]   镜像支持arm以及amd
+- [x]   支持coze智能体的配置
 - [x]   🎨整体界面风格的差异
 - [x]   防止图片探测请求暴露上游
 - [x]   渠道空回复校验，确保空回复进行重试
@@ -73,6 +74,10 @@
 - [x] 新增快速接入的说明
 
 **欢迎提交 Issue、Pull Request（PR）、Merge Request（MR）或提出各类需求与建议。我们非常重视您的反馈，并期待与您共同完善项目。**
+
+coze工作流的配置
+
+![image-20250517003351383](./imgs/image-20250517003351383.png)
 
 ## 使用说明
 
@@ -492,3 +497,4 @@ docker build --build-arg TARGETARCH=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/
 # 在docker-compose.yml中将image改为
 # image: calciumion/new-api:multiarch
 ```
+
