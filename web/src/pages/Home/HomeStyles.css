@@ -1,0 +1,1685 @@
+/* Provider dropdown styles */
+.group:hover .group-hover\:visible {
+  visibility: visible;
+}
+
+.group:hover .group-hover\:opacity-100 {
+  opacity: 1;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+/* Dark mode support */
+[theme-mode="dark"] .bg-white {
+  background-color: var(--semi-color-bg-2);
+}
+
+[theme-mode="dark"] .text-gray-500 {
+  color: var(--semi-color-text-2);
+}
+
+[theme-mode="dark"] .text-gray-700 {
+  color: var(--semi-color-text-0);
+}
+
+[theme-mode="dark"] .hover\:bg-gray-50:hover {
+  background-color: var(--semi-color-fill-1);
+}
+
+[theme-mode="dark"] .bg-gray-50 {
+  background-color: var(--semi-color-fill-0);
+}
+
+[theme-mode="dark"] .bg-blue-50 {
+  background-color: rgba(var(--semi-blue-0), 0.8);
+}
+
+[theme-mode="dark"] .bg-gray-100 {
+  background-color: var(--semi-color-fill-2);
+}
+
+[theme-mode="dark"] .text-gray-700 {
+  color: var(--semi-color-text-0);
+}
+
+[theme-mode="dark"] .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+}
+
+/* 首页标题样式 */
+.text-8xl {
+  font-size: 5rem;
+  line-height: 1.2;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 600;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.bg-uc-argon {
+  background-image: linear-gradient(90deg, #7828c8, #6937ca, #5a46cd, #4b54cf, #3c62d2);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.text-wrap {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
+.mt-16 {
+  margin-top: 4rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-3 {
+  margin-top: 0.75rem;
+}
+
+.mb-5 {
+  margin-bottom: 1.25rem;
+}
+
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.max-w-\[1300px\] {
+  max-width: 1300px;
+}
+
+.p-3 {
+  padding: 0.75rem;
+}
+
+.py-16 {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.select-none {
+  user-select: none;
+}
+
+.m-auto {
+  margin: 0 auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-gray-500 {
+  color: rgba(107, 114, 128, 1);
+}
+
+.typed-cursor {
+  display: inline-block;
+  margin-left: 3px;
+  opacity: 1;
+  animation: blink 0.7s infinite;
+}
+
+/* 模型卡片样式 */
+.card-shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  background-color: var(--semi-color-bg-2);
+}
+
+[theme-mode="dark"] .card-shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  background-color: var(--semi-color-bg-2);
+}
+
+.hover-trans-m-top-sm {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-trans-m-top-sm:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+[theme-mode="dark"] .hover-trans-m-top-sm:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.h-1 {
+  height: 0.25rem;
+}
+
+/* 自定义时间线样式 */
+.semi-timeline-item-content {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.semi-timeline-item-content-extra {
+  margin-top: 4px;
+  font-weight: normal;
+  font-size: 0.9rem;
+  color: var(--semi-color-text-1);
+}
+
+.semi-timeline-item-head-custom {
+  background: none !important;
+}
+
+.semi-timeline-item {
+  padding-bottom: 24px;
+}
+
+.semi-timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+/* 模型概览表格样式 */
+.model-tabs .semi-tabs-tab {
+  padding: 8px 16px;
+}
+
+.model-overview-table {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.model-overview-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.model-overview-table th,
+.model-overview-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--semi-color-border);
+}
+
+.model-overview-table th {
+  font-weight: 600;
+}
+
+.model-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-right: 4px;
+  font-size: 0.8rem;
+  background-color: var(--semi-color-primary-light-default);
+  color: var(--semi-color-primary);
+}
+
+.layoutkit-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 动画效果 */
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 响应式样式 */
+@media (max-width: 768px) {
+  .text-8xl {
+    font-size: 3.5rem;
+  }
+  
+  .text-3xl {
+    font-size: 1.5rem;
+  }
+  
+  .py-16 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .mt-16 {
+    margin-top: 2rem;
+  }
+  
+  .semi-timeline-item-content {
+    font-size: 1rem;
+  }
+  
+  .semi-timeline-item-content-extra {
+    font-size: 0.85rem;
+  }
+  
+  .model-overview-table {
+    font-size: 0.9rem;
+  }
+}
+
+/* 模型展示部分样式 */
+.card-shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+}
+
+.hover-trans-m-top-sm:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 模型价格部分样式 */
+.model-pricing-section {
+  background: linear-gradient(145deg, rgba(var(--semi-blue-0), 0.3), rgba(var(--semi-purple-0), 0.2));
+  border-radius: 20px;
+  padding: 30px;
+  transition: all 0.5s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(var(--semi-blue-1), 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.model-pricing-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(var(--semi-blue-1), 0.4) 0%, transparent 70%);
+  opacity: 0.5;
+  z-index: 0;
+  pointer-events: none;
+  animation: rotate 25s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pricing-card {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.pricing-card:hover {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* 表格响应式样式 */
+.responsive-table {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+  margin-top: 20px !important;
+}
+
+.responsive-table:hover {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+}
+
+.responsive-table .semi-table {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.responsive-table .semi-table-header {
+  background: linear-gradient(to right, rgba(var(--semi-blue-0), 0.2), rgba(var(--semi-purple-0), 0.1));
+  border-bottom: 1px solid rgba(var(--semi-blue-2), 0.2);
+}
+
+.responsive-table .semi-table-row {
+  transition: all 0.2s ease;
+}
+
+.responsive-table .semi-table-row:hover {
+  background-color: rgba(var(--semi-blue-0), 0.3) !important;
+  transform: scale(1.002);
+}
+
+/* 表格内标签样式优化 */
+.semi-tag {
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.semi-tag:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .model-pricing-section {
+    padding: 20px;
+    border-radius: 16px;
+  }
+  
+  .pricing-card {
+    border-radius: 14px;
+  }
+  
+  .responsive-table .semi-table-row-cell {
+    padding: 10px 12px;
+  }
+  
+  .responsive-table .semi-table-title {
+    font-size: 14px;
+  }
+}
+
+/* 标签样式优化 */
+.semi-tag {
+  transition: all 0.2s ease;
+}
+
+.semi-tag:hover {
+  transform: scale(1.05);
+}
+
+/* Banner样式优化 */
+.semi-banner {
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(var(--semi-light-blue-2), 0.2);
+}
+
+.semi-banner:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+}
+
+/* 按钮动画效果 */
+.semi-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.semi-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.semi-button:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* 表格行悬停效果 */
+.semi-table-row:hover {
+  background-color: rgba(var(--semi-blue-0), 0.3) !important;
+}
+
+/* 模型图标样式 */
+.model-icon {
+  transition: all 0.3s ease;
+}
+
+.model-icon:hover {
+  transform: scale(1.1);
+}
+
+/* 模型价格展示部分样式 */
+.model-price-container {
+  padding: 0;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.price-info-card {
+  border: none;
+  background-color: #fff;
+  margin-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.price-info-banner {
+  background-color: #f0f7ff;
+  color: #1e50a0;
+  padding: 10px 16px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  border-left: 4px solid #1677ff;
+}
+
+.model-list-link {
+  color: #1677ff;
+  margin-left: 4px;
+  text-decoration: underline;
+}
+
+.providers-tab {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.provider-tab-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 30px;
+  margin-right: 8px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.provider-tab-item:hover {
+  background-color: #f5f5f5;
+}
+
+.provider-tab-item.active {
+  background-color: #e6f4ff;
+  color: #1677ff;
+  font-weight: 500;
+}
+
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 10px 0;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 24px;
+  font-size: 14px;
+}
+
+.filter-checkbox {
+  margin-right: 6px;
+}
+
+.group-filter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  color: #666;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.model-search-input {
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 6px 30px 6px 12px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s;
+  width: 200px;
+}
+
+.model-search-input:focus {
+  border-color: #1677ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  cursor: pointer;
+}
+
+.model-table-wrapper {
+  background-color: #fff;
+  border-radius: 0 0 8px 8px;
+}
+
+.model-list-table .semi-table {
+  border-radius: 0 0 8px 8px;
+}
+
+.model-list-table .semi-table-header {
+  background-color: #fafafa;
+  border-top: 1px solid #f0f0f0;
+}
+
+.model-list-table .semi-table-row:hover {
+  background-color: #f5f5f5;
+}
+
+.model-list-table .semi-table-header-cell {
+  font-weight: 500;
+  color: #333;
+  padding: 12px 16px;
+  background-color: #fafafa;
+}
+
+.model-list-table .semi-table-cell {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.model-list-table .semi-table-row:last-child .semi-table-cell {
+  border-bottom: none;
+}
+
+.group-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tag-ratio {
+  color: #52c41a;
+}
+
+.tag-fixed {
+  color: #fa8c16;
+}
+
+.empty-table {
+  text-align: center;
+  padding: 40px 0;
+  color: #999;
+  font-size: 14px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .filter-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .search-box {
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  .model-search-input {
+    width: 100%;
+  }
+  
+  .model-list-table .semi-table-cell {
+    padding: 10px 8px;
+  }
+}
+
+/* 优化分组标签样式 */
+.semi-space {
+  display: flex;
+}
+
+.semi-space-align-center {
+  align-items: center;
+}
+
+.semi-space-horizontal {
+  flex-direction: row;
+}
+
+.semi-space-tight-horizontal > * {
+  margin-right: 8px;
+}
+
+.semi-space-tight-horizontal > *:last-child {
+  margin-right: 0;
+}
+
+.semi-space-tight-vertical > * {
+  margin-bottom: 8px;
+}
+
+.semi-space-tight-vertical > *:last-child {
+  margin-bottom: 0;
+}
+
+.semi-tag {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 20px;
+  border-radius: 3px;
+  padding: 0 12px;
+  height: 32px;
+  max-width: 100%;
+  transition: all 0.2s cubic-bezier(0.38, 0, 0.24, 1);
+  user-select: none;
+  cursor: pointer;
+}
+
+.semi-tag:hover {
+  opacity: 0.9;
+}
+
+.semi-tag-large {
+  padding: 0 15px;
+  height: 36px;
+  font-size: 14px;
+}
+
+.semi-tag-square {
+  border-radius: 4px;
+}
+
+.semi-tag-light {
+  background-color: var(--semi-color-fill-0);
+  color: var(--semi-color-text-0);
+}
+
+.semi-tag-content {
+  display: inline-flex;
+  align-items: center;
+}
+
+.semi-tag-content-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.semi-tag-prefix-icon {
+  margin-right: 6px;
+  display: flex;
+  align-items: center;
+}
+
+/* 各种颜色的标签样式 */
+.semi-tag-light-blue-light {
+  background-color: rgba(var(--semi-blue-0), 1);
+  color: rgba(var(--semi-blue-5), 1);
+  border: 1px solid rgba(var(--semi-blue-2), 1);
+}
+
+.semi-tag-blue {
+  background-color: rgba(var(--semi-blue-5), 1);
+  color: white;
+}
+
+.semi-tag-amber-light {
+  background-color: rgba(var(--semi-amber-0), 1);
+  color: rgba(var(--semi-amber-5), 1);
+  border: 1px solid rgba(var(--semi-amber-2), 1);
+}
+
+.semi-tag-amber {
+  background-color: rgba(var(--semi-amber-5), 1);
+  color: white;
+}
+
+.semi-tag-indigo-light {
+  background-color: rgba(var(--semi-indigo-0), 1);
+  color: rgba(var(--semi-indigo-5), 1);
+  border: 1px solid rgba(var(--semi-indigo-2), 1);
+}
+
+.semi-tag-indigo {
+  background-color: rgba(var(--semi-indigo-5), 1);
+  color: white;
+}
+
+.semi-tag-light-purple {
+  background-color: rgba(var(--semi-purple-0), 1);
+  color: rgba(var(--semi-purple-5), 1);
+  border: 1px solid rgba(var(--semi-purple-2), 1);
+}
+
+.semi-tag-purple {
+  background-color: rgba(var(--semi-purple-5), 1);
+  color: white;
+}
+
+/* SVIP 图标样式 */
+.semi-icon {
+  display: inline-block;
+  font-style: normal;
+  line-height: 0;
+  text-align: center;
+  text-transform: none;
+  vertical-align: -0.125em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.semi-icon-default {
+  font-size: 16px;
+}
+
+/* 调整过滤选项样式 */
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  gap: 12px;
+}
+
+.group-filter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* 定义CSS变量以支持Semi Design的颜色系统 */
+:root {
+  --semi-blue-0: 235, 244, 255;
+  --semi-blue-1: 214, 236, 255;
+  --semi-blue-2: 173, 220, 255;
+  --semi-blue-3: 120, 198, 255;
+  --semi-blue-4: 71, 174, 255;
+  --semi-blue-5: 22, 119, 255;
+  --semi-blue-6: 13, 100, 224;
+  --semi-blue-7: 9, 81, 191;
+  --semi-blue-8: 5, 63, 157;
+  --semi-blue-9: 8, 54, 122;
+  
+  --semi-purple-0: 240, 233, 255;
+  --semi-purple-1: 226, 212, 255;
+  --semi-purple-2: 198, 173, 255;
+  --semi-purple-3: 170, 134, 255;
+  --semi-purple-4: 147, 100, 255;
+  --semi-purple-5: 126, 75, 252;
+  --semi-purple-6: 108, 58, 219;
+  --semi-purple-7: 89, 45, 183;
+  --semi-purple-8: 71, 33, 145;
+  --semi-purple-9: 51, 23, 106;
+  
+  --semi-amber-0: 255, 245, 229;
+  --semi-amber-1: 255, 236, 204;
+  --semi-amber-2: 255, 219, 153;
+  --semi-amber-3: 255, 201, 102;
+  --semi-amber-4: 255, 182, 51;
+  --semi-amber-5: 250, 140, 22;
+  --semi-amber-6: 214, 116, 13;
+  --semi-amber-7: 177, 93, 8;
+  --semi-amber-8: 141, 70, 5;
+  --semi-amber-9: 112, 52, 5;
+  
+  --semi-indigo-0: 235, 235, 255;
+  --semi-indigo-1: 214, 214, 255;
+  --semi-indigo-2: 173, 173, 255;
+  --semi-indigo-3: 132, 132, 252;
+  --semi-indigo-4: 103, 103, 252;
+  --semi-indigo-5: 73, 73, 252;
+  --semi-indigo-6: 58, 58, 219;
+  --semi-indigo-7: 45, 45, 186;
+  --semi-indigo-8: 33, 33, 153;
+  --semi-indigo-9: 23, 23, 120;
+}
+
+/* 供应商导航栏样式 */
+.provider-navbar {
+  margin: 16px 0;
+  position: relative;
+  overflow: visible;
+  border-radius: 16px;
+  background-color: var(--semi-color-fill-0);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.provider-navbar:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.provider-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 8px 4px;
+  scrollbar-width: none; /* Firefox */
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  flex: 1;
+  scroll-snap-type: x mandatory;
+  margin-left: 22px;
+}
+
+/* 隐藏滚动条但保留功能 */
+.provider-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.provider-item {
+  display: flex;
+  align-items: center;
+  padding: 2px 8px;
+  margin-right: 1px;
+  border-radius: 50px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(var(--semi-blue-0), 0.8);
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  scroll-snap-align: start;
+}
+
+/* 添加暗色主题下的provider-item样式 */
+[theme-mode="dark"] .provider-item {
+  background-color: var(--semi-color-bg-2);
+  border-color: rgba(var(--semi-blue-9), 0.3);
+  color: var(--semi-color-text-0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.provider-item:hover {
+  background-color: rgba(var(--semi-blue-0), 0.5);
+  transform: translateY(-2px) scale(1.02);
+  border-color: rgba(var(--semi-blue-3), 0.4);
+}
+
+/* 添加暗色主题下provider-item悬停效果 */
+[theme-mode="dark"] .provider-item:hover {
+  background-color: var(--semi-color-bg-1);
+  border-color: rgba(var(--semi-blue-7), 0.5);
+}
+
+.provider-item.active {
+  background: linear-gradient(135deg, rgba(var(--semi-blue-0), 1), rgba(var(--semi-blue-1), 1));
+  color: rgba(var(--semi-blue-6), 1);
+  border-color: rgba(var(--semi-blue-3), 0.6);
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(var(--semi-blue-3), 0.25);
+  transform: translateY(-1px);
+}
+
+/* 添加暗色主题下provider-item激活状态样式 */
+[theme-mode="dark"] .provider-item.active {
+  background: linear-gradient(135deg, rgba(var(--semi-blue-9), 0.7), rgba(var(--semi-blue-8), 0.7));
+  color: rgba(var(--semi-blue-3), 1);
+  border-color: rgba(var(--semi-blue-5), 0.6);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.provider-item.active:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* 添加暗色主题下provider-item激活悬停状态 */
+[theme-mode="dark"] .provider-item.active:hover {
+  background: linear-gradient(135deg, rgba(var(--semi-blue-8), 0.8), rgba(var(--semi-blue-7), 0.8));
+}
+
+.provider-icon {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.provider-fallback-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--semi-color-fill-2);
+  color: var(--semi-color-text-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.provider-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.provider-count {
+  background-color: rgba(var(--semi-blue-5), 0.1);
+  color: rgba(var(--semi-blue-6), 1);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 8px;
+  min-width: 26px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(var(--semi-blue-5), 0.1);
+  transition: all 0.3s ease;
+}
+
+.provider-item:hover .provider-count {
+  background-color: rgba(var(--semi-blue-5), 0.2);
+  transform: scale(1.05);
+}
+
+.provider-item.active .provider-count {
+  background-color: rgba(var(--semi-blue-5), 0.3);
+  color: rgba(var(--semi-blue-8), 1);
+  box-shadow: 0 2px 4px rgba(var(--semi-blue-5), 0.2);
+}
+
+/* 左右箭头按钮样式 */
+.provider-scroll-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  transition: all 0.3s ease;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(var(--semi-blue-5), 1);
+}
+
+.provider-scroll-btn:hover {
+  background-color: rgba(var(--semi-blue-0), 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.provider-scroll-btn:active {
+  transform: translateY(-50%) scale(0.98);
+}
+
+.scroll-left {
+  left: -15px;
+}
+
+.scroll-right {
+  right: -15px;
+}
+
+/* 取消渐变边界效果，用箭头替代 */
+.provider-navbar::after,
+.provider-navbar::before {
+  display: none;
+}
+
+/* 提升箭头按钮在暗色主题下的可见度 */
+[theme-mode="dark"] .provider-scroll-btn {
+  background-color: var(--semi-color-bg-2);
+  color: rgba(var(--semi-blue-3), 1);
+}
+
+[theme-mode="dark"] .provider-scroll-btn:hover {
+  background-color: var(--semi-color-bg-1);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .provider-item {
+    padding: 8px 14px;
+    margin-right: 8px;
+  }
+  
+  .provider-name {
+    font-size: 13px;
+  }
+  
+  .provider-icon img,
+  .provider-fallback-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .provider-count {
+    font-size: 11px;
+    padding: 1px 6px;
+    margin-left: 6px;
+  }
+  
+  .provider-scroll-btn {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .scroll-left {
+    left: -12px;
+  }
+  
+  .scroll-right {
+    right: -12px;
+  }
+}
+
+/* 供应商分类区域样式 */
+.provider-section {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--semi-color-text-0);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  padding-left: 2px;
+}
+
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 18px;
+  background: linear-gradient(to bottom, rgba(var(--semi-blue-5), 1), rgba(var(--semi-purple-5), 1));
+  margin-right: 10px;
+  border-radius: 4px;
+}
+
+/* 操作栏样式 */
+.action-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  background: linear-gradient(to right, rgba(var(--semi-blue-0), 0.4), rgba(var(--semi-blue-0), 0.1));
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(var(--semi-blue-2), 0.2);
+  gap: 16px;
+}
+
+.action-bar:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+/* 添加暗色主题下的action-bar样式 */
+[theme-mode="dark"] .action-bar {
+  background: linear-gradient(to right, rgba(var(--semi-blue-9), 0.3), rgba(var(--semi-blue-9), 0.1));
+  border-color: rgba(var(--semi-blue-7), 0.3);
+}
+
+.search-section {
+  flex: 1;
+  max-width: 300px;
+}
+
+.search-section .semi-input-wrapper {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.search-section .semi-input-wrapper:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.search-section .semi-input {
+  border-radius: 8px;
+}
+
+/* 分组选择器样式 */
+.group-selector {
+  position: relative;
+  z-index: 10;
+}
+
+.group-select .semi-select-selection {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(var(--semi-blue-2), 0.2);
+}
+
+.group-select .semi-select-selection:hover {
+  border-color: rgba(var(--semi-blue-4), 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  transform: translateY(-1px);
+}
+
+.group-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 0;
+  width: 100%;
+}
+
+.group-ratio-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  background: linear-gradient(135deg, rgba(var(--semi-blue-1), 0.7), rgba(var(--semi-blue-3), 0.4));
+  color: rgba(var(--semi-blue-8), 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-left: 10px;
+  transition: all 0.2s ease;
+}
+
+.semi-select-option:hover .group-ratio-badge {
+  background: linear-gradient(135deg, rgba(var(--semi-blue-2), 0.8), rgba(var(--semi-blue-4), 0.5));
+  transform: translateX(2px);
+}
+
+.semi-select-dropdown {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(var(--semi-blue-2), 0.15);
+  backdrop-filter: blur(8px);
+}
+
+.semi-select-option {
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  margin: 2px 4px;
+}
+
+.semi-select-option:hover {
+  background-color: rgba(var(--semi-blue-0), 0.5);
+  transform: translateX(2px);
+}
+
+.semi-select-option-selected {
+  background-color: rgba(var(--semi-blue-1), 0.7) !important;
+  font-weight: 500;
+}
+
+/* 暗色模式下分组选择器的样式 */
+[theme-mode="dark"] .group-select .semi-select-selection {
+  background: rgba(var(--semi-grey-9), 0.5);
+}
+
+[theme-mode="dark"] .group-ratio-badge {
+  background: linear-gradient(135deg, rgba(var(--semi-blue-4), 0.3), rgba(var(--semi-blue-6), 0.2));
+  color: rgba(var(--semi-blue-3), 1);
+}
+
+[theme-mode="dark"] .semi-select-option:hover .group-ratio-badge {
+  background: linear-gradient(135deg, rgba(var(--semi-blue-3), 0.4), rgba(var(--semi-blue-5), 0.3));
+}
+
+[theme-mode="dark"] .semi-select-dropdown {
+  background-color: var(--semi-color-bg-2);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.action-buttons .semi-button {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.action-buttons .semi-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.action-buttons .semi-button:active {
+  transform: translateY(0);
+}
+
+.toggle-ratio-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.toggle-ratio-btn::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, rgba(var(--semi-blue-3), 0.2), transparent);
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  opacity: 0;
+  z-index: 0;
+}
+
+.toggle-ratio-btn:hover::before {
+  opacity: 1;
+  transform: scale(2);
+}
+
+.toggle-ratio-btn .semi-icon {
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.toggle-ratio-btn:hover .semi-icon {
+  transform: rotate(15deg);
+}
+
+[theme-mode="dark"] .toggle-ratio-btn::before {
+  background: linear-gradient(135deg, rgba(var(--semi-blue-5), 0.2), transparent);
+}
+
+/* 模型计数样式优化 */
+.model-count {
+  display: flex;
+  align-items: center;
+  color: var(--semi-color-text-2);
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background-color: rgba(var(--semi-blue-0), 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.model-count:hover {
+  background-color: rgba(var(--semi-blue-0), 0.4);
+}
+
+/* 添加暗色主题下的model-count样式 */
+[theme-mode="dark"] .model-count {
+  background-color: rgba(var(--semi-blue-9), 0.4);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+[theme-mode="dark"] .model-count:hover {
+  background-color: rgba(var(--semi-blue-8), 0.5);
+}
+
+/* 空状态样式优化 */
+.empty-state {
+  padding: 40px 20px;
+  text-align: center;
+  background-color: rgba(var(--semi-blue-0), 0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  margin-top: 20px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.empty-state p {
+  margin-bottom: 16px;
+  font-size: 16px;
+  color: var(--semi-color-text-1);
+}
+
+/* 添加暗色主题下的empty-state样式 */
+[theme-mode="dark"] .empty-state {
+  background-color: rgba(var(--semi-blue-9), 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .action-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .search-section,
+  .group-selector {
+    width: 100%;
+    max-width: none;
+  }
+  
+  .group-select,
+  .search-section .semi-input-wrapper {
+    width: 100% !important;
+  }
+  
+  .model-count {
+    width: 100%;
+  }
+  
+  .action-buttons {
+    width: 100%;
+  }
+  
+  .action-buttons .semi-button {
+    flex: 1;
+  }
+}
+
+/* 模型表格暗色主题适配 */
+[theme-mode="dark"] .model-list-table .semi-table {
+  background-color: var(--semi-color-bg-1);
+  color: var(--semi-color-text-0);
+}
+
+[theme-mode="dark"] .model-list-table .semi-table-header {
+  background-color: var(--semi-color-bg-2);
+  border-top: 1px solid var(--semi-color-border);
+}
+
+[theme-mode="dark"] .model-list-table .semi-table-row:hover {
+  background-color: var(--semi-color-bg-3) !important;
+}
+
+[theme-mode="dark"] .model-list-table .semi-table-header-cell {
+  color: var(--semi-color-text-0);
+  background-color: var(--semi-color-bg-2);
+}
+
+[theme-mode="dark"] .model-list-table .semi-table-cell {
+  border-bottom: 1px solid var(--semi-color-border);
+}
+
+[theme-mode="dark"] .semi-table-row {
+  background-color: var(--semi-color-bg-1);
+}
+
+[theme-mode="dark"] .price-info-banner {
+  background-color: rgba(var(--semi-blue-9), 0.3);
+  color: var(--semi-color-text-0);
+  border-left: 4px solid rgba(var(--semi-blue-7), 1);
+}
+
+[theme-mode="dark"] .model-list-link {
+  color: rgba(var(--semi-blue-3), 1);
+}
+
+/* 模型价格容器暗色适配 */
+[theme-mode="dark"] .model-price-container {
+  background-color: var(--semi-color-bg-0);
+}
+
+[theme-mode="dark"] .price-info-card {
+  background-color: var(--semi-color-bg-1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 文本颜色适配 */
+[theme-mode="dark"] .semi-typography {
+  color: var(--semi-color-text-0);
+}
+
+/* 模型价格单元格样式 */
+.model-price-cell {
+  color: var(--semi-color-text-0);
+}
+
+[theme-mode="dark"] .model-price-cell {
+  color: var(--semi-color-text-0);
+}
+
+/* 确保所有Text组件在暗黑模式下有正确的颜色 */
+[theme-mode="dark"] .semi-typography {
+  color: var(--semi-color-text-0) !important;
+}
+
+/* 价格值的特殊样式 */
+.price-value {
+  color: var(--semi-color-text-0);
+  font-weight: 600;
+}
+
+[theme-mode="dark"] .price-value {
+  color: var(--semi-color-text-0) !important;
+}
+
+/* 全局暗色模式样式 */
+[theme-mode="dark"] body {
+  background-color: var(--semi-color-bg-0);
+  color: var(--semi-color-text-0);
+}
+
+[theme-mode="dark"] .semi-card {
+  background-color: var(--semi-color-bg-2);
+}
+
+[theme-mode="dark"] .semi-card-header-wrapper .semi-card-header {
+  color: var(--semi-color-text-0);
+}
+
+[theme-mode="dark"] .semi-card-body {
+  color: var(--semi-color-text-1);
+}
+
+/* 确保暗色模式下所有文本颜色正确 */
+[theme-mode="dark"] h1, 
+[theme-mode="dark"] h2, 
+[theme-mode="dark"] h3, 
+[theme-mode="dark"] h4, 
+[theme-mode="dark"] h5, 
+[theme-mode="dark"] h6,
+[theme-mode="dark"] p,
+[theme-mode="dark"] span:not(.bg-uc-argon):not(.semi-tag-content) {
+  color: var(--semi-color-text-0);
+}
+
+/* 导航栏暗色模式 */
+[theme-mode="dark"] .semi-navigation {
+  background-color: var(--semi-color-bg-1);
+  border-color: var(--semi-color-border);
+}
+
+[theme-mode="dark"] .semi-navigation-item {
+  color: var(--semi-color-text-0);
+}
+
+[theme-mode="dark"] .semi-navigation-item:hover {
+  background-color: var(--semi-color-fill-0);
+}
+
+/* 链接暗色模式 */
+[theme-mode="dark"] a {
+  color: var(--semi-color-link);
+}
+
+[theme-mode="dark"] a:hover {
+  color: var(--semi-color-link-hover);
+}
+
+/* 按钮暗色模式 */
+[theme-mode="dark"] .semi-button {
+  background-color: var(--semi-color-bg-2);
+  color: var(--semi-color-text-0);
+  border-color: var(--semi-color-border);
+}
+
+[theme-mode="dark"] .semi-button:hover {
+  background-color: var(--semi-color-fill-0);
+}
+
+/* 卡片暗色模式样式补充 */
+[theme-mode="dark"] .pricing-card {
+  background-color: var(--semi-color-bg-2);
+  border-color: var(--semi-color-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+[theme-mode="dark"] .pricing-card:hover {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* 卡片内容暗色模式 */
+[theme-mode="dark"] .semi-card-meta-title {
+  color: var(--semi-color-text-0);
+}
+
+[theme-mode="dark"] .semi-card-meta-description {
+  color: var(--semi-color-text-1);
+}
+
+/* 模型卡片图标背景 */
+[theme-mode="dark"] .model-icon {
+  background-color: var(--semi-color-bg-3);
+}
+
+/* 时间线暗色模式样式 */
+[theme-mode="dark"] .semi-timeline {
+  color: var(--semi-color-text-0);
+}
+
+[theme-mode="dark"] .semi-timeline-item-tail {
+  border-left-color: var(--semi-color-border);
+}
+
+[theme-mode="dark"] .semi-timeline-item-head {
+  background-color: var(--semi-color-bg-2);
+  border-color: var(--semi-color-border);
+}
+
+/* 表格暗色模式样式补充 */
+[theme-mode="dark"] .semi-table-tbody {
+  color: var(--semi-color-text-0);
+}
+
+[theme-mode="dark"] .semi-table-tbody tr {
+  background-color: var(--semi-color-bg-2);
+}
+
+[theme-mode="dark"] .semi-table-tbody tr:hover {
+  background-color: var(--semi-color-bg-3);
+}
+
+/* 确保所有图标也适配暗色模式 */
+[theme-mode="dark"] .semi-icon {
+  color: var(--semi-color-text-2);
+}
+
+[theme-mode="dark"] .semi-icon:hover {
+  color: var(--semi-color-text-0);
+} 

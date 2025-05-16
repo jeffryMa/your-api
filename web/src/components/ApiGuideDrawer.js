@@ -1,0 +1,359 @@
+// src/components/ApiGuideDrawer.jsx
+import React, { useMemo, useState, useEffect } from 'react';
+import { SideSheet, Typography, Tabs, Divider, Button } from '@douyinfe/semi-ui';
+import {
+  IconVerify,
+  IconTerminal,
+  IconCode,
+  IconHelpCircle,
+  IconCopy,
+  IconClose
+} from '@douyinfe/semi-icons';
+import { copy, showSuccess } from '../helpers';
+import { useNavigate } from 'react-router-dom';
+
+export default function ApiGuideDrawer({
+                                         visible,
+                                         onClose,
+                                         baseUrl: propBaseUrl,
+                                         modelId = 'deepseek/deepseek-prover-v2-671b'
+                                       }) {
+  const navigate = useNavigate();
+  const { Title, Text, Paragraph } = Typography;
+
+  // 动态计算 baseUrl（SSR 安全、去末尾斜杠、去掉最后一个 path segment）
+  const dynamicBase = useMemo(() => {
+    if (typeof window === 'undefined') return '';
+    const { origin, pathname } = window.location;
+    const clean = pathname.split(/[?#]/)[0];
+    const noSlash = clean.endsWith('/') && clean.length > 1
+        ? clean.slice(0, -1)
+        : clean;
+    const parts = noSlash.split('/');
+    parts.pop();
+    const prefix = parts.length > 1 ? parts.join('/') : '';
+    return origin + prefix;
+  }, []);
+
+  // 最终 baseUrl：prop > dynamic > env > ''
+  const baseUrl = propBaseUrl
+      || dynamicBase
+      || process.env.REACT_APP_BASE_URL
+      || '';
+
+  // 衍生几个常用 URL
+  const urlV1 = `${baseUrl}/v1/`;
+  const urlCompletions = `${baseUrl}/v1/chat/completions`;
+
+  // 响应式：根据窗口宽度调整抽屉宽度和内边距
+  const [sheetWidth, setSheetWidth] = useState('720px');
+  const [bodyStyle, setBodyStyle] = useState({ padding: '24px 32px' });
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      if (w < 640) {
+        setSheetWidth('100%');
+        setBodyStyle({ padding: '16px' });
+      } else if (w < 1024) {
+        setSheetWidth('100%');
+        setBodyStyle({ padding: '16px 24px' });
+      } else {
+        setSheetWidth('720px');
+        setBodyStyle({ padding: '24px 32px' });
+      }
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
+  // 各语言示例（请求都指向 /v1/chat/completions）
+  const snippets = {
+    curl: `curl "${urlCompletions}" \\
+  -H "Content-Type: application/json" \\
+  -H "Authorization: Bearer <YOUR_API_KEY>" \\
+  -d '{ "model":"${modelId}", "messages":[{"role":"user","content":"Hello!"}] }'`,
+    python: `from openai import OpenAI
+
+client = OpenAI(
+  api_key="<YOUR_API_KEY>",
+  base_url="${baseUrl}"
+)
+
+resp = client.chat.completions.create(
+  model="${modelId}",
+  messages=[{ role: "user", content: "Hello!" }]
+)
+print(resp.choices[0].message.content)`,
+    javascript: `import OpenAI from 'openai';
+
+const client = new OpenAI({
+  apiKey: "<YOUR_API_KEY>",
+  baseURL: "${baseUrl}"
+});
+
+const res = await client.chat.completions.create({
+  model: "${modelId}",
+  messages: [{ role: "user", content: "Hello!" }]
+});
+console.log(res.choices[0].message.content);`,
+    go: `package main
+
+import (
+  "context"
+  "fmt"
+  "github.com/sashabaranov/go-openai"
+)
+
+func main() {
+  cfg := openai.DefaultConfig("<YOUR_API_KEY>")
+  cfg.BaseURL = "${baseUrl}"
+  client := openai.NewClientWithConfig(cfg)
+
+  resp, err := client.CreateChatCompletion(
+    context.Background(),
+    openai.ChatCompletionRequest{
+      Model: "${modelId}",
+      Messages: []openai.ChatCompletionMessage{
+        {Role: openai.ChatMessageRoleUser, Content: "Hello!"},
+      },
+    },
+  )
+  if err != nil {
+    fmt.Println("Error:", err)
+    return
+  }
+  fmt.Println(resp.Choices[0].Message.Content)
+}`,
+    java: `import okhttp3.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public class Main {
+  public static void main(String[] args) throws Exception {
+    String apiKey = "<YOUR_API_KEY>";
+    String url = "${urlCompletions}";
+    OkHttpClient client = new OkHttpClient();
+
+    JSONObject payload = new JSONObject();
+    payload.put("model", "${modelId}");
+    JSONArray messages = new JSONArray();
+    messages.put(new JSONObject().put("role", "user").put("content", "Hello!"));
+    payload.put("messages", messages);
+
+    Request request = new Request.Builder()
+      .url(url)
+      .addHeader("Content-Type", "application/json")
+      .addHeader("Authorization", "Bearer " + apiKey)
+      .post(RequestBody.create(payload.toString(), MediaType.get("application/json")))
+      .build();
+
+    try (Response response = client.newCall(request).execute()) {
+      System.out.println(response.body().string());
+    }
+  }
+}`,
+    c: `#include <curl/curl.h>
+#include <stdio.h>
+
+int main(void) {
+  CURL *curl = curl_easy_init();
+  if (!curl) return 1;
+
+  struct curl_slist *headers = NULL;
+  headers = curl_slist_append(headers, "Content-Type: application/json");
+  headers = curl_slist_append(headers, "Authorization: Bearer <YOUR_API_KEY>");
+
+  const char *data = "{ \\"model\\": \\"${modelId}\\", \\"messages\\":[{\\"role\\":\\"user\\",\\"content\\":\\"Hello!\\"}] }";
+
+  curl_easy_setopt(curl, CURLOPT_URL, "${urlCompletions}");
+  curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+  curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
+
+  CURLcode res = curl_easy_perform(curl);
+  if (res != CURLE_OK) {
+    fprintf(stderr, "curl error: %s\\n", curl_easy_strerror(res));
+  }
+  curl_slist_free_all(headers);
+  curl_easy_cleanup(curl);
+  return 0;
+}`
+  };
+
+  return (
+      <SideSheet
+          visible={visible}
+          onCancel={onClose}
+          width={sheetWidth}
+          footer={null}
+          closeIcon={<IconClose className="text-gray-400 hover:text-gray-600" />}
+          headerStyle={{
+            background: '#fff',
+            borderBottom: '1px solid #e8e8e8',
+            padding: '16px 24px'
+          }}
+          bodyStyle={{ background: '#fff', ...bodyStyle }}
+          title={
+            <div className="flex items-center">
+              <IconVerify className="text-blue-600 mr-2" />
+              <span className="text-base sm:text-lg font-semibold text-gray-800">
+            API 接入指南
+          </span>
+            </div>
+          }
+      >
+        <div className="space-y-8">
+          {/* 基本信息 */}
+          <section>
+            <Title heading={3} className="flex items-center mb-4 text-base font-semibold text-gray-800">
+              <IconTerminal className="text-blue-600 mr-2" />
+              基本信息
+            </Title>
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 space-y-4">
+              {/* Base URL + Model ID rows */}
+              {['Base URL:'].map((label, i) => (
+                  <div key={i} className="flex justify-between items-center">
+                    <Text className="text-gray-700">{label}</Text>
+                    <div className="flex items-center space-x-2 max-w-full">
+                      <Text link className="text-blue-600 hover:underline break-all">
+                        {i === 0 ? baseUrl : modelId}
+                      </Text>
+                      <Button
+                          size="small"
+                          theme="borderless"
+                          type="tertiary"
+                          icon={<IconCopy />}
+                          onClick={() => {
+                            copy(i === 0 ? baseUrl : modelId);
+                            showSuccess(`已复制 ${label.replace(':','')}`);
+                          }}
+                      />
+                    </div>
+                  </div>
+              ))}
+
+              {/* API Key */}
+              <div className="flex justify-between items-center">
+                <Text className="text-gray-700">API Key:</Text>
+                <Button size="small" theme="solid" type="primary" onClick={() => navigate('/token')}>
+                  创建 & 查询 API Key
+                </Button>
+              </div>
+
+              {/* 不同客户端可用的 base_url */}
+              <Divider style={{ margin: '16px 0' }} />
+              <Text className="text-gray-700">不同客户端可使用下列根地址：</Text>
+              {[
+                { label: '根路径', url: baseUrl },
+                { label: '版本化 (v1)', url: urlV1 },
+                { label: '聊天接口', url: urlCompletions }
+              ].map(({ label, url }) => (
+                  <div key={label} className="flex justify-between items-center">
+                    <Text className="text-gray-600">{label}:</Text>
+                    <div className="flex items-center space-x-2 max-w-full">
+                      <Text code className="break-all">
+                        {url}
+                      </Text>
+                      <Button
+                          size="small"
+                          theme="borderless"
+                          type="tertiary"
+                          icon={<IconCopy />}
+                          onClick={() => {
+                            copy(url);
+                            showSuccess(`已复制 ${label}`);
+                          }}
+                      />
+                    </div>
+                  </div>
+              ))}
+            </div>
+          </section>
+
+          {/* 示例代码 */}
+          <section>
+            <Title heading={3} className="flex items-center mb-4 text-base font-semibold text-gray-800">
+              <IconCode className="text-blue-600 mr-2" />
+              示例代码
+            </Title>
+            <Divider style={{ margin: '0 -32px' }} />
+            <div className="overflow-x-auto">
+              <Tabs type="line" size="large" className="min-w-[300px]">
+                {Object.entries(snippets).map(([lang, code]) => (
+                    <Tabs.TabPane tab={<span className="capitalize">{lang}</span>} itemKey={lang} key={lang}>
+                      <div className="relative bg-gray-100 border border-gray-200 rounded-lg p-4 font-mono text-sm text-gray-800 overflow-x-auto">
+                        <Button
+                            size="small"
+                            theme="borderless"
+                            type="tertiary"
+                            icon={<IconCopy />}
+                            className="absolute top-3 right-3"
+                            onClick={() => {
+                              copy(code);
+                              showSuccess('已复制代码');
+                            }}
+                        />
+                        <pre className="whitespace-pre-wrap break-words">{code}</pre>
+                      </div>
+                    </Tabs.TabPane>
+                ))}
+              </Tabs>
+            </div>
+          </section>
+
+          {/* 接入帮助 */}
+          <section>
+            <Title heading={3} className="flex items-center mb-4 text-base font-semibold text-gray-800">
+              <IconHelpCircle className="text-blue-600 mr-2" />
+              接入帮助
+            </Title>
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 space-y-6">
+              {[
+                {
+                  step: '1. 获取 API Key',
+                  desc: (
+                      <>
+                        前往{' '}
+                        <Text link className="text-blue-600 hover:underline" onClick={() => navigate('/token')}>
+                          令牌管理页面
+                        </Text>{' '}
+                        创建 API Key，用于接口认证。
+                      </>
+                  )
+                },
+                {
+                  step: '2. 选择模型',
+                  desc: (
+                      <>
+                        示例使用 <Text code>{modelId}</Text>，可替换为其他支持的模型 ID。
+                      </>
+                  )
+                },
+                {
+                  step: '3. 发送请求',
+                  desc: '使用上方示例代码，替换 <YOUR_API_KEY> 后即可快速调用。'
+                },
+                {
+                  step: '4. 查看文档',
+                  desc: (
+                      <>
+                        如需更多参数与示例，请参阅{' '}
+                        <Text link className="text-blue-600 hover:underline" onClick={() => navigate('/docs')}>
+                          完整开发文档
+                        </Text>
+                        。
+                      </>
+                  )
+                }
+              ].map(({ step, desc }) => (
+                  <div key={step}>
+                    <Text strong className="text-gray-800">{step}</Text>
+                    <Paragraph className="mt-1 text-gray-600">{desc}</Paragraph>
+                  </div>
+              ))}
+            </div>
+          </section>
+        </div>
+      </SideSheet>
+  );
+}
