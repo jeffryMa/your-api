@@ -243,6 +243,7 @@ const ModelPricing = ({onInitialize}) => {
   const [activePage, setActivePage] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
   const [apiDrawerVisible, setApiDrawerVisible] = useState(false);
+  const [currencyType, setCurrencyType] = useState('CNY');
 
   // 检测是否为移动设备
   useEffect(() => {
@@ -325,7 +326,6 @@ const ModelPricing = ({onInitialize}) => {
   const providerScrollRef = useRef(null);
   const [showLeftScroll, setShowLeftScroll] = useState(true);
   const [showRightScroll, setShowRightScroll] = useState(true);
-  const [currencyType, setCurrencyType] = useState('CNY');
 
   
   // 滚动处理函数
@@ -722,9 +722,9 @@ const ModelPricing = ({onInitialize}) => {
             </Popover>
 
             {/* 币种切换 */}
-            <div className="inline-flex items-center p-1 bg-gray-200 rounded-full shadow-sm ml-auto sm:ml-0">
+            <div className="inline-flex items-center bg-gray-100 rounded-md shadow-sm ml-auto sm:ml-0">
               <button
-                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                  className={`px-1.5 py-0.5 rounded-md text-xs font-medium transition-all duration-200 ${
                       currencyType === 'USD'
                           ? 'bg-white text-blue-600 shadow-sm'
                           : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
@@ -735,7 +735,7 @@ const ModelPricing = ({onInitialize}) => {
                 $
               </button>
               <button
-                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                  className={`px-1.5 py-0.5 rounded-md text-xs font-medium transition-all duration-200 ${
                       currencyType === 'CNY'
                           ? 'bg-white text-blue-600 shadow-sm'
                           : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
@@ -1450,6 +1450,33 @@ const ModelPricing = ({onInitialize}) => {
                       <div>
                         <div className="text-gray-700 mb-1">{t('模型价格')}</div>
                         <div className="bg-blue-50 p-2 rounded text-sm">
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-gray-600">{t('币种')}</span>
+                            <div className="inline-flex items-center bg-gray-100 rounded-md shadow-sm">
+                              <button
+                                className={`px-1.5 py-0.5 rounded-md text-xs font-medium transition-all duration-200 ${
+                                  currencyType === 'USD'
+                                    ? 'bg-white text-blue-600 shadow-sm'
+                                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
+                                }`}
+                                onClick={() => setCurrencyType('USD')}
+                                aria-label="Use USD"
+                              >
+                                $
+                              </button>
+                              <button
+                                className={`px-1.5 py-0.5 rounded-md text-xs font-medium transition-all duration-200 ${
+                                  currencyType === 'CNY'
+                                    ? 'bg-white text-blue-600 shadow-sm'
+                                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
+                                }`}
+                                onClick={() => setCurrencyType('CNY')}
+                                aria-label="Use CNY"
+                              >
+                                ￥
+                              </button>
+                            </div>
+                          </div>
                           {model.quota_type === 0 ? (
                             <>
                               <div className="flex justify-between items-center">
