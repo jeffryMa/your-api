@@ -171,7 +171,9 @@ docker-compose pull && docker-compose up -d
 >
 > 点击链接加入群聊：https://qm.qq.com/q/jkdefoHcNG
 
-![image-20250516144546613](./imgs/image-20250516144546613.png)
+  <img src="./imgs/image-20250516160329904.png" alt="image-20250516160329904" width="400">
+
+
 
 # ✨ 主要特性
 
