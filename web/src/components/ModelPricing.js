@@ -1364,7 +1364,7 @@ const ModelPricing = ({onInitialize}) => {
                   </Button>
                 </div>
               ) : (
-                filteredModels.slice((activePage-1) * 5, activePage * 5).map((model, index) => (
+                filteredModels.slice((activePage-1) * pageSize, activePage * pageSize).map((model, index) => (
                   <div key={model.key} className="bg-white rounded-lg shadow overflow-hidden border border-gray-200">
                     <div className="bg-gray-100 px-4 py-3 border-b border-gray-200">
                       <div className="flex justify-between items-center">
@@ -1538,7 +1538,7 @@ const ModelPricing = ({onInitialize}) => {
               
               {/* 移动端分页器 */}
               {filteredModels.length > 0 && (
-                <div className="flex justify-center mt-6">
+                <div className="flex flex-col items-center mt-6 gap-3">
                   <div className="inline-flex items-center shadow-sm rounded-md">
                     <button 
                       className="px-3 py-1 bg-white border border-gray-300 rounded-l-md text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -1548,15 +1548,51 @@ const ModelPricing = ({onInitialize}) => {
                       <IconChevronLeft size="small" />
                     </button>
                     <div className="px-4 py-1 bg-white border-t border-b border-gray-300 text-gray-700">
-                      {activePage} / {Math.ceil(filteredModels.length / 5)}
+                      {activePage} / {Math.ceil(filteredModels.length / pageSize)}
                     </div>
                     <button 
                       className="px-3 py-1 bg-white border border-gray-300 rounded-r-md text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                      disabled={activePage === Math.ceil(filteredModels.length / 5)}
+                      disabled={activePage === Math.ceil(filteredModels.length / pageSize)}
                       onClick={() => setActivePage(prev => prev + 1)}
                     >
                       <IconChevronRight size="small" />
                     </button>
+                  </div>
+                  
+                  {/* 每页显示条数选择 */}
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="text-gray-600">{t('每页显示')}:</span>
+                    <div className="inline-flex rounded-md shadow-sm">
+                      {[5, 10, 20, 50].map(size => (
+                        <button
+                          key={size}
+                          className={`px-2.5 py-1 border border-gray-300 text-xs font-medium ${
+                            pageSize === size
+                              ? 'bg-blue-50 text-blue-700 border-blue-300 z-10'
+                              : 'bg-white text-gray-700 hover:bg-gray-50'
+                          } ${
+                            size === 5 ? 'rounded-l-md' : ''
+                          } ${
+                            size === 50 ? 'rounded-r-md' : ''
+                          }`}
+                          onClick={() => {
+                            setPageSize(size);
+                            setActivePage(1);
+                          }}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
+                    <span className="text-gray-600">{t('条')}</span>
+                  </div>
+                  
+                  <div className="text-xs text-gray-500">
+                    {t('第 {{start}} - {{end}} 条，共 {{total}} 条', {
+                      start: Math.min((activePage - 1) * pageSize + 1, filteredModels.length),
+                      end: Math.min(activePage * pageSize, filteredModels.length),
+                      total: filteredModels.length
+                    })}
                   </div>
                 </div>
               )}
