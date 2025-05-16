@@ -540,15 +540,6 @@ const ModelPricing = ({onInitialize}) => {
         render: (text, record, index) => {
           return (
               <>
-                {/*<Tag*/}
-                {/*    color='green'*/}
-                {/*    onClick={() => {*/}
-                {/*      copyText(text);*/}
-                {/*    }}*/}
-                {/*    className="cursor-pointer hover:opacity-80 transition-opacity"*/}
-                {/*>*/}
-                {/*  {text}*/}
-                {/*</Tag>*/}
                 <div
                     className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 border border-blue-200 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer whitespace-nowrap max-w-full overflow-hidden"
                     onClick={() => copyText(text)}
@@ -1257,7 +1248,7 @@ const ModelPricing = ({onInitialize}) => {
                     theme='light'
                     type='tertiary'
                     style={{width: 150}}
-                    onClick={() => {
+                    onClick={(e) => {
                       copyText(selectedRowKeys);
                     }}
                     disabled={selectedRowKeys == ""}
@@ -1363,13 +1354,13 @@ const ModelPricing = ({onInitialize}) => {
                   <div key={model.key} className="bg-white rounded-lg shadow overflow-hidden border border-gray-200">
                     <div className="bg-gray-100 px-4 py-3 border-b border-gray-200">
                       <div className="flex justify-between items-center">
-                        <Tag
-                          color='green'
+                        <div
+                          className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 border border-blue-200 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer whitespace-nowrap max-w-full overflow-hidden"
                           onClick={() => copyText(model.model_name)}
-                          className="cursor-pointer hover:opacity-80 transition-opacity"
+                          title={model.model_name}
                         >
-                          {model.model_name}
-                        </Tag>
+                          <span className="truncate">{model.model_name}</span>
+                        </div>
                         {model.enable_groups.includes(selectedGroup) ? (
                           <div className="flex items-center text-green-600 bg-green-50 py-1 px-2 rounded-md border border-green-200">
                             <IconVerify size="small" />
