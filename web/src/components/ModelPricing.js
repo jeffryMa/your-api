@@ -269,6 +269,7 @@ const ModelPricing = ({onInitialize}) => {
       onInitialize({
         setSelectedProvider: (providerName) => {
           setSelectedProvider(providerName);
+          setActivePage(1); // 重置页码为第一页
 
           // 添加滚动逻辑
           setTimeout(() => {
@@ -419,6 +420,7 @@ const ModelPricing = ({onInitialize}) => {
     }
     const newFilteredValue = value ? [value] : [];
     setFilteredValue(newFilteredValue);
+    setActivePage(1); // 重置页码为第一页
   };
   const handleCompositionStart = () => {
     compositionRef.current.isComposition = true;
@@ -429,6 +431,7 @@ const ModelPricing = ({onInitialize}) => {
     const value = event.target.value;
     const newFilteredValue = value ? [value] : [];
     setFilteredValue(newFilteredValue);
+    setActivePage(1); // 重置页码为第一页
   };
 
   function renderQuotaType(type) {
@@ -924,6 +927,7 @@ const ModelPricing = ({onInitialize}) => {
   // 处理分组变更
   const handleGroupChange = useCallback((value) => {
     setSelectedGroup(value);
+    setActivePage(1); // 重置页码为第一页
     showInfo(t('当前查看的分组为：{{group}}，倍率为：{{ratio}}', {
       group: value,
       ratio: groupRatio[value]
@@ -1026,6 +1030,7 @@ const ModelPricing = ({onInitialize}) => {
                                   `}
                                   onClick={() => {
                                     setSelectedProvider(provider.id);
+                                    setActivePage(1); // 重置页码为第一页
                                     // Close popover after selection
                                     document.body.click();
                                     // Scroll to the selected provider in the navigation bar
@@ -1081,7 +1086,8 @@ const ModelPricing = ({onInitialize}) => {
                           className={`provider-item ${selectedProvider === provider.id ? 'active' : ''}`}
                           onClick={(e) => {
                             e.preventDefault(); // 阻止默认行为
-                            setSelectedProvider(provider.id)
+                            setSelectedProvider(provider.id);
+                            setActivePage(1); // 重置页码为第一页
                           }}
                       >
                         <div className="provider-icon">
@@ -1136,6 +1142,7 @@ const ModelPricing = ({onInitialize}) => {
                                   `}
                                   onClick={() => {
                                     setSelectedProvider(provider.id);
+                                    setActivePage(1); // 重置页码为第一页
                                     // Close popover after selection
                                     document.body.click();
                                     // Scroll to the selected provider in the navigation bar
@@ -1213,7 +1220,10 @@ const ModelPricing = ({onInitialize}) => {
                 <span className="text-sm text-gray-500 mr-2">{t('仅显示当前分组')}</span>
                 <div
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${showOnlySelectedGroup ? 'bg-blue-600' : 'bg-gray-200'}`}
-                    onClick={() => setShowOnlySelectedGroup(!showOnlySelectedGroup)}
+                    onClick={() => {
+                      setShowOnlySelectedGroup(!showOnlySelectedGroup);
+                      setActivePage(1); // 重置页码为第一页
+                    }}
                     role="switch"
                     aria-checked={showOnlySelectedGroup}
                     tabIndex="0"
@@ -1235,6 +1245,7 @@ const ModelPricing = ({onInitialize}) => {
                           e.preventDefault(); // 阻止默认行为
                           setSelectedProvider('全部');
                           setFilteredValue([]);
+                          setActivePage(1); // 重置页码为第一页
                         }}
                         style={{marginLeft: '8px'}}
                     >
@@ -1306,10 +1317,12 @@ const ModelPricing = ({onInitialize}) => {
                               e.preventDefault(); // 阻止默认行为
                               setSelectedProvider('全部');
                               setFilteredValue([]);
+                              setActivePage(1); // 重置页码为第一页
                             }}
-                        >
-                          {t('重置筛选条件')}
-                        </Button>
+                            className="mx-auto"
+                          >
+                            {t('重置筛选条件')}
+                          </Button>
                       </div>
                     }
                     scroll={{ x: '100%' }}
@@ -1343,6 +1356,7 @@ const ModelPricing = ({onInitialize}) => {
                       e.preventDefault(); // 阻止默认行为
                       setSelectedProvider('全部');
                       setFilteredValue([]);
+                      setActivePage(1); // 重置页码为第一页
                     }}
                     className="mx-auto"
                   >
@@ -1411,6 +1425,7 @@ const ModelPricing = ({onInitialize}) => {
                                     className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${colorClass} cursor-pointer hover:opacity-80 transition-opacity`}
                                     onClick={() => {
                                       setSelectedGroup(group);
+                                      setActivePage(1); // 重置页码为第一页
                                       showInfo(t('当前查看的分组为：{{group}}，倍率为：{{ratio}}', {
                                         group: group,
                                         ratio: groupRatio[group]
@@ -1545,16 +1560,6 @@ const ModelPricing = ({onInitialize}) => {
                   </div>
                 </div>
               )}
-            </div>
-
-
-            
-            {/* 添加移动端提示 - 仅在小屏幕显示 */}
-            <div className="md:hidden flex items-center justify-center text-gray-500 text-sm mt-2 gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-              <span>{t('以卡片形式展示模型信息')}</span>
             </div>
 
             <ImagePreview
