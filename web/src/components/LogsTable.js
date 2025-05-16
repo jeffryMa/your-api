@@ -1106,47 +1106,24 @@ const LogsTable = () => {
       {renderColumnSelector()}
       <Layout>
         <Header>
-          <Spin spinning={loadingStat}>
-            <Space>
-              <Tag
-                color='blue'
-                size='large'
-                style={{
-                  padding: 15,
-                  borderRadius: '8px',
-                  fontWeight: 500,
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                }}
-              >
-                {t('消耗额度')}: {renderQuota(stat.quota)}
-              </Tag>
-              <Tag
-                color='pink'
-                size='large'
-                style={{
-                  padding: 15,
-                  borderRadius: '8px',
-                  fontWeight: 500,
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                }}
-              >
-                RPM: {stat.rpm}
-              </Tag>
-              <Tag
-                color='white'
-                size='large'
-                style={{
-                  padding: 15,
-                  border: 'none',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                  borderRadius: '8px',
-                  fontWeight: 500,
-                }}
-              >
-                TPM: {stat.tpm}
-              </Tag>
-            </Space>
-          </Spin>
+          <div className="relative">
+            {loadingStat && (
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/50">
+                  <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+                </div>
+            )}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center rounded-lg bg-blue-50 px-4 py-3 shadow-sm transition-all">
+                <span className="font-medium text-blue-700">{t('消耗额度')}: {renderQuota(stat.quota)}</span>
+              </div>
+              <div className="flex items-center rounded-lg bg-pink-50 px-4 py-3 shadow-sm transition-all">
+                <span className="font-medium text-pink-700">RPM: {stat.rpm}</span>
+              </div>
+              <div className="flex items-center rounded-lg bg-gray-50 px-4 py-3 shadow-sm transition-all">
+                <span className="font-medium text-gray-700">TPM: {stat.tpm}</span>
+              </div>
+            </div>
+          </div>
         </Header>
         <Form layout='horizontal' style={{ marginTop: 10 }}>
           <>

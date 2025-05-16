@@ -994,13 +994,14 @@ const ModelPricing = ({onInitialize}) => {
                 </Button>
                </span>
               </div>
-              <div className="provider-navbar">
+              <div className="provider-navbar" style={{ position: 'relative', paddingLeft: '12px', paddingRight: '12px' }}>
                 {showLeftScroll && (
-                    <div className="relative group">
+                    <div className="relative group" style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 10 }}>
                       <button
                           className="provider-scroll-btn scroll-left"
                           aria-label="显示所有供应商"
                           onClick={() => handleScroll('left')}
+                          style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)', backgroundColor: 'white', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                       >
                         <IconChevronLeft size="large" />
                       </button>
@@ -1079,6 +1080,7 @@ const ModelPricing = ({onInitialize}) => {
                 <div
                     className="provider-scroll-container"
                     ref={providerScrollRef}
+                    style={{ margin: '0 8px' }}
                 >
                   {providers.map(provider => (
                       <div
@@ -1108,11 +1110,12 @@ const ModelPricing = ({onInitialize}) => {
                 </div>
 
                 {showRightScroll && (
-                    <div className="relative group">
+                    <div className="relative group" style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 10 }}>
                       <button
                           className="provider-scroll-btn scroll-right"
                           aria-label="显示所有供应商"
                           onClick={() => handleScroll('right')}
+                          style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)', backgroundColor: 'white', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                       >
                         <IconChevronRight size="large" />
                       </button>
