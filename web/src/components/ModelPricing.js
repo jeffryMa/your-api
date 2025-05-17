@@ -876,15 +876,37 @@ const ModelPricing = ({onInitialize}) => {
         } else {
           const price = (parseFloat(text) * groupRatio[selectedGroup]).toFixed(2);
           content = (
-              <div className="p-4 rounded-lg shadow-sm max-w-md mx-auto flex items-center justify-between text-sm" style={{
-                backgroundColor: 'var(--semi-color-bg-2)',
-                color: 'var(--semi-color-text-0)'
-              }}>
-                <span style={{ color: 'var(--semi-color-text-2)' }}>{t('模型价格')}</span>
-                <span className="font-medium" style={{ color: 'var(--semi-color-primary)' }}>
-                  {currencySymbol}{price}
-                </span>
+              <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                   style={{
+                     background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                     color: 'var(--semi-color-tertiary)',
+                     borderColor: 'var(--semi-color-tertiary-light-active)',
+                     borderWidth: '1px',
+                     borderStyle: 'solid'
+                   }}>
+                  <span className="flex items-center">
+                      {currencySymbol}{currencyType === 'CNY'
+                        ? (parseFloat(price) * priceRatio).toFixed(2)
+                        : price} / {t('次')}
+                  </span>
               </div>
+              // <div className="p-4 rounded-lg shadow-sm max-w-md mx-auto flex items-center justify-between text-sm" style={{
+              //   backgroundColor: 'var(--semi-color-bg-2)',
+              //   color: 'var(--semi-color-text-0)'
+              // }}>
+              //   {/*<span style={{ color: 'var(--semi-color-text-2)' }}>{t('模型价格')}</span>*/}
+              //   {/*<span className="font-medium" style={{ color: 'var(--semi-color-primary)' }}>*/}
+              //   {/*  {currencySymbol}{currencyType === 'CNY'*/}
+              //   {/*    ? (parseFloat(price) * priceRatio).toFixed(2)*/}
+              //   {/*    : price}*/}
+              //   {/*</span>*/}
+              //   <span className="flex items-center">
+              //     <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              //       <path d="M12 4V20M18 12H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              //     </svg>
+              //           {t('按次计费')}
+              //   </span>
+              // </div>
           );
         }
 

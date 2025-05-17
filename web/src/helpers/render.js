@@ -37,7 +37,7 @@ export function renderGroup(group) {
       {groups.map((group) => (
         <Tag
           size='large'
-          color={tagColors[group] || stringToColor(group)}
+          // color={tagColors[group] || stringToColor(group)}
           key={group}
           onClick={async (event) => {
             event.stopPropagation();
