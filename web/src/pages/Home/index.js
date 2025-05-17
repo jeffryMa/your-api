@@ -200,10 +200,10 @@ const Home = () => {
   return (
     <>
       <div className="max-w-[1300px] w-full p-3 select-none m-auto">
-        <Row>
+        <Row >
           <Col md={24} lg={12}>
-            <div className="flex flex-col justify-center h-full pt-4 md:pt-20">
-              <h1 className="text-8xl bg-uc-argon text-wrap">{systemName}</h1>
+            <div className="flex flex-col justify-center h-full pt-4 md:pt-28">
+              <h1 className="text-7xl bg-uc-argon text-wrap">{systemName}</h1>
               <div className="mt-5 overflow-hidden">
                 <div
                     className="text-3xl prose prose-lg dark:prose-invert max-h-[300px] overflow-y-auto custom-scrollbar"
@@ -236,8 +236,8 @@ const Home = () => {
               </Space>
             </div>
           </Col>
-          <Col md={24} lg={12}>
-            <img alt="bg" src="https://demo.voapi.top/index/1.svg" style={{ maxWidth: '100%' }} />
+          <Col md={24} lg={12} style={{ marginTop: '2rem' }}>
+            <img alt="bg" src="/models/yourapi.svg" style={{ maxWidth: '100%' }} />
           </Col>
         </Row>
 
@@ -323,7 +323,7 @@ const Home = () => {
         <div className="mt-16">
           <Row className="flex items-center justify-between" gutter={[100, 24]}>
             <Col md={24} lg={12}>
-              <img alt="bg" src="https://demo.voapi.top/index/3.svg" style={{ maxWidth: '100%' }} />
+              <img alt="bg" src="/models/yourapi.svg" style={{ maxWidth: '100%' }} />
             </Col>
             <Col md={24} lg={12}>
               <Timeline mode="left">
