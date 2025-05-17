@@ -1116,11 +1116,11 @@ const LogsTable = () => {
               <div className="flex items-center rounded-lg bg-blue-50 px-4 py-3 shadow-sm transition-all">
                 <span className="font-medium text-blue-700">{t('消耗额度')}: {renderQuota(stat.quota)}</span>
               </div>
-              <div className="flex items-center rounded-lg bg-pink-50 px-4 py-3 shadow-sm transition-all">
-                <span className="font-medium text-pink-700">RPM: {stat.rpm}</span>
+              <div className="flex items-center rounded-lg bg-blue-50 px-4 py-3 shadow-sm transition-all">
+                <span className="font-medium text-blue-700">RPM: {stat.rpm}</span>
               </div>
-              <div className="flex items-center rounded-lg bg-gray-50 px-4 py-3 shadow-sm transition-all">
-                <span className="font-medium text-gray-700">TPM: {stat.tpm}</span>
+              <div className="flex items-center rounded-lg bg-blue-50 px-4 py-3 shadow-sm transition-all">
+                <span className="font-medium text-blue-700">TPM: {stat.tpm}</span>
               </div>
             </div>
           </div>
