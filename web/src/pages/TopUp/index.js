@@ -298,25 +298,23 @@ const TopUp = () => {
                       await getAmount(value);
                     }}
                   />
-                  <Space>
+                  <Space spacing="medium" align="center">
                     <Button
-                      type={'primary'}
-                      theme={'solid'}
-                      onClick={async () => {
-                        preTopUp('zfb');
-                      }}
+                        type="primary"
+                        theme="solid"
+                        onClick={() => preTopUp('zfb')}
+                        style={{ width: '100px' }}
                     >
                       {t('支付宝')}
                     </Button>
                     <Button
-                      style={{
-                        backgroundColor: 'rgba(var(--semi-green-5), 1)',
-                      }}
-                      type={'primary'}
-                      theme={'solid'}
-                      onClick={async () => {
-                        preTopUp('wx');
-                      }}
+                        type="primary"
+                        theme="solid"
+                        onClick={() => preTopUp('wx')}
+                        style={{
+                          width: '100px',
+                          backgroundColor: 'rgba(var(--semi-green-5), 1)'
+                        }}
                     >
                       {t('微信')}
                     </Button>
