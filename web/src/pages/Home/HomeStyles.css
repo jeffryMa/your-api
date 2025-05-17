@@ -1218,7 +1218,7 @@
 }
 
 .search-section {
-  flex: 1;
+  flex: 0;
   max-width: 300px;
 }
 

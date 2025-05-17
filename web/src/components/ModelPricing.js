@@ -1300,7 +1300,7 @@ const ModelPricing = ({onInitialize}) => {
               </div>
             </div>
 
-            <div className="action-bar mb-4">
+            <div className="action-bar mb-4 flex items-center flex-wrap gap-2">
               <div className="search-section">
                 <Input
                     prefix={<IconHelpCircle size="small" />}
@@ -1320,7 +1320,7 @@ const ModelPricing = ({onInitialize}) => {
                     value={selectedGroup}
                     onChange={handleGroupChange}
                     optionList={groupOptions}
-                    style={{ width: 200 }}
+                    style={{ width: 250 }}
                     className="group-select"
                     renderSelectedItem={(optionNode) => {
                       return (
@@ -1347,7 +1347,7 @@ const ModelPricing = ({onInitialize}) => {
               </div>
 
               {/* Add the toggle switch here */}
-              <div className="group-toggle ml-2 flex items-center">
+              <div className="group-toggle flex items-center">
                 <span className="text-sm text-gray-500 mr-2">{t('仅显示当前分组')}</span>
                 <div
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${showOnlySelectedGroup ? 'bg-blue-600' : 'bg-gray-200'}`}
@@ -1365,9 +1365,9 @@ const ModelPricing = ({onInitialize}) => {
                 </div>
               </div>
 
-              <div className="model-count">
+              <div className="model-count flex items-center">
                 <IconStar size="small" style={{ marginRight: '6px', color: 'rgba(var(--semi-blue-5), 1)' }} />
-                {t('当前展示 {{count}} 个模型', { count: filteredModels.length })}
+                <span>{t('当前展示 {{count}} 个模型', { count: filteredModels.length })}</span>
                 {(selectedProvider !== '全部' || filteredValue.length > 0) && (
                     <Button
                         type="tertiary"
@@ -1385,7 +1385,7 @@ const ModelPricing = ({onInitialize}) => {
                 )}
               </div>
 
-              <div className="action-buttons">
+              <div className="action-buttons flex items-center gap-2">
                 <Button
                     theme='light'
                     type='tertiary'
@@ -1402,7 +1402,6 @@ const ModelPricing = ({onInitialize}) => {
                 <Button
                     theme='light'
                     type='tertiary'
-                    style={{marginLeft: 8}}
                     onClick={() => setShowRatioColumn(!showRatioColumn)}
                     className="toggle-ratio-btn"
                 >
