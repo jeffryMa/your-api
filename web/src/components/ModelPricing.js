@@ -1002,7 +1002,7 @@ const ModelPricing = ({onInitialize}) => {
           label: (
             <div className="group-option">
               <span>{group}</span>
-              <span className="group-ratio-badge">倍率x{groupRatio[group]}</span>
+              <span className="group-ratio-badge">倍率{groupRatio[group]}</span>
             </div>
           ),
           value: group
@@ -1124,6 +1124,7 @@ const ModelPricing = ({onInitialize}) => {
                                     hover:bg-gray-50 cursor-pointer
                                     transition-colors duration-150
                                     ${selectedProvider === provider.id ? 'bg-blue-50' : ''}
+                                    mb-1 border-b border-gray-100
                                   `}
                                   onClick={() => {
                                     setSelectedProvider(provider.id);
@@ -1247,6 +1248,7 @@ const ModelPricing = ({onInitialize}) => {
                                     hover:bg-gray-50 cursor-pointer
                                     transition-colors duration-150
                                     ${selectedProvider === provider.id ? 'bg-blue-50' : ''}
+                                    mb-1 border-b border-gray-100
                                   `}
                                   onClick={() => {
                                     setSelectedProvider(provider.id);
