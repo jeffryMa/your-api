@@ -564,6 +564,35 @@ const ModelPricing = ({onInitialize}) => {
     );
   }
 
+  // 添加一个函数来根据分组名称获取固定颜色
+  const getGroupColor = useCallback((groupName) => {
+    // 使用分组名称的哈希值来确定颜色
+    const stringToHash = (str) => {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+        hash = hash & hash; // Convert to 32bit integer
+      }
+      return Math.abs(hash);
+    };
+    
+    const colors = [
+      { bg: 'bg-blue-600 text-white', unselected: 'bg-blue-100 text-blue-800' },
+      { bg: 'bg-green-600 text-white', unselected: 'bg-green-100 text-green-800' },
+      { bg: 'bg-purple-600 text-white', unselected: 'bg-purple-100 text-purple-800' },
+      { bg: 'bg-red-600 text-white', unselected: 'bg-red-100 text-red-700' },
+      { bg: 'bg-yellow-600 text-white', unselected: 'bg-yellow-100 text-yellow-800' },
+      { bg: 'bg-indigo-600 text-white', unselected: 'bg-indigo-100 text-indigo-800' },
+      { bg: 'bg-pink-600 text-white', unselected: 'bg-pink-100 text-pink-800' },
+      { bg: 'bg-cyan-600 text-white', unselected: 'bg-cyan-100 text-cyan-800' },
+      { bg: 'bg-amber-600 text-white', unselected: 'bg-amber-100 text-amber-800' },
+      { bg: 'bg-emerald-600 text-white', unselected: 'bg-emerald-100 text-emerald-800' },
+    ];
+    
+    const index = stringToHash(groupName) % colors.length;
+    return colors[index];
+  }, []);
+
   const columns = useMemo(() => {
     const baseColumns = [
       {
@@ -633,35 +662,15 @@ const ModelPricing = ({onInitialize}) => {
         title: t('可用分组'),
         dataIndex: 'enable_groups',
         render: (text, record, index) => {
-          // 根据索引选择变量颜色
-          const getColorStyle = (idx) => {
-            const colorVariables = [
-              { bg: 'var(--semi-color-primary-light-default)', text: 'var(--semi-color-primary)' },
-              { bg: 'var(--semi-color-success-light-default)', text: 'var(--semi-color-success)' },
-              { bg: 'var(--semi-color-tertiary-light-default)', text: 'var(--semi-color-tertiary)' },
-              { bg: 'var(--semi-color-danger-light-default)', text: 'var(--semi-color-danger)' },
-              { bg: 'var(--semi-color-warning-light-default)', text: 'var(--semi-color-warning)' },
-              { bg: 'var(--semi-color-info-light-default)', text: 'var(--semi-color-info)' }
-            ];
-            return colorVariables[idx % colorVariables.length];
-          };
-
           return (
               <div className="flex flex-wrap gap-1.5">
-                {text.map((group, idx) => {
+                {text.map((group) => {
                   if (usableGroup[group]) {
-                    const colors = [
-                      'bg-blue-600 text-white',
-                      'bg-green-600 text-white',
-                      'bg-purple-600 text-white',
-                      'bg-red-600 text-white',
-                      'bg-yellow-600 text-white',
-                    ];
-                    const colorClass = colors[idx % colors.length];
+                    const colorStyle = getGroupColor(group);
                     
                     if (group === selectedGroup) {
                       return (
-                        <div key={group} className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${colorClass} shadow-md`} style={{ borderWidth: '0px', borderStyle: 'solid' }}>
+                        <div key={group} className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${colorStyle.bg} shadow-md`} style={{ borderWidth: '0px', borderStyle: 'solid' }}>
                           <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7"></path>
                           </svg>
@@ -669,18 +678,10 @@ const ModelPricing = ({onInitialize}) => {
                         </div>
                       );
                     } else {
-                      const unselectedColors = [
-                        'bg-blue-100 text-blue-800',
-                        'bg-green-100 text-green-800',
-                        'bg-purple-100 text-purple-800',
-                        'bg-red-100 text-red-700',
-                        'bg-yellow-100 text-yellow-800',
-                      ];
-                      const unselectedColorClass = unselectedColors[idx % unselectedColors.length];
                       return (
                         <div
                           key={group}
-                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${unselectedColorClass} cursor-pointer hover:opacity-100 transition-opacity opacity-100 shadow-sm`}
+                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${colorStyle.unselected} cursor-pointer hover:opacity-100 transition-opacity opacity-100 shadow-sm`}
                           onClick={() => {
                             setSelectedGroup(group);
                             setActivePage(1); // 重置页码为第一页
@@ -890,23 +891,6 @@ const ModelPricing = ({onInitialize}) => {
                         : price} / {t('次')}
                   </span>
               </div>
-              // <div className="p-4 rounded-lg shadow-sm max-w-md mx-auto flex items-center justify-between text-sm" style={{
-              //   backgroundColor: 'var(--semi-color-bg-2)',
-              //   color: 'var(--semi-color-text-0)'
-              // }}>
-              //   {/*<span style={{ color: 'var(--semi-color-text-2)' }}>{t('模型价格')}</span>*/}
-              //   {/*<span className="font-medium" style={{ color: 'var(--semi-color-primary)' }}>*/}
-              //   {/*  {currencySymbol}{currencyType === 'CNY'*/}
-              //   {/*    ? (parseFloat(price) * priceRatio).toFixed(2)*/}
-              //   {/*    : price}*/}
-              //   {/*</span>*/}
-              //   <span className="flex items-center">
-              //     <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              //       <path d="M12 4V20M18 12H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              //     </svg>
-              //           {t('按次计费')}
-              //   </span>
-              // </div>
           );
         }
 
@@ -1522,9 +1506,9 @@ const ModelPricing = ({onInitialize}) => {
                         <div
                           className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer whitespace-nowrap max-w-full overflow-hidden"
                           style={{
-                            background: 'linear-gradient(to right, var(--semi-color-primary-light-default), var(--semi-color-primary-light-default))',
+                            background: 'linear-gradient(to right, var(--semi-color-primary-light-default), var(--semi-color-primary-light-hover))',
                             color: 'var(--semi-color-primary)',
-                            borderColor: 'var(--semi-color-primary-light-default)',
+                            borderColor: 'var(--semi-color-primary-light-active)',
                             borderWidth: '1px',
                             borderStyle: 'solid'
                           }}
@@ -1556,20 +1540,13 @@ const ModelPricing = ({onInitialize}) => {
                       <div>
                         <div className="text-gray-600 mb-1">{t('可用分组')}</div>
                         <div className="flex flex-wrap gap-1">
-                          {model.enable_groups.map((group, idx) => {
+                          {model.enable_groups.map((group) => {
                             if (usableGroup[group]) {
-                              const colors = [
-                                'bg-blue-600 text-white',
-                                'bg-green-600 text-white',
-                                'bg-purple-600 text-white',
-                                'bg-red-600 text-white',
-                                'bg-yellow-600 text-white',
-                              ];
-                              const colorClass = colors[idx % colors.length];
+                              const colorStyle = getGroupColor(group);
                               
                               if (group === selectedGroup) {
                                 return (
-                                  <div key={group} className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${colorClass} shadow-md`} style={{ borderWidth: '0px', borderStyle: 'solid' }}>
+                                  <div key={group} className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${colorStyle.bg} shadow-md`} style={{ borderWidth: '0px', borderStyle: 'solid' }}>
                                     <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7"></path>
                                     </svg>
@@ -1577,18 +1554,10 @@ const ModelPricing = ({onInitialize}) => {
                                   </div>
                                 );
                               } else {
-                                const unselectedColors = [
-                                  'bg-blue-100 text-blue-800',
-                                  'bg-green-100 text-green-800',
-                                  'bg-purple-100 text-purple-800',
-                                  'bg-red-100 text-red-700',
-                                  'bg-yellow-100 text-yellow-800',
-                                ];
-                                const unselectedColorClass = unselectedColors[idx % unselectedColors.length];
                                 return (
                                   <div
                                     key={group}
-                                    className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${unselectedColorClass} cursor-pointer hover:opacity-100 transition-opacity opacity-100 shadow-sm`}
+                                    className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${colorStyle.unselected} cursor-pointer hover:opacity-100 transition-opacity opacity-100 shadow-sm`}
                                     onClick={() => {
                                       setSelectedGroup(group);
                                       setActivePage(1); // 重置页码为第一页
