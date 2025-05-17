@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 import { Modal, Tag, Typography } from '@douyinfe/semi-ui';
 import { copy, isMobile, showSuccess } from './utils.js';
+import React from "react";
 
 export function renderText(text, limit) {
   if (text.length > limit) {
@@ -17,9 +18,19 @@ export function renderText(text, limit) {
 export function renderGroup(group) {
   if (group === '') {
     return (
-      <Tag size='large' key='default' color='orange'>
-        {i18next.t('用户分组')}
-      </Tag>
+        <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+             style={{
+               marginLeft: '5px',
+               background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+               color: 'var(--semi-color-tertiary)',
+               borderColor: 'var(--semi-color-tertiary-light-active)',
+               borderWidth: '1px',
+               borderStyle: 'solid'
+             }}>
+                      <span className="flex items-center">
+                           {t('用户分组')}
+                      </span>
+        </div>
     );
   }
 
@@ -35,24 +46,31 @@ export function renderGroup(group) {
   return (
     <span key={group}>
       {groups.map((group) => (
-        <Tag
-          size='large'
-          // color={tagColors[group] || stringToColor(group)}
-          key={group}
-          onClick={async (event) => {
-            event.stopPropagation();
-            if (await copy(group)) {
-              showSuccess(i18next.t('已复制：') + group);
-            } else {
-              Modal.error({
-                title: t('无法复制到剪贴板，请手动复制'),
-                content: group,
-              });
-            }
-          }}
-        >
-          {group}
-        </Tag>
+          <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+               key={group}
+               onClick={async (event) => {
+                 event.stopPropagation();
+                 if (await copy(group)) {
+                   showSuccess(i18next.t('已复制：') + group);
+                 } else {
+                   Modal.error({
+                     title: t('无法复制到剪贴板，请手动复制'),
+                     content: group,
+                   });
+                 }
+               }}
+               style={{
+                 marginLeft: '5px',
+                 background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                 color: 'var(--semi-color-tertiary)',
+                 borderColor: 'var(--semi-color-tertiary-light-active)',
+                 borderWidth: '1px',
+                 borderStyle: 'solid'
+               }}>
+                      <span className="flex items-center">
+                           {group}
+                      </span>
+          </div>
       ))}
     </span>
   );

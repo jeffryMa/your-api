@@ -21,18 +21,50 @@ const UsersTable = () => {
   function renderRole(role) {
     switch (role) {
       case 1:
-        return <Tag size='large'>{t('普通用户')}</Tag>;
+        return <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                    style={{
+                      marginLeft: '5px',
+                      background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                      color: 'var(--semi-color-tertiary)',
+                      borderColor: 'var(--semi-color-tertiary-light-active)',
+                      borderWidth: '1px',
+                      borderStyle: 'solid'
+                    }}>
+                      <span className="flex items-center">
+                           {t('普通用户')}
+                      </span>
+        </div>
       case 10:
         return (
-          <Tag color='yellow' size='large'>
-            {t('管理员')}
-          </Tag>
+            <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                 style={{
+                   marginLeft: '5px',
+                   background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                   color: 'var(--semi-color-tertiary)',
+                   borderColor: 'var(--semi-color-tertiary-light-active)',
+                   borderWidth: '1px',
+                   borderStyle: 'solid'
+                 }}>
+                      <span className="flex items-center">
+                           {t('管理员')}
+                      </span>
+            </div>
         );
       case 100:
         return (
-          <Tag color='orange' size='large'>
-            {t('超级管理员')}
-          </Tag>
+            <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                 style={{
+                   marginLeft: '5px',
+                   background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                   color: 'var(--semi-color-tertiary)',
+                   borderColor: 'var(--semi-color-tertiary-light-active)',
+                   borderWidth: '1px',
+                   borderStyle: 'solid'
+                 }}>
+                      <span className="flex items-center">
+                           {t('超级管理员')}
+                      </span>
+            </div>
         );
       default:
         return (
@@ -66,19 +98,49 @@ const UsersTable = () => {
           <div>
             <Space spacing={1}>
               <Tooltip content={t('剩余额度')}>
-                <Tag color='white' size='large'>
-                  {renderQuota(record.quota)}
-                </Tag>
+
+                <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                     style={{
+                       background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                       color: 'var(--semi-color-tertiary)',
+                       borderColor: 'var(--semi-color-tertiary-light-active)',
+                       borderWidth: '1px',
+                       borderStyle: 'solid'
+                     }}>
+                  <span className="flex items-center">
+                      {renderQuota(record.quota)}
+                  </span>
+                </div>
               </Tooltip>
               <Tooltip content={t('已用额度')}>
-                <Tag color='white' size='large'>
-                  {renderQuota(record.used_quota)}
-                </Tag>
+                <div  className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                     style={{
+                       marginLeft: '5px',
+                       background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                       color: 'var(--semi-color-tertiary)',
+                       borderColor: 'var(--semi-color-tertiary-light-active)',
+                       borderWidth: '1px',
+                       borderStyle: 'solid'
+                     }}>
+                  <span className="flex items-center">
+                      {renderQuota(record.used_quota)}
+                  </span>
+                </div>
               </Tooltip>
               <Tooltip content={t('调用次数')}>
-                <Tag color='white' size='large'>
-                  {renderNumber(record.request_count)}
-                </Tag>
+                <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                     style={{
+                       marginLeft: '5px',
+                       background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                       color: 'var(--semi-color-tertiary)',
+                       borderColor: 'var(--semi-color-tertiary-light-active)',
+                       borderWidth: '1px',
+                       borderStyle: 'solid'
+                     }}>
+                  <span className="flex items-center">
+                      {renderNumber(record.request_count)}
+                  </span>
+                </div>
               </Tooltip>
             </Space>
           </div>
@@ -93,23 +155,69 @@ const UsersTable = () => {
           <div>
             <Space spacing={1}>
               <Tooltip content={t('邀请人数')}>
-                <Tag color='white' size='large'>
-                  {renderNumber(record.aff_count)}
-                </Tag>
+
+                <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                     style={{
+                       marginLeft: '5px',
+                       background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                       color: 'var(--semi-color-tertiary)',
+                       borderColor: 'var(--semi-color-tertiary-light-active)',
+                       borderWidth: '1px',
+                       borderStyle: 'solid'
+                     }}>
+                  <span className="flex items-center">
+                      {renderNumber(record.aff_count)}
+                  </span>
+                </div>
+
+
               </Tooltip>
               <Tooltip content={t('邀请总收益')}>
-                <Tag color='white' size='large'>
-                  {renderQuota(record.aff_history_quota)}
-                </Tag>
+                <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                     style={{
+                       marginLeft: '5px',
+                       background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                       color: 'var(--semi-color-tertiary)',
+                       borderColor: 'var(--semi-color-tertiary-light-active)',
+                       borderWidth: '1px',
+                       borderStyle: 'solid'
+                     }}>
+                  <span className="flex items-center">
+                       {renderQuota(record.aff_history_quota)}
+                  </span>
+                </div>
               </Tooltip>
               <Tooltip content={t('邀请人ID')}>
                 {record.inviter_id === 0 ? (
-                  <Tag color='white' size='large'>
-                    {t('无')}
-                  </Tag>
+                    <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                         style={{
+                           marginLeft: '5px',
+                           background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                           color: 'var(--semi-color-tertiary)',
+                           borderColor: 'var(--semi-color-tertiary-light-active)',
+                           borderWidth: '1px',
+                           borderStyle: 'solid'
+                         }}>
+                      <span className="flex items-center">
+                           {t('无')}
+                      </span>
+                    </div>
                 ) : (
                   <Tag color='white' size='large'>
-                    {record.inviter_id}
+                    <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                         style={{
+                           marginLeft: '5px',
+                           background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                           color: 'var(--semi-color-tertiary)',
+                           borderColor: 'var(--semi-color-tertiary-light-active)',
+                           borderWidth: '1px',
+                           borderStyle: 'solid'
+                         }}>
+                      <span className="flex items-center">
+                           {record.inviter_id}
+                      </span>
+                    </div>
+
                   </Tag>
                 )}
               </Tooltip>
@@ -132,7 +240,19 @@ const UsersTable = () => {
         return (
           <div>
             {record.DeletedAt !== null ? (
-              <Tag color='red'>{t('已注销')}</Tag>
+                <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                     style={{
+                       marginLeft: '5px',
+                       background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                       color: 'var(--semi-color-tertiary)',
+                       borderColor: 'var(--semi-color-tertiary-light-active)',
+                       borderWidth: '1px',
+                       borderStyle: 'solid'
+                     }}>
+                      <span className="flex items-center">
+                           {t('已注销')}
+                      </span>
+                </div>
             ) : (
               renderStatus(text)
             )}
@@ -314,12 +434,34 @@ const UsersTable = () => {
   const renderStatus = (status) => {
     switch (status) {
       case 1:
-        return <Tag size='large'>{t('已激活')}</Tag>;
+        return <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                    style={{
+                      marginLeft: '5px',
+                      background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                      color: 'var(--semi-color-tertiary)',
+                      borderColor: 'var(--semi-color-tertiary-light-active)',
+                      borderWidth: '1px',
+                      borderStyle: 'solid'
+                    }}>
+                      <span className="flex items-center">
+                           {t('已激活')}
+                      </span>
+        </div>
       case 2:
         return (
-          <Tag size='large' color='red'>
-            {t('已封禁')}
-          </Tag>
+            <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                 style={{
+                   marginLeft: '5px',
+                   background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                   color: 'var(--semi-color-tertiary)',
+                   borderColor: 'var(--semi-color-tertiary-light-active)',
+                   borderWidth: '1px',
+                   borderStyle: 'solid'
+                 }}>
+                      <span className="flex items-center">
+                           {t('已封禁')}
+                      </span>
+            </div>
         );
       default:
         return (
