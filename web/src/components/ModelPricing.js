@@ -10,12 +10,29 @@ const tableStyles = `
   
   .responsive-table .semi-table-row:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.03), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
   }
   
   .responsive-table .semi-table-thead .semi-table-row:hover {
     transform: none;
     box-shadow: none;
+  }
+  
+  /* 修复Select组件样式 */
+  .group-select .semi-select-selection {
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  .group-select .semi-select-content-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .group-select .semi-select-selection-text {
+    width: 100%;
+    height: 100%;
+    padding: 0;
   }
   
   @media (max-width: 768px) {
@@ -41,12 +58,12 @@ const tableStyles = `
     .responsive-table .semi-table-tbody .semi-table-row {
       display: flex !important;
       flex-direction: column !important;
-      border-bottom: 1px solid rgba(var(--semi-grey-1), 1);
+      border-bottom: 1px solid var(--semi-color-border);
       padding: 8px 0;
       margin-bottom: 12px;
       border-radius: 8px;
-      background-color: white !important;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      background-color: var(--semi-color-bg-0) !important;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
       width: 100% !important;
       max-width: 100% !important;
     }
@@ -66,7 +83,7 @@ const tableStyles = `
     
     .responsive-table .semi-table-tbody .semi-table-row .semi-table-cell::before {
       content: attr(data-column);
-      font-weight: 600;
+      font-weight: 500;
       color: var(--semi-color-text-2);
       width: 90px;
       min-width: 90px;
@@ -85,9 +102,9 @@ const tableStyles = `
     
     /* 优化移动端卡片外观 */
     .responsive-table .semi-table-tbody .semi-table-row {
-      background: #fff;
+      background: var(--semi-color-bg-0);
       border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
       overflow: hidden;
       transition: all 0.3s;
     }
@@ -97,7 +114,7 @@ const tableStyles = `
       position: absolute;
       right: 10px;
       top: 10px;
-      background: rgba(255,255,255,0.9);
+      background: var(--semi-color-bg-0);
       border-radius: 50%;
       width: 30px;
       height: 30px;
@@ -124,7 +141,7 @@ const tableStyles = `
     
     /* 模型名称在移动端特别处理，让它显示更突出 */
     .responsive-table .semi-table-tbody .semi-table-row .semi-table-cell[data-column="模型名称"] {
-      background-color: rgba(var(--semi-grey-0), 1);
+      background-color: var(--semi-color-bg-0);
       border-radius: 4px 4px 0 0;
       margin-top: -8px;
       padding-top: 16px;
@@ -133,7 +150,8 @@ const tableStyles = `
     
     /* 模型价格在移动端底部显示，更明显 */
     .responsive-table .semi-table-tbody .semi-table-row .semi-table-cell[data-column="模型价格"] {
-      background-color: rgba(var(--semi-blue-0), 0.2);
+      background-color: var(--semi-color-primary-light-default);
+      opacity: 0.4;
       border-radius: 0 0 4px 4px;
       margin-bottom: -8px;
       padding-bottom: 16px;
@@ -208,7 +226,7 @@ const ModelPricing = ({onInitialize}) => {
   const getMobileStyles = () => `
     /* 模型名称在移动端特别处理，让它显示更突出 */
     .responsive-table .semi-table-tbody .semi-table-row .semi-table-cell[data-column="${t('模型名称')}"] {
-      background-color: rgba(var(--semi-grey-0), 1);
+      background-color: var(--semi-color-bg-0);
       border-radius: 4px 4px 0 0;
       margin-top: -8px;
       padding-top: 16px;
@@ -217,7 +235,8 @@ const ModelPricing = ({onInitialize}) => {
     
     /* 模型价格在移动端底部显示，更明显 */
     .responsive-table .semi-table-tbody .semi-table-row .semi-table-cell[data-column="${t('模型价格')}"] {
-      background-color: rgba(var(--semi-blue-0), 0.2);
+      background-color: var(--semi-color-primary-light-default);
+      opacity: 0.4;
       border-radius: 0 0 4px 4px;
       margin-bottom: -8px;
       padding-bottom: 16px;
@@ -515,28 +534,28 @@ const ModelPricing = ({onInitialize}) => {
           {available ? (
               <div className="flex items-center justify-center py-1 px-2 rounded-md whitespace-nowrap"
                    style={{
-                     backgroundColor: 'var(--semi-color-success-light-default)',
-                     borderColor: 'var(--semi-color-success-light-active)',
+                     backgroundColor: 'var(--semi-color-success)',
+                     borderColor: 'var(--semi-color-success-active)',
                      borderWidth: '1px',
                      borderStyle: 'solid'
                    }}>
-                <IconVerify size="small" style={{ color: 'var(--semi-color-success)' }} className="flex-shrink-0" />
-                <span className="ml-1 text-xs font-medium"
-                      style={{ color: 'var(--semi-color-success)' }}>
+                <IconVerify size="small" style={{ color: 'white' }} className="flex-shrink-0" />
+                <span className="ml-1 text-xs font-bold"
+                      style={{ color: 'white' }}>
             {t('当前分组可用')}
           </span>
               </div>
           ) : (
               <div className="flex items-center justify-center py-1 px-2 rounded-md whitespace-nowrap"
                    style={{
-                     backgroundColor: 'var(--semi-color-danger-light-default)',
-                     borderColor: 'var(--semi-color-danger-light-active)',
+                     backgroundColor: 'var(--semi-color-danger)',
+                     borderColor: 'var(--semi-color-danger-active)',
                      borderWidth: '1px',
                      borderStyle: 'solid'
                    }}>
-                <IconClose size="small" style={{ color: 'var(--semi-color-danger)' }} className="flex-shrink-0" />
-                <span className="ml-1 text-xs font-medium"
-                      style={{ color: 'var(--semi-color-danger)' }}>
+                <IconClose size="small" style={{ color: 'white' }} className="flex-shrink-0" />
+                <span className="ml-1 text-xs font-bold"
+                      style={{ color: 'white' }}>
             {t('当前分组不可用')}
           </span>
               </div>
@@ -631,45 +650,48 @@ const ModelPricing = ({onInitialize}) => {
               <div className="flex flex-wrap gap-1.5">
                 {text.map((group, idx) => {
                   if (usableGroup[group]) {
-                    // 对每个分组使用不同颜色
-                    const colorStyle = getColorStyle(idx);
-
+                    const colors = [
+                      'bg-blue-600 text-white',
+                      'bg-green-600 text-white',
+                      'bg-purple-600 text-white',
+                      'bg-red-600 text-white',
+                      'bg-yellow-600 text-white',
+                    ];
+                    const colorClass = colors[idx % colors.length];
+                    
                     if (group === selectedGroup) {
                       return (
-                          <div 
-                              key={group} 
-                              className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border"
-                              style={{ 
-                                backgroundColor: colorStyle.bg, 
-                                color: colorStyle.text,
-                                borderColor: colorStyle.text
-                              }}
-                          >
-                            <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            {group}
-                          </div>
+                        <div key={group} className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${colorClass} shadow-md`} style={{ borderWidth: '0px', borderStyle: 'solid' }}>
+                          <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7"></path>
+                          </svg>
+                          {group}
+                        </div>
                       );
                     } else {
+                      const unselectedColors = [
+                        'bg-blue-100 text-blue-800',
+                        'bg-green-100 text-green-800',
+                        'bg-purple-100 text-purple-800',
+                        'bg-red-100 text-red-700',
+                        'bg-yellow-100 text-yellow-800',
+                      ];
+                      const unselectedColorClass = unselectedColors[idx % unselectedColors.length];
                       return (
-                          <div
-                              key={group}
-                              className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium cursor-pointer hover:opacity-80 transition-opacity"
-                              style={{ 
-                                backgroundColor: colorStyle.bg, 
-                                color: colorStyle.text
-                              }}
-                              onClick={() => {
-                                setSelectedGroup(group);
-                                showInfo(t('当前查看的分组为：{{group}}，倍率为：{{ratio}}', {
-                                  group: group,
-                                  ratio: groupRatio[group]
-                                }));
-                              }}
-                          >
-                            {group}
-                          </div>
+                        <div
+                          key={group}
+                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${unselectedColorClass} cursor-pointer hover:opacity-100 transition-opacity opacity-100 shadow-sm`}
+                          onClick={() => {
+                            setSelectedGroup(group);
+                            setActivePage(1); // 重置页码为第一页
+                            showInfo(t('当前查看的分组为：{{group}}，倍率为：{{ratio}}', {
+                              group: group,
+                              ratio: groupRatio[group]
+                            }));
+                          }}
+                        >
+                          {group}
+                        </div>
                       );
                     }
                   }
@@ -1298,6 +1320,27 @@ const ModelPricing = ({onInitialize}) => {
                     optionList={groupOptions}
                     style={{ width: 200 }}
                     className="group-select"
+                    renderSelectedItem={(optionNode) => {
+                      return (
+                        <div className="selected-group-item" style={{ 
+                          display: 'flex', 
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: 'var(--semi-color-primary)',
+                          backgroundColor: 'var(--semi-color-bg-0)',
+                          padding: '4px 12px',
+                          borderRadius: '4px',
+                          fontWeight: 500,
+                          boxShadow: '0 0 0 1px var(--semi-color-primary-light-active)',
+                          minWidth: '100px',
+                          width: '100%',
+                          height: '100%'
+                        }}>
+                          <IconFilter size="small" style={{ marginRight: '6px', color: 'var(--semi-color-primary)' }} />
+                          <span style={{ color: 'var(--semi-color-primary)' }}>{optionNode.label}</span>
+                        </div>
+                      );
+                    }}
                 />
               </div>
 
@@ -1368,8 +1411,8 @@ const ModelPricing = ({onInitialize}) => {
             </div>
 
             {/* 添加表格容器，增强滚动体验 */}
-            <div className="relative overflow-hidden md:rounded-lg border border-gray-200 shadow-sm hidden md:block">
-              <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 mobile-table-container max-w-full lg:max-w-[95vw] xl:max-w-[1400px] 2xl:max-w-[1800px] mx-auto">
+            <div className="relative overflow-hidden md:rounded-lg border border-gray-50 shadow-sm hidden md:block">
+              <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-50 mobile-table-container max-w-full lg:max-w-[95vw] xl:max-w-[1400px] 2xl:max-w-[1800px] mx-auto">
                 <Table
                     style={{ marginTop: 0, width: '100%', tableLayout: 'fixed' }}
                     columns={columns}
@@ -1413,9 +1456,9 @@ const ModelPricing = ({onInitialize}) => {
                     }
                     scroll={{ x: '100%' }}
                     rowClassName={(record, index) => 
-                      index % 2 === 0 ? 'bg-white hover:bg-blue-50 transition-colors' : 'bg-gray-50 hover:bg-blue-50 transition-colors'
+                      'bg-gray-50 hover:bg-primary-light-default hover:bg-opacity-20 transition-colors'
                     }
-                    headerClassName="bg-gray-100 text-gray-700 font-medium sticky top-0 z-10"
+                    headerClassName="bg-gray-50 text-gray-400 font-normal sticky top-0 z-10"
                     wrapperClassName="border-collapse w-full"
                     onRow={(record, index) => ({
                       onClick: () => {}, // 需要一个空函数，否则在某些情况下可能会报错
@@ -1427,8 +1470,8 @@ const ModelPricing = ({onInitialize}) => {
               </div>
               
               {/* 滚动阴影指示器 - 桌面端 */}
-              <div className="hidden lg:hidden md:block absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none scroll-indicator"></div>
-              <div className="hidden lg:hidden md:block absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white to-transparent pointer-events-none scroll-indicator"></div>
+              <div className="hidden lg:hidden md:block absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-transparent to-transparent pointer-events-none scroll-indicator"></div>
+              <div className="hidden lg:hidden md:block absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-transparent to-transparent pointer-events-none scroll-indicator"></div>
             </div>
 
             {/* 移动端卡片视图 - 替代表格 */}
@@ -1451,15 +1494,15 @@ const ModelPricing = ({onInitialize}) => {
                 </div>
               ) : (
                 filteredModels.slice((activePage-1) * pageSize, activePage * pageSize).map((model, index) => (
-                  <div key={model.key} className="bg-white rounded-lg shadow overflow-hidden border border-gray-200">
-                    <div className="bg-gray-100 px-4 py-3 border-b border-gray-200">
+                  <div key={model.key} className="bg-transparent rounded-lg shadow-sm overflow-hidden border border-gray-100">
+                    <div className="bg-gray-50 px-4 py-3 border-b border-gray-100">
                       <div className="flex justify-between items-center">
                         <div
                           className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer whitespace-nowrap max-w-full overflow-hidden"
                           style={{
-                            background: 'linear-gradient(to right, var(--semi-color-primary-light-default), var(--semi-color-primary-light-hover))',
+                            background: 'linear-gradient(to right, var(--semi-color-primary-light-default), var(--semi-color-primary-light-default))',
                             color: 'var(--semi-color-primary)',
-                            borderColor: 'var(--semi-color-primary-light-active)',
+                            borderColor: 'var(--semi-color-primary-light-default)',
                             borderWidth: '1px',
                             borderStyle: 'solid'
                           }}
@@ -1469,53 +1512,61 @@ const ModelPricing = ({onInitialize}) => {
                           <span className="truncate">{model.model_name}</span>
                         </div>
                         {model.enable_groups.includes(selectedGroup) ? (
-                          <div className="flex items-center text-green-600 bg-green-50 py-1 px-2 rounded-md border border-green-200">
-                            <IconVerify size="small" />
-                            <span className="ml-1 text-xs font-medium">{t('当前分组可用')}</span>
+                          <div className="flex items-center text-white bg-green-700 py-1 px-3 rounded-md border border-green-600 shadow-md">
+                            <IconVerify size="small" style={{ color: 'white' }} />
+                            <span className="ml-1 text-xs font-bold">{t('当前分组可用')}</span>
                           </div>
                         ) : (
-                          <div className="flex items-center text-red-600 bg-red-50 py-1 px-2 rounded-md border border-red-200">
-                            <IconClose size="small" />
-                            <span className="ml-1 text-xs font-medium">{t('当前分组不可用')}</span>
+                          <div className="flex items-center text-white bg-red-600 py-1 px-3 rounded-md border border-red-500 shadow-md">
+                            <IconClose size="small" style={{ color: 'white' }} />
+                            <span className="ml-1 text-xs font-bold">{t('当前分组不可用')}</span>
                           </div>
                         )}
                       </div>
                     </div>
                     
-                    <div className="p-4 space-y-3">
+                    <div className="p-4 space-y-3 bg-transparent">
                       <div className="flex justify-between items-center">
-                        <span className="text-gray-700">{t('计费类型')}</span>
+                        <span className="text-gray-600">{t('计费类型')}</span>
                         <div>{renderQuotaType(parseInt(model.quota_type))}</div>
                       </div>
                       
                       <div>
-                        <div className="text-gray-700 mb-1">{t('可用分组')}</div>
+                        <div className="text-gray-600 mb-1">{t('可用分组')}</div>
                         <div className="flex flex-wrap gap-1">
                           {model.enable_groups.map((group, idx) => {
                             if (usableGroup[group]) {
                               const colors = [
-                                'bg-blue-100 text-blue-800',
-                                'bg-green-100 text-green-800',
-                                'bg-purple-100 text-purple-800',
-                                'bg-red-100 text-red-800',
-                                'bg-yellow-100 text-yellow-800',
+                                'bg-blue-600 text-white',
+                                'bg-green-600 text-white',
+                                'bg-purple-600 text-white',
+                                'bg-red-600 text-white',
+                                'bg-yellow-600 text-white',
                               ];
                               const colorClass = colors[idx % colors.length];
                               
                               if (group === selectedGroup) {
                                 return (
-                                  <div key={group} className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${colorClass} border border-current`}>
-                                    <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                                  <div key={group} className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${colorClass} shadow-md`} style={{ borderWidth: '0px', borderStyle: 'solid' }}>
+                                    <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                     {group}
                                   </div>
                                 );
                               } else {
+                                const unselectedColors = [
+                                  'bg-blue-100 text-blue-800',
+                                  'bg-green-100 text-green-800',
+                                  'bg-purple-100 text-purple-800',
+                                  'bg-red-100 text-red-700',
+                                  'bg-yellow-100 text-yellow-800',
+                                ];
+                                const unselectedColorClass = unselectedColors[idx % unselectedColors.length];
                                 return (
                                   <div
                                     key={group}
-                                    className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${colorClass} cursor-pointer hover:opacity-80 transition-opacity`}
+                                    className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${unselectedColorClass} cursor-pointer hover:opacity-100 transition-opacity opacity-100 shadow-sm`}
                                     onClick={() => {
                                       setSelectedGroup(group);
                                       setActivePage(1); // 重置页码为第一页
@@ -1537,35 +1588,35 @@ const ModelPricing = ({onInitialize}) => {
                       
                       {showRatioColumn && (
                         <div>
-                          <div className="text-gray-700 mb-1">{t('倍率')}</div>
+                          <div className="text-gray-600 mb-1">{t('倍率')}</div>
                           <div className="bg-gray-50 p-2 rounded text-sm space-y-1">
                             <div className="flex justify-between">
-                              <span className="text-gray-600">{t('模型倍率')}</span>
-                              <span className="font-medium">{model.quota_type === 0 ? model.model_ratio : t('无')}</span>
+                              <span className="text-gray-500">{t('模型倍率')}</span>
+                              <span className="font-medium text-gray-700">{model.quota_type === 0 ? model.model_ratio : t('无')}</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-gray-600">{t('补全倍率')}</span>
-                              <span className="font-medium">{model.quota_type === 0 ? parseFloat(model.completion_ratio.toFixed(3)) : t('无')}</span>
+                              <span className="text-gray-500">{t('补全倍率')}</span>
+                              <span className="font-medium text-gray-700">{model.quota_type === 0 ? parseFloat(model.completion_ratio.toFixed(3)) : t('无')}</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-gray-600">{t('分组倍率')}</span>
-                              <span className="font-medium">{groupRatio[selectedGroup]}</span>
+                              <span className="text-gray-500">{t('分组倍率')}</span>
+                              <span className="font-medium text-gray-700">{groupRatio[selectedGroup]}</span>
                             </div>
                           </div>
                         </div>
                       )}
                       
                       <div>
-                        <div className="text-gray-700 mb-1">{t('模型价格')}</div>
-                        <div className="bg-blue-50 p-2 rounded text-sm">
+                        <div className="text-gray-600 mb-1">{t('模型价格')}</div>
+                        <div className="bg-blue-50 bg-opacity-60 p-2 rounded text-sm">
                           <div className="flex justify-between items-center mb-2">
-                            <span className="text-gray-600">{t('币种')}</span>
+                            <span className="text-gray-500">{t('币种')}</span>
                             <div className="inline-flex items-center bg-gray-100 rounded-md shadow-sm">
                               <button
                                 className={`px-1.5 py-0.5 rounded-md text-xs font-medium transition-all duration-200 ${
                                   currencyType === 'USD'
-                                    ? 'bg-white text-blue-600 shadow-sm'
-                                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
+                                    ? 'bg-white text-blue-500 shadow-sm'
+                                    : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
                                 }`}
                                 onClick={() => setCurrencyType('USD')}
                                 aria-label="Use USD"
@@ -1575,8 +1626,8 @@ const ModelPricing = ({onInitialize}) => {
                               <button
                                 className={`px-1.5 py-0.5 rounded-md text-xs font-medium transition-all duration-200 ${
                                   currencyType === 'CNY'
-                                    ? 'bg-white text-blue-600 shadow-sm'
-                                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
+                                    ? 'bg-white text-blue-500 shadow-sm'
+                                    : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
                                 }`}
                                 onClick={() => setCurrencyType('CNY')}
                                 aria-label="Use CNY"
@@ -1588,8 +1639,8 @@ const ModelPricing = ({onInitialize}) => {
                           {model.quota_type === 0 ? (
                             <>
                               <div className="flex justify-between items-center">
-                                <span className="text-gray-600">{t('提示')}</span>
-                                <span className="font-medium text-blue-600">
+                                <span className="text-gray-500">{t('提示')}</span>
+                                <span className="font-medium text-blue-500">
                                   {currencyType === 'USD' ? '$' : '￥'}
                                   {currencyType === 'CNY'
                                     ? ((model.model_ratio * 2 * groupRatio[selectedGroup]) * priceRatio).toFixed(2)
@@ -1597,8 +1648,8 @@ const ModelPricing = ({onInitialize}) => {
                                 </span>
                               </div>
                               <div className="flex justify-between items-center mt-1">
-                                <span className="text-gray-600">{t('补全')}</span>
-                                <span className="font-medium text-blue-600">
+                                <span className="text-gray-500">{t('补全')}</span>
+                                <span className="font-medium text-blue-500">
                                   {currencyType === 'USD' ? '$' : '￥'}
                                   {currencyType === 'CNY'
                                     ? ((model.model_ratio * model.completion_ratio * 2 * groupRatio[selectedGroup]) * priceRatio).toFixed(2)
@@ -1608,8 +1659,8 @@ const ModelPricing = ({onInitialize}) => {
                             </>
                           ) : (
                             <div className="flex justify-between items-center">
-                              <span className="text-gray-600">{t('模型价格')}</span>
-                              <span className="font-medium text-blue-600">
+                              <span className="text-gray-500">{t('模型价格')}</span>
+                              <span className="font-medium text-blue-500">
                                 {currencyType === 'USD' ? '$' : '￥'}
                                 {(parseFloat(model.model_price) * groupRatio[selectedGroup]).toFixed(2)}
                               </span>
@@ -1619,8 +1670,8 @@ const ModelPricing = ({onInitialize}) => {
                       </div>
                       
                       <div>
-                        <div className="text-gray-700 mb-1">{t('模型描述')}</div>
-                        <div className="text-gray-600 text-sm line-clamp-4 min-h-[5em] bg-gray-50 p-2 rounded">
+                        <div className="text-gray-600 mb-1">{t('模型描述')}</div>
+                        <div className="text-gray-500 text-sm line-clamp-4 min-h-[5em] bg-gray-50 p-2 rounded">
                           {model.model_description}
                         </div>
                       </div>
