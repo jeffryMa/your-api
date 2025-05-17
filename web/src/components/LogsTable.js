@@ -511,22 +511,18 @@ const LogsTable = () => {
         if (record.is_stream) {
           let other = getLogOther(record.other);
           return (
-            <>
-              <Space>
-                {renderUseTime(text)}
-                {renderFirstUseTime(other?.frt)}
-                {renderIsStream(record.is_stream)}
-              </Space>
-            </>
+            <div style={{ display: 'flex', gap: '4px' }}>
+              {renderUseTime(text)}
+              {renderFirstUseTime(other?.frt)}
+              {renderIsStream(record.is_stream)}
+            </div>
           );
         } else {
           return (
-            <>
-              <Space>
-                {renderUseTime(text)}
-                {renderIsStream(record.is_stream)}
-              </Space>
-            </>
+            <div style={{ display: 'flex', gap: '4px' }}>
+              {renderUseTime(text)}
+              {renderIsStream(record.is_stream)}
+            </div>
           );
         }
       },
