@@ -1,5 +1,5 @@
 // src/components/ApiGuideDrawer.jsx
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useContext } from 'react';
 import { SideSheet, Typography, Tabs, Divider, Button } from '@douyinfe/semi-ui';
 import {
   IconVerify,
@@ -11,6 +11,7 @@ import {
 } from '@douyinfe/semi-icons';
 import { copy, showSuccess } from '../helpers';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../context/Theme';
 
 export default function ApiGuideDrawer({
                                          visible,
@@ -20,6 +21,8 @@ export default function ApiGuideDrawer({
                                        }) {
   const navigate = useNavigate();
   const { Title, Text, Paragraph } = Typography;
+  const theme = useTheme(); // 使用useTheme钩子获取当前主题
+  const isDarkMode = theme === 'dark';
 
   // 动态计算 baseUrl（SSR 安全、去末尾斜杠、去掉最后一个 path segment）
   const dynamicBase = useMemo(() => {
@@ -180,6 +183,48 @@ int main(void) {
 }`
   };
 
+  // 适配深色模式的样式
+  const darkModeStyles = {
+    // 整个抽屉
+    drawerHeader: {
+      background: isDarkMode ? 'var(--semi-color-bg-2)' : '#fff',
+      borderBottom: `1px solid ${isDarkMode ? 'var(--semi-color-border)' : '#e8e8e8'}`,
+      padding: '16px 24px'
+    },
+    drawerBody: {
+      background: isDarkMode ? 'var(--semi-color-bg-2)' : '#fff',
+      ...bodyStyle
+    },
+    // 基本信息区域
+    infoCard: {
+      backgroundColor: isDarkMode ? 'var(--semi-color-bg-1)' : '#f9fafb',
+      borderColor: isDarkMode ? 'var(--semi-color-border)' : '#e5e7eb',
+      color: isDarkMode ? 'var(--semi-color-text-0)' : 'inherit'
+    },
+    // 代码区域
+    codeBlock: {
+      backgroundColor: isDarkMode ? 'var(--semi-color-bg-1)' : '#f5f5f5',
+      borderColor: isDarkMode ? 'var(--semi-color-border)' : '#e5e7eb',
+      color: isDarkMode ? 'var(--semi-color-text-0)' : '#333'
+    },
+    // 帮助区域
+    helpCard: {
+      backgroundColor: isDarkMode ? 'var(--semi-color-bg-1)' : '#f9fafb',
+      borderColor: isDarkMode ? 'var(--semi-color-border)' : '#e5e7eb',
+      color: isDarkMode ? 'var(--semi-color-text-0)' : 'inherit'
+    },
+    // 文本颜色
+    textPrimary: {
+      color: isDarkMode ? 'var(--semi-color-text-0)' : '#333'
+    },
+    textSecondary: {
+      color: isDarkMode ? 'var(--semi-color-text-1)' : '#666'
+    },
+    link: {
+      color: isDarkMode ? 'var(--semi-color-link)' : '#2563eb'
+    }
+  };
+
   return (
       <SideSheet
           visible={visible}
@@ -187,35 +232,35 @@ int main(void) {
           width={sheetWidth}
           footer={null}
           closeIcon={<IconClose className="text-gray-400 hover:text-gray-600" />}
-          headerStyle={{
-            background: '#fff',
-            borderBottom: '1px solid #e8e8e8',
-            padding: '16px 24px'
-          }}
-          bodyStyle={{ background: '#fff', ...bodyStyle }}
+          headerStyle={darkModeStyles.drawerHeader}
+          bodyStyle={darkModeStyles.drawerBody}
           title={
             <div className="flex items-center">
               <IconVerify className="text-blue-600 mr-2" />
-              <span className="text-base sm:text-lg font-semibold text-gray-800">
-            API 接入指南
-          </span>
+              <span className="text-base sm:text-lg font-semibold" 
+                    style={darkModeStyles.textPrimary}>
+                API 接入指南
+              </span>
             </div>
           }
       >
         <div className="space-y-8">
           {/* 基本信息 */}
           <section>
-            <Title heading={3} className="flex items-center mb-4 text-base font-semibold text-gray-800">
+            <Title heading={3} 
+                  className="flex items-center mb-4 text-base font-semibold" 
+                  style={darkModeStyles.textPrimary}>
               <IconTerminal className="text-blue-600 mr-2" />
               基本信息
             </Title>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 space-y-4">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 space-y-4" 
+                style={darkModeStyles.infoCard}>
               {/* Base URL + Model ID rows */}
               {['Base URL:'].map((label, i) => (
                   <div key={i} className="flex justify-between items-center">
-                    <Text className="text-gray-700">{label}</Text>
+                    <Text style={darkModeStyles.textPrimary}>{label}</Text>
                     <div className="flex items-center space-x-2 max-w-full">
-                      <Text link className="text-blue-600 hover:underline break-all">
+                      <Text link style={darkModeStyles.link} className="hover:underline break-all">
                         {i === 0 ? baseUrl : modelId}
                       </Text>
                       <Button
@@ -234,7 +279,7 @@ int main(void) {
 
               {/* API Key */}
               <div className="flex justify-between items-center">
-                <Text className="text-gray-700">API Key:</Text>
+                <Text style={darkModeStyles.textPrimary}>API Key:</Text>
                 <Button size="small" theme="solid" type="primary" onClick={() => navigate('/token')}>
                   创建 & 查询 API Key
                 </Button>
@@ -242,16 +287,16 @@ int main(void) {
 
               {/* 不同客户端可用的 base_url */}
               <Divider style={{ margin: '16px 0' }} />
-              <Text className="text-gray-700">不同客户端可使用下列根地址：</Text>
+              <Text style={darkModeStyles.textPrimary}>不同客户端可使用下列根地址：</Text>
               {[
                 { label: '根路径', url: baseUrl },
                 { label: '版本化 (v1)', url: urlV1 },
                 { label: '聊天接口', url: urlCompletions }
               ].map(({ label, url }) => (
                   <div key={label} className="flex justify-between items-center">
-                    <Text className="text-gray-600">{label}:</Text>
+                    <Text style={darkModeStyles.textSecondary}>{label}:</Text>
                     <div className="flex items-center space-x-2 max-w-full">
-                      <Text code className="break-all">
+                      <Text code className="break-all" style={darkModeStyles.textPrimary}>
                         {url}
                       </Text>
                       <Button
@@ -272,7 +317,8 @@ int main(void) {
 
           {/* 示例代码 */}
           <section>
-            <Title heading={3} className="flex items-center mb-4 text-base font-semibold text-gray-800">
+            <Title heading={3} className="flex items-center mb-4 text-base font-semibold" 
+                  style={darkModeStyles.textPrimary}>
               <IconCode className="text-blue-600 mr-2" />
               示例代码
             </Title>
@@ -281,7 +327,8 @@ int main(void) {
               <Tabs type="line" size="large" className="min-w-[300px]">
                 {Object.entries(snippets).map(([lang, code]) => (
                     <Tabs.TabPane tab={<span className="capitalize">{lang}</span>} itemKey={lang} key={lang}>
-                      <div className="relative bg-gray-100 border border-gray-200 rounded-lg p-4 font-mono text-sm text-gray-800 overflow-x-auto">
+                      <div className="relative border rounded-lg p-4 font-mono text-sm overflow-x-auto"
+                          style={darkModeStyles.codeBlock}>
                         <Button
                             size="small"
                             theme="borderless"
@@ -303,18 +350,20 @@ int main(void) {
 
           {/* 接入帮助 */}
           <section>
-            <Title heading={3} className="flex items-center mb-4 text-base font-semibold text-gray-800">
+            <Title heading={3} className="flex items-center mb-4 text-base font-semibold" 
+                  style={darkModeStyles.textPrimary}>
               <IconHelpCircle className="text-blue-600 mr-2" />
               接入帮助
             </Title>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 space-y-6">
+            <div className="border rounded-lg p-6 space-y-6" 
+                style={darkModeStyles.helpCard}>
               {[
                 {
                   step: '1. 获取 API Key',
                   desc: (
                       <>
                         前往{' '}
-                        <Text link className="text-blue-600 hover:underline" onClick={() => navigate('/token')}>
+                        <Text link style={darkModeStyles.link} className="hover:underline" onClick={() => navigate('/token')}>
                           令牌管理页面
                         </Text>{' '}
                         创建 API Key，用于接口认证。
@@ -325,7 +374,7 @@ int main(void) {
                   step: '2. 选择模型',
                   desc: (
                       <>
-                        示例使用 <Text code>{modelId}</Text>，可替换为其他支持的模型 ID。
+                        示例使用 <Text code style={darkModeStyles.textPrimary}>{modelId}</Text>，可替换为其他支持的模型 ID。
                       </>
                   )
                 },
@@ -338,7 +387,7 @@ int main(void) {
                   desc: (
                       <>
                         如需更多参数与示例，请参阅{' '}
-                        <Text link className="text-blue-600 hover:underline" onClick={() => navigate('/docs')}>
+                        <Text link style={darkModeStyles.link} className="hover:underline" onClick={() => navigate('/docs')}>
                           完整开发文档
                         </Text>
                         。
@@ -347,8 +396,8 @@ int main(void) {
                 }
               ].map(({ step, desc }) => (
                   <div key={step}>
-                    <Text strong className="text-gray-800">{step}</Text>
-                    <Paragraph className="mt-1 text-gray-600">{desc}</Paragraph>
+                    <Text strong style={darkModeStyles.textPrimary}>{step}</Text>
+                    <Paragraph style={darkModeStyles.textSecondary} className="mt-1">{desc}</Paragraph>
                   </div>
               ))}
             </div>
