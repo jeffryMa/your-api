@@ -438,7 +438,14 @@ const ModelPricing = ({onInitialize}) => {
     switch (type) {
       case 1:
         return (
-            <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-50 to-purple-100 text-purple-700 border border-purple-200 shadow-sm">
+            <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                 style={{
+                   background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                   color: 'var(--semi-color-tertiary)',
+                   borderColor: 'var(--semi-color-tertiary-light-active)',
+                   borderWidth: '1px',
+                   borderStyle: 'solid'
+                 }}>
           <span className="flex items-center">
             <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 4V20M18 12H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -449,7 +456,14 @@ const ModelPricing = ({onInitialize}) => {
         );
       case 0:
         return (
-            <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 border border-blue-200 shadow-sm">
+            <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                 style={{
+                   background: 'linear-gradient(to right, var(--semi-color-primary-light-default), var(--semi-color-primary-light-hover))',
+                   color: 'var(--semi-color-primary)',
+                   borderColor: 'var(--semi-color-primary-light-active)',
+                   borderWidth: '1px',
+                   borderStyle: 'solid'
+                 }}>
           <span className="flex items-center">
             <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -460,7 +474,14 @@ const ModelPricing = ({onInitialize}) => {
         );
       default:
         return (
-            <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-gray-50 to-gray-100 text-gray-700 border border-gray-200 shadow-sm">
+            <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                 style={{
+                   background: 'linear-gradient(to right, var(--semi-color-fill-0), var(--semi-color-fill-1))',
+                   color: 'var(--semi-color-text-1)',
+                   borderColor: 'var(--semi-color-border)',
+                   borderWidth: '1px',
+                   borderStyle: 'solid'
+                 }}>
           <span className="flex items-center">
             <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 16V12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -483,6 +504,13 @@ const ModelPricing = ({onInitialize}) => {
               </div>
             }
             position='top'
+            style={{
+              backgroundColor: 'var(--semi-color-bg-2)',
+              borderColor: 'var(--semi-color-border)',
+              color: 'var(--semi-color-text-0)',
+              borderWidth: 1,
+              borderStyle: 'solid',
+            }}
         >
           {available ? (
               <div className="flex items-center justify-center py-1 px-2 rounded-md whitespace-nowrap"
@@ -544,7 +572,14 @@ const ModelPricing = ({onInitialize}) => {
           return (
               <>
                 <div
-                    className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 border border-blue-200 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer whitespace-nowrap max-w-full overflow-hidden"
+                    className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer whitespace-nowrap max-w-full overflow-hidden"
+                    style={{
+                      background: 'linear-gradient(to right, var(--semi-color-primary-light-default), var(--semi-color-primary-light-hover))',
+                      color: 'var(--semi-color-primary)',
+                      borderColor: 'var(--semi-color-primary-light-active)',
+                      borderWidth: '1px',
+                      borderStyle: 'solid'
+                    }}
                     onClick={() => copyText(text)}
                     title={text}
                 >
@@ -579,28 +614,37 @@ const ModelPricing = ({onInitialize}) => {
         title: t('可用分组'),
         dataIndex: 'enable_groups',
         render: (text, record, index) => {
-          // 使用不同颜色列表
-          const colors = [
-            'bg-blue-100 text-blue-800',
-            'bg-green-100 text-green-800',
-            'bg-purple-100 text-purple-800',
-            'bg-red-100 text-red-800',
-            'bg-yellow-100 text-yellow-800',
-            'bg-indigo-100 text-indigo-800',
-            'bg-pink-100 text-pink-800',
-            'bg-teal-100 text-teal-800'
-          ];
+          // 根据索引选择变量颜色
+          const getColorStyle = (idx) => {
+            const colorVariables = [
+              { bg: 'var(--semi-color-primary-light-default)', text: 'var(--semi-color-primary)' },
+              { bg: 'var(--semi-color-success-light-default)', text: 'var(--semi-color-success)' },
+              { bg: 'var(--semi-color-tertiary-light-default)', text: 'var(--semi-color-tertiary)' },
+              { bg: 'var(--semi-color-danger-light-default)', text: 'var(--semi-color-danger)' },
+              { bg: 'var(--semi-color-warning-light-default)', text: 'var(--semi-color-warning)' },
+              { bg: 'var(--semi-color-info-light-default)', text: 'var(--semi-color-info)' }
+            ];
+            return colorVariables[idx % colorVariables.length];
+          };
 
           return (
               <div className="flex flex-wrap gap-1.5">
                 {text.map((group, idx) => {
                   if (usableGroup[group]) {
                     // 对每个分组使用不同颜色
-                    const colorClass = colors[idx % colors.length];
+                    const colorStyle = getColorStyle(idx);
 
                     if (group === selectedGroup) {
                       return (
-                          <div key={group} className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${colorClass} border border-current`}>
+                          <div 
+                              key={group} 
+                              className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border"
+                              style={{ 
+                                backgroundColor: colorStyle.bg, 
+                                color: colorStyle.text,
+                                borderColor: colorStyle.text
+                              }}
+                          >
                             <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                             </svg>
@@ -611,7 +655,11 @@ const ModelPricing = ({onInitialize}) => {
                       return (
                           <div
                               key={group}
-                              className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${colorClass} cursor-pointer hover:opacity-80 transition-opacity`}
+                              className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium cursor-pointer hover:opacity-80 transition-opacity"
+                              style={{ 
+                                backgroundColor: colorStyle.bg, 
+                                color: colorStyle.text
+                              }}
                               onClick={() => {
                                 setSelectedGroup(group);
                                 showInfo(t('当前查看的分组为：{{group}}，倍率为：{{ratio}}', {
@@ -653,9 +701,9 @@ const ModelPricing = ({onInitialize}) => {
                   }
                   position='top'
                   style={{
-                    backgroundColor: 'rgba(var(--semi-blue-4),1)',
-                    borderColor: 'rgba(var(--semi-blue-4),1)',
-                    color: 'var(--semi-color-white)',
+                    backgroundColor: 'var(--semi-color-bg-2)',
+                    borderColor: 'var(--semi-color-border)',
+                    color: 'var(--semi-color-text-0)',
                     borderWidth: 1,
                     borderStyle: 'solid',
                   }}
@@ -677,16 +725,16 @@ const ModelPricing = ({onInitialize}) => {
           content = (
               <div className="text-sm space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">{t('模型')}：</span>
-                  <span className="font-medium">{record.quota_type === 0 ? (typeof text === 'number' ? text.toFixed(3) : text) : t('无')}</span>
+                  <span style={{ color: 'var(--semi-color-text-2)' }}>{t('模型')}：</span>
+                  <span className="font-medium" style={{ color: 'var(--semi-color-text-0)' }}>{record.quota_type === 0 ? (typeof text === 'number' ? text.toFixed(3) : text) : t('无')}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">{t('补全')}：</span>
-                  <span className="font-medium">{record.quota_type === 0 ? completionRatio : t('无')}</span>
+                  <span style={{ color: 'var(--semi-color-text-2)' }}>{t('补全')}：</span>
+                  <span className="font-medium" style={{ color: 'var(--semi-color-text-0)' }}>{record.quota_type === 0 ? completionRatio : t('无')}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">{t('分组')}：</span>
-                  <span className="font-medium">{typeof groupRatio[selectedGroup] === 'number' ? Number(groupRatio[selectedGroup]).toFixed(3) : groupRatio[selectedGroup]}</span>
+                  <span style={{ color: 'var(--semi-color-text-2)' }}>{t('分组')}：</span>
+                  <span className="font-medium" style={{ color: 'var(--semi-color-text-0)' }}>{typeof groupRatio[selectedGroup] === 'number' ? Number(groupRatio[selectedGroup]).toFixed(3) : groupRatio[selectedGroup]}</span>
                 </div>
               </div>
           );
@@ -714,9 +762,9 @@ const ModelPricing = ({onInitialize}) => {
                 }
                 position='top'
                 style={{
-                  backgroundColor: 'rgba(var(--semi-blue-4),1)',
-                  borderColor: 'rgba(var(--semi-blue-4),1)',
-                  color: 'var(--semi-color-white)',
+                  backgroundColor: 'var(--semi-color-bg-2)',
+                  borderColor: 'var(--semi-color-border)',
+                  color: 'var(--semi-color-text-0)',
                   borderWidth: 1,
                   borderStyle: 'solid',
                 }}
@@ -725,13 +773,17 @@ const ModelPricing = ({onInitialize}) => {
             </Popover>
 
             {/* 币种切换 */}
-            <div className="inline-flex items-center bg-gray-100 rounded-md shadow-sm ml-auto sm:ml-0">
+            <div className="inline-flex items-center rounded-md shadow-sm ml-auto sm:ml-0" style={{ backgroundColor: 'var(--semi-color-fill-0)' }}>
               <button
                   className={`px-1.5 py-0.5 rounded-md text-xs font-medium transition-all duration-200 ${
                       currencyType === 'USD'
-                          ? 'bg-white text-blue-600 shadow-sm'
-                          : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
+                          ? 'shadow-sm'
+                          : 'hover:text-gray-800'
                   }`}
+                  style={{
+                    backgroundColor: currencyType === 'USD' ? 'var(--semi-color-bg-2)' : 'transparent',
+                    color: currencyType === 'USD' ? 'var(--semi-color-primary)' : 'var(--semi-color-text-2)'
+                  }}
                   onClick={() => setCurrencyType('USD')}
                   aria-label="Use USD"
               >
@@ -740,9 +792,13 @@ const ModelPricing = ({onInitialize}) => {
               <button
                   className={`px-1.5 py-0.5 rounded-md text-xs font-medium transition-all duration-200 ${
                       currencyType === 'CNY'
-                          ? 'bg-white text-blue-600 shadow-sm'
-                          : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
+                          ? 'shadow-sm'
+                          : 'hover:text-gray-800'
                   }`}
+                  style={{
+                    backgroundColor: currencyType === 'CNY' ? 'var(--semi-color-bg-2)' : 'transparent',
+                    color: currencyType === 'CNY' ? 'var(--semi-color-primary)' : 'var(--semi-color-text-2)'
+                  }}
                   onClick={() => setCurrencyType('CNY')}
                   aria-label="Use CNY"
               >
@@ -763,24 +819,30 @@ const ModelPricing = ({onInitialize}) => {
 
           content = (
               <div className="space-y-1 text-sm">
-                <div className="flex items-center justify-between bg-purple-100 rounded-md px-2 py-1">
-                  <div className="flex items-center space-x-1 text-purple-700 font-medium">
+                <div className="flex items-center justify-between rounded-md px-2 py-1" style={{
+                  backgroundColor: 'var(--semi-color-primary-light-default)',
+                  color: 'var(--semi-color-primary)'
+                }}>
+                  <div className="flex items-center space-x-1 font-medium" style={{ color: 'var(--semi-color-primary)' }}>
                     <SparklesIcon className="w-5 h-5" />
                     <span>{t('提示')}:</span>
                   </div>
-                  <span className="text-purple-700 font-medium">
+                  <span className="font-medium" style={{ color: 'var(--semi-color-primary)' }}>
                     {currencySymbol}
                               {currencyType === 'CNY'
                                   ? (parseFloat(inputRatioPrice) * priceRatio).toFixed(2)
                                   : inputRatioPrice} / 1M
                   </span>
                 </div>
-                <div className="flex items-center justify-between bg-green-100 rounded-md px-2 py-1">
-                  <div className="flex items-center space-x-1 text-green-700 font-medium">
+                <div className="flex items-center justify-between rounded-md px-2 py-1" style={{
+                  backgroundColor: 'var(--semi-color-success-light-default)',
+                  color: 'var(--semi-color-success)'
+                }}>
+                  <div className="flex items-center space-x-1 font-medium" style={{ color: 'var(--semi-color-success)' }}>
                     <FaceSmileIcon className="w-5 h-5" />
                     <span>{t('补全')}:</span>
                   </div>
-                  <span className="text-green-700 font-medium">
+                  <span className="font-medium" style={{ color: 'var(--semi-color-success)' }}>
                     {currencySymbol}
                               {currencyType === 'CNY'
                                   ? (parseFloat(completionRatioPrice) * priceRatio).toFixed(2)
@@ -792,9 +854,12 @@ const ModelPricing = ({onInitialize}) => {
         } else {
           const price = (parseFloat(text) * groupRatio[selectedGroup]).toFixed(2);
           content = (
-              <div className="bg-white p-4 rounded-lg shadow-sm max-w-md mx-auto flex items-center justify-between text-sm">
-                <span className="text-gray-600">{t('模型价格')}</span>
-                <span className="font-medium text-blue-600">
+              <div className="p-4 rounded-lg shadow-sm max-w-md mx-auto flex items-center justify-between text-sm" style={{
+                backgroundColor: 'var(--semi-color-bg-2)',
+                color: 'var(--semi-color-text-0)'
+              }}>
+                <span style={{ color: 'var(--semi-color-text-2)' }}>{t('模型价格')}</span>
+                <span className="font-medium" style={{ color: 'var(--semi-color-primary)' }}>
                   {currencySymbol}{price}
                 </span>
               </div>
@@ -819,7 +884,7 @@ const ModelPricing = ({onInitialize}) => {
           render: (text, record, index) => {
             return (
                 <Tooltip content={text} position="top">
-                  <div className="inline-flex items-start px-2.5 py-1.5 leading-5 max-w-full text-gray-600" style={{ fontSize: '12px' }}>
+                  <div className="inline-flex items-start px-2.5 py-1.5 leading-5 max-w-full" style={{ fontSize: '12px', color: 'var(--semi-color-text-2)' }}>
                     <div className="line-clamp-4 min-h-[5em]">
                       {text}
                     </div>
@@ -1001,7 +1066,16 @@ const ModelPricing = ({onInitialize}) => {
                           className="provider-scroll-btn scroll-left"
                           aria-label="显示所有供应商"
                           onClick={() => handleScroll('left')}
-                          style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)', backgroundColor: 'white', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                          style={{ 
+                            boxShadow: '0 1px 3px rgba(0,0,0,0.1)', 
+                            backgroundColor: 'var(--semi-color-bg-2)', 
+                            borderRadius: '50%', 
+                            width: '32px', 
+                            height: '32px', 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'center' 
+                          }}
                       >
                         <IconChevronLeft size="large" />
                       </button>
@@ -1115,7 +1189,16 @@ const ModelPricing = ({onInitialize}) => {
                           className="provider-scroll-btn scroll-right"
                           aria-label="显示所有供应商"
                           onClick={() => handleScroll('right')}
-                          style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)', backgroundColor: 'white', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                          style={{ 
+                            boxShadow: '0 1px 3px rgba(0,0,0,0.1)', 
+                            backgroundColor: 'var(--semi-color-bg-2)', 
+                            borderRadius: '50%', 
+                            width: '32px', 
+                            height: '32px', 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'center' 
+                          }}
                       >
                         <IconChevronRight size="large" />
                       </button>
@@ -1372,7 +1455,14 @@ const ModelPricing = ({onInitialize}) => {
                     <div className="bg-gray-100 px-4 py-3 border-b border-gray-200">
                       <div className="flex justify-between items-center">
                         <div
-                          className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 border border-blue-200 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer whitespace-nowrap max-w-full overflow-hidden"
+                          className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer whitespace-nowrap max-w-full overflow-hidden"
+                          style={{
+                            background: 'linear-gradient(to right, var(--semi-color-primary-light-default), var(--semi-color-primary-light-hover))',
+                            color: 'var(--semi-color-primary)',
+                            borderColor: 'var(--semi-color-primary-light-active)',
+                            borderWidth: '1px',
+                            borderStyle: 'solid'
+                          }}
                           onClick={() => copyText(model.model_name)}
                           title={model.model_name}
                         >
