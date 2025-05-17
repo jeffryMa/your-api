@@ -623,11 +623,11 @@ const ModelPricing = ({onInitialize}) => {
           return renderQuotaType(parseInt(text));
         },
         sorter: (a, b) => a.quota_type - b.quota_type,
-        className: 'min-w-[100px]',
+        className: 'min-w-[120px]',
         onCell: () => ({
           'data-column': t('计费类型')
         }),
-        width: '10%',
+        width: '15%',
       },
       {
         title: t('可用分组'),
