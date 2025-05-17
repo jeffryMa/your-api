@@ -1404,7 +1404,6 @@ const ModelPricing = ({onInitialize}) => {
                     type='tertiary'
                     style={{marginLeft: 8}}
                     onClick={() => setShowRatioColumn(!showRatioColumn)}
-                    icon={showRatioColumn ? <IconHelpCircle size="small" /> : <IconHelpCircle size="small" />}
                     className="toggle-ratio-btn"
                 >
                   {showRatioColumn ? t('隐藏倍率列') : t('显示倍率列')}

@@ -247,34 +247,34 @@ const TopUp = () => {
                 <Divider>{t('兑换余额')}</Divider>
                 <Form>
                   <Form.Input
-                    field={'redemptionCode'}
-                    label={t('兑换码')}
-                    placeholder={t('兑换码')}
-                    name='redemptionCode'
-                    value={redemptionCode}
-                    onChange={(value) => {
-                      setRedemptionCode(value);
-                    }}
+                      field={'redemptionCode'}
+                      label={t('兑换码')}
+                      placeholder={t('兑换码')}
+                      name='redemptionCode'
+                      value={redemptionCode}
+                      onChange={(value) => {
+                        setRedemptionCode(value);
+                      }}
                   />
-                  <Space>
-                    {topUpLink ? (
-                      <Button
-                        type={'primary'}
-                        theme={'solid'}
-                        onClick={openTopUpLink}
-                      >
-                        {t('获取兑换码')}
-                      </Button>
-                    ) : null}
+                  <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '8px', marginTop: '8px' }}>
+                    {topUpLink && (
+                        <Button
+                            type={'primary'}
+                            theme={'solid'}
+                            onClick={openTopUpLink}
+                        >
+                          {t('获取兑换码')}
+                        </Button>
+                    )}
                     <Button
-                      type={'warning'}
-                      theme={'solid'}
-                      onClick={topUp}
-                      disabled={isSubmitting}
+                        type={'warning'}
+                        theme={'solid'}
+                        onClick={topUp}
+                        disabled={isSubmitting}
                     >
                       {isSubmitting ? t('兑换中...') : t('兑换')}
                     </Button>
-                  </Space>
+                  </div>
                 </Form>
               </div>
               <div style={{ marginTop: 20 }}>
