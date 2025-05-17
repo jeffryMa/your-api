@@ -202,7 +202,7 @@ const Home = () => {
       <div className="max-w-[1300px] w-full p-3 select-none m-auto">
         <Row>
           <Col md={24} lg={12}>
-            <div className="flex flex-col justify-center h-full">
+            <div className="flex flex-col justify-center h-full pt-4 md:pt-20">
               <h1 className="text-8xl bg-uc-argon text-wrap">{systemName}</h1>
               <div className="mt-5 overflow-hidden">
                 <div
