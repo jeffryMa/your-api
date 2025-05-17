@@ -12,6 +12,7 @@ import {
 import { copy, showSuccess } from '../helpers';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/Theme';
+import { StyleContext } from '../context/Style/index.js';
 
 export default function ApiGuideDrawer({
                                          visible,
@@ -23,6 +24,7 @@ export default function ApiGuideDrawer({
   const { Title, Text, Paragraph } = Typography;
   const theme = useTheme(); // 使用useTheme钩子获取当前主题
   const isDarkMode = theme === 'dark';
+  const [styleState, styleDispatch] = useContext(StyleContext);
 
   // 动态计算 baseUrl（SSR 安全、去末尾斜杠、去掉最后一个 path segment）
   const dynamicBase = useMemo(() => {
@@ -280,7 +282,10 @@ int main(void) {
               {/* API Key */}
               <div className="flex justify-between items-center">
                 <Text style={darkModeStyles.textPrimary}>API Key:</Text>
-                <Button size="small" theme="solid" type="primary" onClick={() => navigate('/token')}>
+                <Button size="small" theme="solid" type="primary" onClick={() => {
+                  styleDispatch({ type: 'SET_SIDER', payload: true });
+                  navigate('/token');
+                }}>
                   创建 & 查询 API Key
                 </Button>
               </div>
@@ -363,7 +368,10 @@ int main(void) {
                   desc: (
                       <>
                         前往{' '}
-                        <Text link style={darkModeStyles.link} className="hover:underline" onClick={() => navigate('/token')}>
+                        <Text link style={darkModeStyles.link} className="hover:underline" onClick={() => {
+                          styleDispatch({ type: 'SET_SIDER', payload: true });
+                          navigate('/token');
+                        }}>
                           令牌管理页面
                         </Text>{' '}
                         创建 API Key，用于接口认证。
@@ -387,7 +395,10 @@ int main(void) {
                   desc: (
                       <>
                         如需更多参数与示例，请参阅{' '}
-                        <Text link style={darkModeStyles.link} className="hover:underline" onClick={() => navigate('/docs')}>
+                        <Text link style={darkModeStyles.link} className="hover:underline" onClick={() => {
+                          styleDispatch({ type: 'SET_SIDER', payload: true });
+                          navigate('/docs');
+                        }}>
                           完整开发文档
                         </Text>
                         。
