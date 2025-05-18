@@ -10,6 +10,8 @@ import {
   timestamp2string,
 } from '../helpers';
 
+import BubbleText from "./BubbleText.js";
+
 import {
   Avatar,
   Button,
@@ -81,39 +83,27 @@ const LogsTable = () => {
     switch (type) {
       case 1:
         return (
-          <Tag color='cyan' size='large'>
-            {t('充值')}
-          </Tag>
+          <BubbleText bubbleText={t('充值')}/>
         );
       case 2:
         return (
-          <Tag color='lime' size='large'>
-            {t('消费')}
-          </Tag>
+            <BubbleText bubbleText={t('消费')}/>
         );
       case 3:
         return (
-          <Tag color='orange' size='large'>
-            {t('管理')}
-          </Tag>
+            <BubbleText bubbleText={t('管理')}/>
         );
       case 4:
         return (
-          <Tag color='purple' size='large'>
-            {t('系统')}
-          </Tag>
+            <BubbleText bubbleText={t('系统')}/>
         );
       case 5:
         return (
-          <Tag color='red' size='large'>
-            {t('错误')}
-          </Tag>
+            <BubbleText bubbleText={t('错误')}/>
         );
       default:
         return (
-          <Tag color='grey' size='large'>
-            {t('未知')}
-          </Tag>
+            <BubbleText bubbleText={t('未知')}/>
         );
     }
   }
@@ -121,15 +111,11 @@ const LogsTable = () => {
   function renderIsStream(bool) {
     if (bool) {
       return (
-        <Tag color='blue' size='large'>
-          {t('流')}
-        </Tag>
+          <BubbleText bubbleText={t('流')}/>
       );
     } else {
       return (
-        <Tag color='purple' size='large'>
-          {t('非流')}
-        </Tag>
+          <BubbleText bubbleText={t('非流')}/>
       );
     }
   }
@@ -138,24 +124,36 @@ const LogsTable = () => {
     const time = parseInt(type);
     if (time < 101) {
       return (
-        <Tag color='green' size='large'>
-          {' '}
-          {time} s{' '}
-        </Tag>
+          <BubbleText
+              bubbleText={`${time} s`}
+              background="linear-gradient(to right, var(--semi-color-success-light-default), var(--semi-color-success-light-hover))"
+              color="var(--semi-color-success)"
+              borderColor="var(--semi-color-success-light-active)"
+              borderWidth="1px"
+              borderStyle="solid"
+          />
       );
     } else if (time < 300) {
       return (
-        <Tag color='orange' size='large'>
-          {' '}
-          {time} s{' '}
-        </Tag>
+          <BubbleText
+              bubbleText={`${time} s`}
+              background="linear-gradient(to right, var(--semi-color-warning-light-default), var(--semi-color-warning-light-hover))"
+              color="var(--semi-color-warning)"
+              borderColor="var(--semi-color-warning-light-active)"
+              borderWidth="1px"
+              borderStyle="solid"
+          />
       );
     } else {
       return (
-        <Tag color='red' size='large'>
-          {' '}
-          {time} s{' '}
-        </Tag>
+          <BubbleText
+              bubbleText={`${time} s`}
+              background="linear-gradient(to right, var(--semi-color-danger-light-default), var(--semi-color-danger-light-hover))"
+              color="var(--semi-color-danger)"
+              borderColor="var(--semi-color-danger-light-active)"
+              borderWidth="1px"
+              borderStyle="solid"
+          />
       );
     }
   }
@@ -165,24 +163,36 @@ const LogsTable = () => {
     time = time.toFixed(1);
     if (time < 3) {
       return (
-        <Tag color='green' size='large'>
-          {' '}
-          {time} s{' '}
-        </Tag>
+          <BubbleText
+              bubbleText={`${time} s`}
+              background="linear-gradient(to right, var(--semi-color-success-light-default), var(--semi-color-success-light-hover))"
+              color="var(--semi-color-success)"
+              borderColor="var(--semi-color-success-light-active)"
+              borderWidth="1px"
+              borderStyle="solid"
+          />
       );
     } else if (time < 10) {
       return (
-        <Tag color='orange' size='large'>
-          {' '}
-          {time} s{' '}
-        </Tag>
+          <BubbleText
+              bubbleText={`${time} s`}
+              background="linear-gradient(to right, var(--semi-color-warning-light-default), var(--semi-color-warning-light-hover))"
+              color="var(--semi-color-warning)"
+              borderColor="var(--semi-color-warning-light-active)"
+              borderWidth="1px"
+              borderStyle="solid"
+          />
       );
     } else {
       return (
-        <Tag color='red' size='large'>
-          {' '}
-          {time} s{' '}
-        </Tag>
+          <BubbleText
+              bubbleText={`${time} s`}
+              background="linear-gradient(to right, var(--semi-color-danger-light-default), var(--semi-color-danger-light-hover))"
+              color="var(--semi-color-danger)"
+              borderColor="var(--semi-color-danger-light-active)"
+              borderWidth="1px"
+              borderStyle="solid"
+          />
       );
     }
   }
@@ -195,16 +205,13 @@ const LogsTable = () => {
       other?.upstream_model_name !== '';
     if (!modelMapped) {
       return (
-        <Tag
-          color={stringToColor(record.model_name)}
-          size='large'
-          onClick={(event) => {
-            copyText(event, record.model_name).then((r) => {});
-          }}
-        >
-          {' '}
-          {record.model_name}{' '}
-        </Tag>
+          <div
+              onClick={(event) => {
+                copyText(event, record.model_name).then((r) => {});
+              }}
+          >
+            <BubbleText bubbleText={record.model_name}/>
+          </div>
       );
     } else {
       return (
@@ -214,45 +221,38 @@ const LogsTable = () => {
               content={
                 <div style={{ padding: 10 }}>
                   <Space vertical align={'start'}>
-                    <Tag
-                      color={stringToColor(record.model_name)}
-                      size='large'
-                      onClick={(event) => {
-                        copyText(event, record.model_name).then((r) => {});
-                      }}
+                    <div
+                        onClick={(event) => {
+                          copyText(event, record.model_name).then((r) => {});
+                        }}
                     >
-                      {t('请求并计费模型')} {record.model_name}{' '}
-                    </Tag>
-                    <Tag
-                      color={stringToColor(other.upstream_model_name)}
-                      size='large'
-                      onClick={(event) => {
-                        copyText(event, other.upstream_model_name).then(
-                          (r) => {},
-                        );
-                      }}
+                      <BubbleText bubbleText={t('请求并计费模型') + record.model_name} />
+                    </div>
+
+                    <div
+                        onClick={(event) => {
+                          copyText(event, other.upstream_model_name).then(
+                              (r) => {},
+                          );
+                        }}
                     >
-                      {t('实际模型')} {other.upstream_model_name}{' '}
-                    </Tag>
+                      <BubbleText bubbleText={t('实际模型') + other.upstream_model_name}/>
+                    </div>
+
                   </Space>
                 </div>
               }
             >
-              <Tag
-                color={stringToColor(record.model_name)}
-                size='large'
-                onClick={(event) => {
-                  copyText(event, record.model_name).then((r) => {});
-                }}
-                suffixIcon={
-                  <IconRefresh
-                    style={{ width: '0.8em', height: '0.8em', opacity: 0.6 }}
-                  />
-                }
+
+              <div
+                  onClick={(event) => {
+                    copyText(event, record.model_name).then((r) => {});
+                  }}
               >
-                {' '}
-                {record.model_name}{' '}
-              </Tag>
+                <BubbleText bubbleText={record.model_name}/>
+              </div>
+
+
             </Popover>
             {/*<Tooltip content={t('实际模型')}>*/}
             {/*  <Tag*/}
@@ -434,17 +434,14 @@ const LogsTable = () => {
       render: (text, record, index) => {
         return record.type === 0 || record.type === 2 || record.type === 5 ? (
           <div>
-            <Tag
-              color='grey'
-              size='large'
-              onClick={(event) => {
-                //cancel the row click event
-                copyText(event, text);
-              }}
+            <div
+                onClick={(event) => {
+                  //cancel the row click event
+                  copyText(event, text);
+                }}
             >
-              {' '}
-              {t(text)}{' '}
-            </Tag>
+              <BubbleText bubbleText={t(text)}/>
+            </div>
           </div>
         ) : (
           <></>
