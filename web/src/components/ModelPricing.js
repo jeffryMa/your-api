@@ -879,7 +879,7 @@ const ModelPricing = ({onInitialize}) => {
           const price = (parseFloat(text) * groupRatio[selectedGroup]).toFixed(2);
           content = (
               <BubbleText
-                  bubbleText={`${currencyType === 'CNY'
+                  bubbleText={`${currencyType === 'USD' ? '$' : '￥'} ${currencyType === 'CNY'
                         ? (parseFloat(price) * priceRatio).toFixed(2)
                         : price} / ${t('次')}`}
                   background="linear-gradient(to right, var(--semi-color-warning-light-default), var(--semi-color-warning-light-hover))"
