@@ -26,6 +26,7 @@ import {
 import { IconTreeTriangleDown } from '@douyinfe/semi-icons';
 import EditToken from '../pages/Token/EditToken';
 import { useTranslation } from 'react-i18next';
+import BubbleText from "./BubbleText.js";
 
 function renderTimestamp(timestamp) {
   return <>{timestamp2string(timestamp)}</>;
@@ -37,42 +38,72 @@ const TokensTable = () => {
   const renderStatus = (status, model_limits_enabled = false) => {
     switch (status) {
       case 1:
-        if (model_limits_enabled) {
-          return (
-            <Tag color='green' size='large'>
-              {t('已启用：限制模型')}
-            </Tag>
-          );
-        } else {
-          return (
-            <Tag color='green' size='large'>
-              {t('已启用')}
-            </Tag>
-          );
-        }
+        return model_limits_enabled ? (
+            <BubbleText
+                bubbleText={t('限制模型')}
+                background="linear-gradient(to right, var(--semi-color-warning-light-default), var(--semi-color-warning-light-hover))"
+                color="var(--semi-color-warning)"
+                borderColor="var(--semi-color-warning-light-active)"
+                borderWidth="1px"
+                borderStyle="solid"
+            />
+        ) : (
+            <BubbleText
+                bubbleText={t('已启用')}
+                background="linear-gradient(to right, var(--semi-color-success-light-default), var(--semi-color-success-light-hover))"
+                color="var(--semi-color-success)"
+                borderColor="var(--semi-color-success-light-active)"
+                borderWidth="1px"
+                borderStyle="solid"
+            />
+        );
+
       case 2:
         return (
-          <Tag color='red' size='large'>
-            {t('已禁用')}
-          </Tag>
+            <BubbleText
+                bubbleText={t('已禁用')}
+                background="linear-gradient(to right, var(--semi-color-neutral-light-default), var(--semi-color-neutral-light-hover))"
+                color="var(--semi-color-text-2)"
+                borderColor="var(--semi-color-neutral-light-active)"
+                borderWidth="1px"
+                borderStyle="solid"
+            />
         );
+
       case 3:
         return (
-          <Tag color='yellow' size='large'>
-            {t('已过期')}
-          </Tag>
+            <BubbleText
+                bubbleText={t('已启用')}
+                background="linear-gradient(to right, var(--semi-color-success-light-default), var(--semi-color-success-light-hover))"
+                color="var(--semi-color-success)"
+                borderColor="var(--semi-color-success-light-active)"
+                borderWidth="1px"
+                borderStyle="solid"
+            />
         );
+
       case 4:
         return (
-          <Tag color='grey' size='large'>
-            {t('已耗尽')}
-          </Tag>
+            <BubbleText
+                bubbleText={t('已耗尽')}
+                background="linear-gradient(to right, var(--semi-color-danger-light-default), var(--semi-color-danger-light-hover))"
+                color="var(--semi-color-danger)"
+                borderColor="var(--semi-color-danger-light-active)"
+                borderWidth="1px"
+                borderStyle="solid"
+            />
         );
+
       default:
         return (
-          <Tag color='black' size='large'>
-            {t('未知状态')}
-          </Tag>
+            <BubbleText
+                bubbleText={t('未知状态')}
+                background="linear-gradient(to right, var(--semi-color-neutral-light-default), var(--semi-color-neutral-light-hover))"
+                color="var(--semi-color-text-2)"
+                borderColor="var(--semi-color-neutral-light-active)"
+                borderWidth="1px"
+                borderStyle="solid"
+            />
         );
     }
   };
@@ -89,7 +120,7 @@ const TokensTable = () => {
       render: (text, record, index) => {
         return (
           <div>
-            <Space>
+            <Space wrap={false} align="start" style={{ flexWrap: 'nowrap', overflow: 'auto' }}>
               {renderStatus(text, record.model_limits_enabled)}
               {renderGroup(record.group)}
             </Space>
@@ -109,17 +140,27 @@ const TokensTable = () => {
       dataIndex: 'remain_quota',
       render: (text, record, index) => {
         return (
-          <div>
-            {record.unlimited_quota ? (
-              <Tag size={'large'} color={'white'}>
-                {t('无限制')}
-              </Tag>
-            ) : (
-              <Tag size={'large'} color={'light-blue'}>
-                {renderQuota(parseInt(text))}
-              </Tag>
-            )}
-          </div>
+            <>
+              {record.unlimited_quota ? (
+                  <BubbleText
+                      bubbleText={t('无限制')}
+                      background="linear-gradient(to right, var(--semi-color-success-light-default), var(--semi-color-success-light-hover))"
+                      color="var(--semi-color-success)"
+                      borderColor="var(--semi-color-success-light-active)"
+                      borderWidth="1px"
+                      borderStyle="solid"
+                  />
+              ) : (
+                  <BubbleText
+                      bubbleText={renderQuota(parseInt(text))}
+                      background="linear-gradient(to right, var(--semi-color-warning-light-default), var(--semi-color-warning-light-hover))"
+                      color="var(--semi-color-warning)"
+                      borderColor="var(--semi-color-warning-light-active)"
+                      borderWidth="1px"
+                      borderStyle="solid"
+                  />
+              )}
+            </>
         );
       },
     },

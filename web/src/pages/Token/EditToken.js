@@ -253,20 +253,22 @@ const EditToken = (props) => {
         bodyStyle={{ borderBottom: '1px solid var(--semi-color-border)' }}
         visible={props.visiable}
         footer={
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Space>
-              <Button theme='solid' size={'large'} onClick={submit}>
-                {t('提交')}
-              </Button>
-              <Button
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+            <Button
                 theme='solid'
-                size={'large'}
-                type={'tertiary'}
+                size='large'
                 onClick={handleCancel}
-              >
-                {t('取消')}
-              </Button>
-            </Space>
+                type='tertiary'
+            >
+              {t('取消')}
+            </Button>
+            <Button
+                theme='solid'
+                size='large'
+                onClick={submit}
+            >
+              {t('提交')}
+            </Button>
           </div>
         }
         closeIcon={null}

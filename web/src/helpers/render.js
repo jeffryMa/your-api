@@ -2,6 +2,7 @@ import i18next from 'i18next';
 import { Modal, Tag, Typography } from '@douyinfe/semi-ui';
 import { copy, isMobile, showSuccess } from './utils.js';
 import React from "react";
+import BubbleText from "../components/BubbleText.js";
 
 export function renderText(text, limit) {
   if (text.length > limit) {
@@ -18,19 +19,7 @@ export function renderText(text, limit) {
 export function renderGroup(group) {
   if (group === '') {
     return (
-        <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
-             style={{
-               marginLeft: '5px',
-               background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
-               color: 'var(--semi-color-tertiary)',
-               borderColor: 'var(--semi-color-tertiary-light-active)',
-               borderWidth: '1px',
-               borderStyle: 'solid'
-             }}>
-                      <span className="flex items-center">
-                           {t('用户分组')}
-                      </span>
-        </div>
+        <BubbleText bubbleText={t('用户分组')}/>
     );
   }
 
@@ -46,7 +35,7 @@ export function renderGroup(group) {
   return (
     <span key={group}>
       {groups.map((group) => (
-          <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+          <div
                key={group}
                onClick={async (event) => {
                  event.stopPropagation();
@@ -59,17 +48,8 @@ export function renderGroup(group) {
                    });
                  }
                }}
-               style={{
-                 marginLeft: '5px',
-                 background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
-                 color: 'var(--semi-color-tertiary)',
-                 borderColor: 'var(--semi-color-tertiary-light-active)',
-                 borderWidth: '1px',
-                 borderStyle: 'solid'
-               }}>
-                      <span className="flex items-center">
-                           {group}
-                      </span>
+          >
+            <BubbleText bubbleText={group}/>
           </div>
       ))}
     </span>
