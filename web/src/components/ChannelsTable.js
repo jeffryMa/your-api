@@ -100,68 +100,125 @@ const ChannelsTable = () => {
   };
 
   const renderStatus = (status) => {
+
     switch (status) {
       case 1:
         return (
-          <Tag size='large' color='green'>
-            {t('已启用')}
-          </Tag>
+            <BubbleText
+                bubbleText={t('已启用')}
+                background="linear-gradient(to right, var(--semi-color-success-light-default), var(--semi-color-success-light-hover))"
+                color="var(--semi-color-success)"
+                borderColor="var(--semi-color-success-light-active)"
+                borderWidth="1px"
+                borderStyle="solid"
+            />
         );
       case 2:
         return (
-          <Tag size='large' color='yellow'>
-            {t('已禁用')}
-          </Tag>
+            <BubbleText
+                bubbleText={t('已禁用')}
+                background="linear-gradient(to right, var(--semi-color-warning-light-default), var(--semi-color-warning-light-hover))"
+                color="var(--semi-color-warning)"
+                borderColor="var(--semi-color-warning-light-active)"
+                borderWidth="1px"
+                borderStyle="solid"
+            />
         );
       case 3:
         return (
-          <Tag size='large' color='yellow'>
-            {t('自动禁用')}
-          </Tag>
+            <BubbleText
+                bubbleText={t('自动禁用')}
+                background="linear-gradient(to right, var(--semi-color-warning-light-default), var(--semi-color-warning-light-hover))"
+                color="var(--semi-color-warning)"
+                borderColor="var(--semi-color-warning-light-active)"
+                borderWidth="1px"
+                borderStyle="solid"
+            />
         );
       default:
         return (
-          <Tag size='large' color='grey'>
-            {t('未知状态')}
-          </Tag>
+            <BubbleText
+                bubbleText={t('未知状态')}
+                background="linear-gradient(to right, var(--semi-color-neutral-light-default), var(--semi-color-neutral-light-hover))"
+                color="var(--semi-color-text-2)"
+                borderColor="var(--semi-color-neutral-light-active)"
+                borderWidth="1px"
+                borderStyle="solid"
+            />
         );
     }
   };
 
   const renderResponseTime = (responseTime) => {
-    let time = responseTime / 1000;
-    time = time.toFixed(2) + t(' 秒');
+    const seconds = (responseTime / 1000).toFixed(2);
+
+    // 未测试
     if (responseTime === 0) {
       return (
-        <Tag size='large' color='grey'>
-          {t('未测试')}
-        </Tag>
-      );
-    } else if (responseTime <= 1000) {
-      return (
-        <Tag size='large' color='green'>
-          {time}
-        </Tag>
-      );
-    } else if (responseTime <= 3000) {
-      return (
-        <Tag size='large' color='lime'>
-          {time}
-        </Tag>
-      );
-    } else if (responseTime <= 5000) {
-      return (
-        <Tag size='large' color='yellow'>
-          {time}
-        </Tag>
-      );
-    } else {
-      return (
-        <Tag size='large' color='red'>
-          {time}
-        </Tag>
+          <BubbleText
+              bubbleText={t('未测试')}
+              background="linear-gradient(to right, #f5f5f5, #d9d9d9)"
+              color="#8c8c8c"
+              borderColor="#bfbfbf"
+              borderWidth="1px"
+              borderStyle="solid"
+          />
       );
     }
+
+    // 速度优秀：≤1000ms（绿色）
+    if (responseTime <= 1000) {
+      return (
+          <BubbleText
+              bubbleText={`${seconds} ${t('秒')}`}
+              background="linear-gradient(to right, #f6ffed, #d9f7be)"  // green-1 → green-2
+              color="#389e0d"                                           // green-7
+              borderColor="#73d13d"                                     // green-5
+              borderWidth="1px"
+              borderStyle="solid"
+          />
+      );
+    }
+
+    // 速度良好：≤3000ms（lime）
+    if (responseTime <= 3000) {
+      return (
+          <BubbleText
+              bubbleText={`${seconds} ${t('秒')}`}
+              background="linear-gradient(to right, #fcffe6, #f4ffb8)"  // lime-1 → lime-2
+              color="#a0d911"                                           // lime-6
+              borderColor="#bae637"                                     // lime-5
+              borderWidth="1px"
+              borderStyle="solid"
+          />
+      );
+    }
+
+    // 速度一般：≤5000ms（黄色）
+    if (responseTime <= 5000) {
+      return (
+          <BubbleText
+              bubbleText={`${seconds} ${t('秒')}`}
+              background="linear-gradient(to right, #feffe6, #fffb8f)"  // yellow-1 → yellow-3
+              color="#fadb14"                                           // yellow-6
+              borderColor="#ffec3d"                                     // yellow-5
+              borderWidth="1px"
+              borderStyle="solid"
+          />
+      );
+    }
+
+    // 速度过慢：>5000ms（红色）
+    return (
+        <BubbleText
+            bubbleText={`${seconds} ${t('秒')}`}
+            background="linear-gradient(to right, #fff1f0, #ffccc7)"    // red-1 → red-2
+            color="#f5222d"                                           // red-6
+            borderColor="#ff4d4f"                                     // red-5
+            borderWidth="1px"
+            borderStyle="solid"
+        />
+    );
   };
 
   // Define column keys for selection
