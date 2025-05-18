@@ -581,40 +581,45 @@ const UsersTable = () => {
         }}
         labelPosition='left'
       >
-        <div style={{ display: 'flex' }}>
-          <Space>
-            <Tooltip
-              content={t('支持搜索用户的 ID、用户名、显示名称和邮箱地址')}
-            >
-              <Form.Input
-                label={t('搜索关键字')}
-                icon='search'
-                field='keyword'
-                iconPosition='left'
-                placeholder={t('搜索关键字')}
-                value={searchKeyword}
-                loading={searching}
-                onChange={(value) => handleKeywordChange(value)}
-              />
-            </Tooltip>
-
-            <Form.Select
-              field='group'
-              label={t('分组')}
-              optionList={groupOptions}
-              onChange={(value) => {
-                setSearchGroup(value);
-                searchUsers(activePage, pageSize, searchKeyword, value);
-              }}
+        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+          <Tooltip
+            content={t('支持搜索用户的 ID、用户名、显示名称和邮箱地址')}
+            style={{ marginRight: 8 }}
+          >
+            <Form.Input
+              label={t('搜索关键字')}
+              icon='search'
+              field='keyword'
+              iconPosition='left'
+              placeholder={t('搜索关键字')}
+              value={searchKeyword}
+              loading={searching}
+              onChange={(value) => handleKeywordChange(value)}
             />
+          </Tooltip>
+
+          <Form.Select
+            style={{ marginLeft: 8, marginRight: 8 }}
+            field='group'
+            label={t('分组')}
+            optionList={groupOptions}
+            onChange={(value) => {
+              setSearchGroup(value);
+              searchUsers(activePage, pageSize, searchKeyword, value);
+            }}
+          />
+          <div style={{ marginLeft: 8, marginRight: 8, display: 'flex', flexDirection: 'column' }}>
+            <span style={{ marginBottom: '2px', height: '10px' }}>&nbsp;</span>
             <Button
-              label={t('查询')}
               type='primary'
               htmlType='submit'
               className='btn-margin-right'
             >
               {t('查询')}
             </Button>
+          </div>
+          <div style={{ marginLeft: 8, display: 'flex', flexDirection: 'column' }}>
+            <span style={{ marginBottom: '2px', height: '10px' }}>&nbsp;</span>
             <Button
               theme='light'
               type='primary'
@@ -624,7 +629,7 @@ const UsersTable = () => {
             >
               {t('添加用户')}
             </Button>
-          </Space>
+          </div>
         </div>
       </Form>
 
