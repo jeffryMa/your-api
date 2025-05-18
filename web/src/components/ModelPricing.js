@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useMemo, useState, useCallback } from 'react';
 import { API, copy, showError, showInfo, showSuccess } from '../helpers';
 import { useTranslation } from 'react-i18next';
+import BubbleText from "./BubbleText.js";
 import { SparklesIcon, FaceSmileIcon } from '@heroicons/react/24/solid';
 // 新增CSS样式定义
 const tableStyles = `
@@ -457,21 +458,19 @@ const ModelPricing = ({onInitialize}) => {
     switch (type) {
       case 1:
         return (
-            <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
-                 style={{
-                   background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
-                   color: 'var(--semi-color-tertiary)',
-                   borderColor: 'var(--semi-color-tertiary-light-active)',
-                   borderWidth: '1px',
-                   borderStyle: 'solid'
-                 }}>
-          <span className="flex items-center">
-            <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 4V20M18 12H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            {t('按次计费')}
-          </span>
-            </div>
+            <BubbleText
+                bubbleText={t('按次计费')}
+                background="linear-gradient(to right, var(--semi-color-warning-light-default), var(--semi-color-warning-light-hover))"
+                color="var(--semi-color-warning)"
+                borderColor="var(--semi-color-warning-light-active)"
+                borderWidth="1px"
+                borderStyle="solid"
+                svg={
+                  <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4V20M18 12H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+              }
+            />
         );
       case 0:
         return (
@@ -877,20 +876,22 @@ const ModelPricing = ({onInitialize}) => {
         } else {
           const price = (parseFloat(text) * groupRatio[selectedGroup]).toFixed(2);
           content = (
-              <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
-                   style={{
-                     background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
-                     color: 'var(--semi-color-tertiary)',
-                     borderColor: 'var(--semi-color-tertiary-light-active)',
-                     borderWidth: '1px',
-                     borderStyle: 'solid'
-                   }}>
-                  <span className="flex items-center">
-                      {currencySymbol}{currencyType === 'CNY'
+              <BubbleText
+                  bubbleText={`${currencyType === 'CNY'
                         ? (parseFloat(price) * priceRatio).toFixed(2)
-                        : price} / {t('次')}
-                  </span>
-              </div>
+                        : price} / ${t('次')}`}
+                  background="linear-gradient(to right, var(--semi-color-warning-light-default), var(--semi-color-warning-light-hover))"
+                  color="var(--semi-color-warning)"
+                  borderColor="var(--semi-color-warning-light-active)"
+                  borderWidth="1px"
+                  borderStyle="solid"
+                  svg={
+                    <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M7.5 10.5L10.5 13.5L16.5 7.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  }
+              />
           );
         }
 

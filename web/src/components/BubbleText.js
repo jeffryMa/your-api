@@ -7,7 +7,8 @@ export default function BubbleText({
                                        borderColor,
                                        borderWidth,
                                        borderStyle,
-                                       bubbleText
+                                       bubbleText,
+                                       svg
                                    }) {
     const { t } = useTranslation();
 
@@ -24,9 +25,12 @@ export default function BubbleText({
             className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm whitespace-nowrap"
             style={mergedStyle}
         >
-      <span className="flex items-center">
-        {t(bubbleText)}
-      </span>
+            {svg && (
+                svg
+            )}
+          <span className="flex items-center">
+            {t(bubbleText)}
+          </span>
         </div>
     );
 }
