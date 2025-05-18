@@ -52,6 +52,8 @@ import { loadChannelModels } from './utils.js';
 import EditTagModal from '../pages/Channel/EditTagModal.js';
 import TextNumberInput from './custom/TextNumberInput.js';
 import { useTranslation } from 'react-i18next';
+import BubbleText from "./BubbleText.js";
+
 
 function renderTimestamp(timestamp) {
   return <>{timestamp2string(timestamp)}</>;
@@ -60,20 +62,26 @@ function renderTimestamp(timestamp) {
 const ChannelsTable = () => {
   const { t } = useTranslation();
 
-  let type2label = undefined;
+  const optionMap = new Map(CHANNEL_OPTIONS.map(opt => [opt.value, opt]));
 
   const renderType = (type) => {
-    if (!type2label) {
-      type2label = new Map();
-      for (let i = 0; i < CHANNEL_OPTIONS.length; i++) {
-        type2label[CHANNEL_OPTIONS[i].value] = CHANNEL_OPTIONS[i];
-      }
-      type2label[0] = { value: 0, label: t('未知类型'), color: 'grey' };
-    }
+    const opt = optionMap.get(type);
+
+    // 兜底文案和样式
+    const label       = opt?.label       || t('未知类型');
+    const background  = opt?.background  || 'linear-gradient(to right, #f5f5f5, #d9d9d9)';
+    const color       = opt?.color       || '#8c8c8c';
+    const borderColor = opt?.borderColor || '#bfbfbf';
+
     return (
-      <Tag size='large' color={type2label[type]?.color}>
-        {type2label[type]?.label}
-      </Tag>
+        <BubbleText
+            bubbleText={label}
+            background={background}
+            color={color}
+            borderColor={borderColor}
+            borderWidth="1px"
+            borderStyle="solid"
+        />
     );
   };
 
