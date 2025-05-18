@@ -203,22 +203,19 @@ const UsersTable = () => {
                       </span>
                     </div>
                 ) : (
-                  <Tag color='white' size='large'>
                     <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
                          style={{
-                           marginLeft: '5px',
-                           background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
-                           color: 'var(--semi-color-tertiary)',
-                           borderColor: 'var(--semi-color-tertiary-light-active)',
-                           borderWidth: '1px',
-                           borderStyle: 'solid'
+                             marginLeft: '5px',
+                             background: 'linear-gradient(to right, var(--semi-color-tertiary-light-default), var(--semi-color-tertiary-light-hover))',
+                             color: 'var(--semi-color-tertiary)',
+                             borderColor: 'var(--semi-color-tertiary-light-active)',
+                             borderWidth: '1px',
+                             borderStyle: 'solid'
                          }}>
                       <span className="flex items-center">
                            {record.inviter_id}
                       </span>
                     </div>
-
-                  </Tag>
                 )}
               </Tooltip>
             </Space>

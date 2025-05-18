@@ -19,7 +19,7 @@ export function renderText(text, limit) {
 export function renderGroup(group) {
   if (group === '') {
     return (
-        <BubbleText bubbleText={t('用户分组')}/>
+        <BubbleText bubbleText={i18next.t('用户分组')}/>
     );
   }
 
