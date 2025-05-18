@@ -576,16 +576,18 @@ const ModelPricing = ({onInitialize}) => {
     };
     
     const colors = [
-      { bg: 'bg-blue-600 text-white', unselected: 'bg-blue-100 text-blue-800' },
-      { bg: 'bg-green-600 text-white', unselected: 'bg-green-100 text-green-800' },
-      { bg: 'bg-purple-600 text-white', unselected: 'bg-purple-100 text-purple-800' },
-      { bg: 'bg-red-600 text-white', unselected: 'bg-red-100 text-red-700' },
-      { bg: 'bg-yellow-600 text-white', unselected: 'bg-yellow-100 text-yellow-800' },
-      { bg: 'bg-indigo-600 text-white', unselected: 'bg-indigo-100 text-indigo-800' },
-      { bg: 'bg-pink-600 text-white', unselected: 'bg-pink-100 text-pink-800' },
-      { bg: 'bg-cyan-600 text-white', unselected: 'bg-cyan-100 text-cyan-800' },
-      { bg: 'bg-amber-600 text-white', unselected: 'bg-amber-100 text-amber-800' },
-      { bg: 'bg-emerald-600 text-white', unselected: 'bg-emerald-100 text-emerald-800' },
+      { bg: 'bg-slate-600 text-white',    unselected: 'bg-slate-100 text-slate-800' },
+      { bg: 'bg-stone-600 text-white',    unselected: 'bg-stone-100 text-stone-800' },
+      { bg: 'bg-gray-600 text-white',     unselected: 'bg-gray-100 text-gray-800' },
+      { bg: 'bg-zinc-600 text-white',     unselected: 'bg-zinc-100 text-zinc-800' },
+      { bg: 'bg-neutral-600 text-white',  unselected: 'bg-neutral-100 text-neutral-800' },
+      { bg: 'bg-pink-600 text-white',     unselected: 'bg-pink-100 text-pink-800' },
+      { bg: 'bg-rose-600 text-white',     unselected: 'bg-rose-100 text-rose-800' },
+      { bg: 'bg-fuchsia-600 text-white',  unselected: 'bg-fuchsia-100 text-fuchsia-800' },
+      { bg: 'bg-violet-600 text-white',   unselected: 'bg-violet-100 text-violet-800' },
+      { bg: 'bg-sky-600 text-white',      unselected: 'bg-sky-100 text-sky-800' },
+      { bg: 'bg-teal-600 text-white',     unselected: 'bg-teal-100 text-teal-800' },
+      { bg: 'bg-lime-600 text-white',     unselected: 'bg-lime-100 text-lime-800' },
     ];
     
     const index = stringToHash(groupName) % colors.length;
