@@ -29,6 +29,7 @@ import {
 } from '@douyinfe/semi-ui';
 import { getChannelModels, loadChannelModels } from '../../components/utils.js';
 import { IconHelpCircle } from '@douyinfe/semi-icons';
+import BubbleText from "../../components/BubbleText.js";
 
 const MODEL_MAPPING_EXAMPLE = {
   'gpt-3.5-turbo': 'gpt-3.5-turbo-0125',
