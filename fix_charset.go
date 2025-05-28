@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func main() {
+func fixCharsetMain() {
 	// 加载环境变量
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -115,4 +115,4 @@ func getTableCharset(db *gorm.DB, tableName string) (string, error) {
 	}
 
 	return result.TableCollation, nil
-} 
+}
