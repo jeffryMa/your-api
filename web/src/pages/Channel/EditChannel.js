@@ -411,15 +411,15 @@ const EditChannel = (props) => {
         visible={props.visible}
         footer={
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Space>
+            <Space align="center">
               <Button theme='solid' size={'large'} onClick={submit}>
                 {t('提交')}
               </Button>
               <Button
-                theme='solid'
-                size={'large'}
-                type={'tertiary'}
-                onClick={handleCancel}
+                  theme='solid'
+                  size={'large'}
+                  type={'tertiary'}
+                  onClick={handleCancel}
               >
                 {t('取消')}
               </Button>
@@ -749,6 +749,7 @@ const EditChannel = (props) => {
             multiple
             selection
             allowAdditions
+            size='small'
             additionLabel={t('请在系统设置页面编辑分组倍率以添加新的分组：')}
             onChange={(value) => {
               handleInputChange('groups', value);
@@ -875,6 +876,7 @@ const EditChannel = (props) => {
             selection
             filter
             searchPosition='dropdown'
+            size='small'
             onChange={(value) => {
               handleInputChange('models', value);
             }}
