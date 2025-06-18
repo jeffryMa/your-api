@@ -28,7 +28,7 @@ func getAllLogsTable(db *gorm.DB) string {
 }
 
 type Log struct {
-	Id               int    `json:"id" gorm:"index:idx_created_at_id,priority:1"`
+	Id               int    `json:"id" gorm:"primaryKey;index:idx_created_at_id,priority:1"`
 	UserId           int    `json:"user_id" gorm:"index"`
 	CreatedAt        int64  `json:"created_at" gorm:"bigint;index:idx_created_at_id,priority:2;index:idx_created_at_type"`
 	Type             int    `json:"type" gorm:"index:idx_created_at_type"`
@@ -222,7 +222,7 @@ func GetAllLogs(
 	}
 
 	// 3) 拿分页数据
-	if err = tx.Order("id DESC").
+	if err = tx.Order("created_at DESC").
 		Limit(num).
 		Offset(startIdx).
 		Find(&logs).Error; err != nil {
@@ -283,7 +283,7 @@ func GetUserLogs(userId int, logType int, startTimestamp int64, endTimestamp int
 	if err = tx.Model(&Log{}).Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
-	if err = tx.Order("id DESC").Limit(num).Offset(startIdx).Find(&logs).Error; err != nil {
+	if err = tx.Order("created_at DESC").Limit(num).Offset(startIdx).Find(&logs).Error; err != nil {
 		return nil, 0, err
 	}
 	formatUserLogs(logs)
@@ -293,7 +293,7 @@ func GetUserLogs(userId int, logType int, startTimestamp int64, endTimestamp int
 func SearchAllLogs(keyword string) (logs []*Log, err error) {
 	// 如果要跨分表，可改成遍历 100 张表或直接用 logs_all 视图
 	err = LOG_DB.Where("type = ? OR content LIKE ?", keyword, keyword+"%").
-		Order("id DESC").
+		Order("created_at DESC").
 		Limit(common.MaxRecentItems).
 		Find(&logs).Error
 	return logs, err
@@ -303,7 +303,7 @@ func SearchUserLogs(userId int, keyword string) (logs []*Log, err error) {
 	table := getLogTableByUser(userId)
 	err = LOG_DB.Table(table).
 		Where("user_id = ? AND type = ?", userId, keyword).
-		Order("id DESC").
+		Order("created_at DESC").
 		Limit(common.MaxRecentItems).
 		Find(&logs).Error
 	formatUserLogs(logs)
