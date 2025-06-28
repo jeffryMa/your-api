@@ -307,17 +307,17 @@ const TopUp = () => {
                     >
                       {t('支付宝')}
                     </Button>
-                    <Button
-                        type="primary"
-                        theme="solid"
-                        onClick={() => preTopUp('wx')}
-                        style={{
-                          width: '100px',
-                          backgroundColor: 'rgba(var(--semi-green-5), 1)'
-                        }}
-                    >
-                      {t('微信')}
-                    </Button>
+                    {/*<Button*/}
+                    {/*    type="primary"*/}
+                    {/*    theme="solid"*/}
+                    {/*    onClick={() => preTopUp('wx')}*/}
+                    {/*    style={{*/}
+                    {/*      width: '100px',*/}
+                    {/*      backgroundColor: 'rgba(var(--semi-green-5), 1)'*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*  {t('微信')}*/}
+                    {/*</Button>*/}
                   </Space>
                 </Form>
               </div>
