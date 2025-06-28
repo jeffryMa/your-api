@@ -31,6 +31,7 @@ import SetupCheck from './components/SetupCheck';
 const Home = lazy(() => import('./pages/Home'));
 const Detail = lazy(() => import('./pages/Detail'));
 const About = lazy(() => import('./pages/About'));
+const Concact = lazy(() => import('./pages/Concact'));
 const Document = lazy(() => import('./pages/Document'));
 
 function App() {
@@ -275,6 +276,14 @@ function App() {
             </Suspense>
           }
         />
+          <Route
+              path='/concact'
+              element={
+                  <Suspense fallback={<Loading></Loading>} key={location.pathname}>
+                      <Concact />
+                  </Suspense>
+              }
+          />
         <Route
           path='/chat/:id?'
           element={

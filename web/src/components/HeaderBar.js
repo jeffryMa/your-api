@@ -23,6 +23,7 @@ import {
   IconUser,
   IconLanguage,
   IconInfoCircle,
+    IconPhone,
   IconCreditCard,
   IconTerminal,
  IconFilpVertical,
@@ -197,6 +198,12 @@ const HeaderBar = () => {
       icon: <IconFilpVertical style={headerIconStyle} />,
     })),
     {
+      text: t('联系我们'),
+      itemKey: 'concact',
+      to: '/concact',
+      icon: <IconPhone  style={headerIconStyle} />,
+    },
+    {
       text: t('关于'),
       itemKey: 'about',
       to: '/about',
@@ -303,10 +310,10 @@ const HeaderBar = () => {
     return (
       <SideSheet
         title={
-          <div 
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
               gap: '10px',
               cursor: 'pointer',
             }}
@@ -345,7 +352,7 @@ const HeaderBar = () => {
               <span style={{ fontSize: '16px' }}>{btn.text}</span>
             </List.Item>
           ))}
-          
+
           {/* 侧边栏切换按钮 */}
           <List.Item
             style={{
@@ -363,9 +370,9 @@ const HeaderBar = () => {
               {styleState.showSider ? t('隐藏功能侧边栏') : t('显示功能侧边栏')}
             </span>
           </List.Item>
-          
+
           <div style={{ margin: '20px 0', borderBottom: '1px solid var(--semi-color-border)' }} />
-          
+
           {/* 用户相关操作 */}
           {userState.user ? (
             <List.Item
@@ -397,7 +404,7 @@ const HeaderBar = () => {
                 <IconUser style={{ fontSize: '20px' }} />
                 <span style={{ fontSize: '16px' }}>{t('登录')}</span>
               </List.Item>
-              
+
               {!isSelfUseMode && (
                 <List.Item
                   style={mobileNavItemStyle}
@@ -413,7 +420,7 @@ const HeaderBar = () => {
               )}
             </>
           )}
-          
+
           {/* 设置区域 */}
           <div style={{ padding: '16px', marginTop: '8px' }}>
             <Space style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -428,7 +435,7 @@ const HeaderBar = () => {
                 }}
               />
             </Space>
-            
+
             <Space style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px' }}>
               <span>{t('语言')}</span>
               <Space>
@@ -467,6 +474,7 @@ const HeaderBar = () => {
             renderWrapper={({ itemElement, isSubNav, isInSubNav, props }) => {
               const routerMap = {
                 about: '/about',
+                concact: '/concact',
                 login: '/login',
                 register: '/register',
                 pricing: '/pricing',
@@ -539,10 +547,10 @@ const HeaderBar = () => {
                           onClick={() => setMobileNavVisible(true)}
                           style={{ marginRight: '8px' }}
                         />
-                        <img 
-                          src={logo} 
-                          alt='logo' 
-                          style={{ height: '36px', cursor: 'pointer' }} 
+                        <img
+                          src={logo}
+                          alt='logo'
+                          style={{ height: '36px', cursor: 'pointer' }}
                           onClick={() => {
                             navigate('/');
                             styleDispatch({
@@ -575,7 +583,7 @@ const HeaderBar = () => {
                   }
                 : {
                     logo: (
-                      <div 
+                      <div
                         style={{
                           ...logoStyle,
                           cursor: 'pointer',
