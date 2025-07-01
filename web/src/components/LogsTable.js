@@ -787,8 +787,7 @@ const LogsTable = () => {
   const getLogSelfStat = async () => {
     let localStartTimestamp = Date.parse(start_timestamp) / 1000;
     let localEndTimestamp = Date.parse(end_timestamp) / 1000;
-    let url = `/api/log/self/stat?type=${logType}&token_name=${token_name}&model_name=${model_name}&start_timestamp=${localStartTimestamp}&end_timestamp=${localEndTimestamp}&group=${group}`;
-    url = encodeURI(url);
+    let url = `/api/log/self/stat?type=${logType}&token_name=${encodeURIComponent(token_name)}&model_name=${encodeURIComponent(model_name)}&start_timestamp=${localStartTimestamp}&end_timestamp=${localEndTimestamp}&group=${encodeURIComponent(group)}`;
     let res = await API.get(url);
     const { success, message, data } = res.data;
     if (success) {
@@ -801,8 +800,7 @@ const LogsTable = () => {
   const getLogStat = async () => {
     let localStartTimestamp = Date.parse(start_timestamp) / 1000;
     let localEndTimestamp = Date.parse(end_timestamp) / 1000;
-    let url = `/api/log/stat?type=${logType}&username=${username}&token_name=${token_name}&model_name=${model_name}&start_timestamp=${localStartTimestamp}&end_timestamp=${localEndTimestamp}&channel=${channel}&group=${group}`;
-    url = encodeURI(url);
+    let url = `/api/log/stat?type=${logType}&username=${encodeURIComponent(username)}&token_name=${encodeURIComponent(token_name)}&model_name=${encodeURIComponent(model_name)}&start_timestamp=${localStartTimestamp}&end_timestamp=${localEndTimestamp}&channel=${encodeURIComponent(channel)}&group=${encodeURIComponent(group)}`;
     let res = await API.get(url);
     const { success, message, data } = res.data;
     if (success) {
@@ -1038,11 +1036,10 @@ const LogsTable = () => {
     let localStartTimestamp = Date.parse(start_timestamp) / 1000;
     let localEndTimestamp = Date.parse(end_timestamp) / 1000;
     if (isAdminUser) {
-      url = `/api/log/?p=${startIdx}&page_size=${pageSize}&type=${logType}&username=${username}&token_name=${token_name}&model_name=${model_name}&start_timestamp=${localStartTimestamp}&end_timestamp=${localEndTimestamp}&channel=${channel}&group=${group}`;
+      url = `/api/log/?p=${startIdx}&page_size=${pageSize}&type=${logType}&username=${encodeURIComponent(username)}&token_name=${encodeURIComponent(token_name)}&model_name=${encodeURIComponent(model_name)}&start_timestamp=${localStartTimestamp}&end_timestamp=${localEndTimestamp}&channel=${encodeURIComponent(channel)}&group=${encodeURIComponent(group)}`;
     } else {
-      url = `/api/log/self/?p=${startIdx}&page_size=${pageSize}&type=${logType}&token_name=${token_name}&model_name=${model_name}&start_timestamp=${localStartTimestamp}&end_timestamp=${localEndTimestamp}&group=${group}`;
+      url = `/api/log/self/?p=${startIdx}&page_size=${pageSize}&type=${logType}&token_name=${encodeURIComponent(token_name)}&model_name=${encodeURIComponent(model_name)}&start_timestamp=${localStartTimestamp}&end_timestamp=${localEndTimestamp}&group=${encodeURIComponent(group)}`;
     }
-    url = encodeURI(url);
     const res = await API.get(url);
     const { success, message, data } = res.data;
     if (success) {

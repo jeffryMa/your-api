@@ -290,7 +290,7 @@ const RedemptionsTable = () => {
     }
     setSearching(true);
     const res = await API.get(
-      `/api/redemption/search?keyword=${keyword}&p=${page}&page_size=${pageSize}`,
+      `/api/redemption/search?keyword=${encodeURIComponent(keyword)}&p=${page}&page_size=${pageSize}`,
     );
     const { success, message, data } = res.data;
     if (success) {

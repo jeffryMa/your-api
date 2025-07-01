@@ -494,7 +494,7 @@ const TokensTable = () => {
     }
     setSearching(true);
     const res = await API.get(
-      `/api/token/search?keyword=${searchKeyword}&token=${searchToken}`,
+      `/api/token/search?keyword=${encodeURIComponent(searchKeyword)}&token=${encodeURIComponent(searchToken)}`,
     );
     const { success, message, data } = res.data;
     if (success) {

@@ -1056,13 +1056,14 @@ const ChannelsTable = () => {
     enableTagMode,
   ) => {
     if (searchKeyword === '' && searchGroup === '' && searchModel === '') {
-      await loadChannels(activePage - 1, pageSize, idSort, enableTagMode);
+      // if keyword is blank, load files instead.
+      await loadChannels(0, pageSize, idSort, enableTagMode);
       // setActivePage(1);
       return;
     }
     setSearching(true);
     const res = await API.get(
-      `/api/channel/search?keyword=${searchKeyword}&group=${searchGroup}&model=${searchModel}&id_sort=${idSort}&tag_mode=${enableTagMode}`,
+      `/api/channel/search?keyword=${encodeURIComponent(searchKeyword)}&group=${encodeURIComponent(searchGroup)}&model=${encodeURIComponent(searchModel)}&id_sort=${idSort}&tag_mode=${enableTagMode}`,
     );
     const { success, message, data } = res.data;
     if (success) {
