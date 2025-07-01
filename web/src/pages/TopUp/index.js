@@ -110,6 +110,22 @@ const TopUp = () => {
     return 1;
   };
 
+  // 统一格式化实付金额显示（仅用于上方卡片，前端自己算的原价/折后价）
+  const renderDiscountedAmount = (amount, discount) => {
+    if (discount < 1) {
+      return `${(amount * discount).toFixed(2)} ${t('元')} (${(discount * 100).toFixed(0)}${t('折')})`;
+    }
+    return `${amount.toFixed(2)} ${t('元')}`;
+  };
+
+  // 只展示后端返回的实付金额和折扣信息（下方和弹窗用）
+  const renderFinalAmount = (amount, discount) => {
+    if (discount < 1) {
+      return `${amount.toFixed(2)} ${t('元')} (${(discount * 100).toFixed(0)}${t('折')})`;
+    }
+    return `${amount.toFixed(2)} ${t('元')}`;
+  };
+
   // 处理金额选择
   const handleAmountChange = async (value) => {
     setAmountType('fixed');
@@ -304,12 +320,12 @@ const TopUp = () => {
             {amount.toFixed(2)} {t('元')}
           </span>
           <span style={{ color: '#ff4d4f', fontWeight: 'bold' }}>
-            {discountedAmount.toFixed(2)} {t('元')} ({(discount * 100).toFixed(0)}折)
+            {renderDiscountedAmount(amount, discount)}
           </span>
         </>
       );
     }
-    return discountedAmount.toFixed(2) + ' ' + t('元');
+    return renderDiscountedAmount(amount, discount);
   };
 
   const calculateSavings = () => {
@@ -627,10 +643,37 @@ const TopUp = () => {
     const referralLink = `${window.location.origin}/register?aff=${user.aff_code}`;
     
     const copyLink = () => {
-      navigator.clipboard.writeText(referralLink).then(() => {
-        showSuccess('邀请链接已复制到剪贴板');
-      });
+      if (referralLink) {
+        // 先尝试 clipboard API
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(referralLink).then(() => {
+            showSuccess('邀请链接已复制到剪贴板');
+          }, () => {
+            fallbackCopyTextToClipboard(referralLink);
+          });
+        } else {
+          fallbackCopyTextToClipboard(referralLink);
+        }
+      }
     };
+
+    function fallbackCopyTextToClipboard(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.top = 0;
+      textArea.style.left = 0;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showSuccess('邀请链接已复制到剪贴板');
+      } catch (err) {
+        showError('复制失败，请手动复制');
+      }
+      document.body.removeChild(textArea);
+    }
 
     const currentInvites = invitationProgress ? invitationProgress.current_invites : (user ? user.aff_count || 0 : 0);
     const progressPercent = invitationProgress ? invitationProgress.progress_percent : 0;
@@ -786,7 +829,7 @@ const TopUp = () => {
               {t('充值数量')}：{topUpCount}
             </p>
             <p>
-              {t('实付金额')}：{renderAmount()}
+              {t('实付金额')}：{renderFinalAmount(amount, discount)}
             </p>
             <p>{t('是否确认充值？')}</p>
           </Modal>
@@ -874,7 +917,7 @@ const TopUp = () => {
                       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <span>{t('实付金额')}:</span>
                         <span style={{ fontWeight: 'bold', fontSize: '18px', color: '#ff4d4f' }}>
-                          {isLoading ? '计算中...' : renderAmount()}
+                          {isLoading ? '计算中...' : renderFinalAmount(amount, discount)}
                         </span>
                       </div>
                       {discount < 1 && (
