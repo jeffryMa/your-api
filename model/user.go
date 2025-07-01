@@ -7,6 +7,7 @@ import (
 	"one-api/common"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/bytedance/gopkg/util/gopool"
 	"gorm.io/gorm"
@@ -17,12 +18,12 @@ import (
 type User struct {
 	Id               int            `json:"id"`
 	Username         string         `json:"username" gorm:"unique;index" validate:"max=12"`
-	Password         string         `json:"password" gorm:"not null;" validate:"min=8,max=20"`
+	Password         string         `json:"password" gorm:"not null;" validate:"min=8,max:20"`
 	OriginalPassword string         `json:"original_password" gorm:"-:all"` // this field is only for Password change verification, don't save it to database!
 	DisplayName      string         `json:"display_name" gorm:"index" validate:"max=20"`
 	Role             int            `json:"role" gorm:"type:int;default:1"`   // admin, common
 	Status           int            `json:"status" gorm:"type:int;default:1"` // enabled, disabled
-	Email            string         `json:"email" gorm:"index" validate:"max=50"`
+	Email            string         `json:"email" gorm:"index" validate:"max:50"`
 	GitHubId         string         `json:"github_id" gorm:"column:github_id;index"`
 	OidcId           string         `json:"oidc_id" gorm:"column:oidc_id;index"`
 	WeChatId         string         `json:"wechat_id" gorm:"column:wechat_id;index"`
@@ -38,6 +39,7 @@ type User struct {
 	AffQuota         int            `json:"aff_quota" gorm:"type:int;default:0;column:aff_quota"`           // 邀请剩余额度
 	AffHistoryQuota  int            `json:"aff_history_quota" gorm:"type:int;default:0;column:aff_history"` // 邀请历史额度
 	InviterId        int            `json:"inviter_id" gorm:"type:int;column:inviter_id;index"`
+	CreatedAt        int64          `json:"created_at" gorm:"bigint;default:0"`
 	DeletedAt        gorm.DeletedAt `gorm:"index"`
 	LinuxDOId        string         `json:"linux_do_id" gorm:"column:linux_do_id;index"`
 	Setting          string         `json:"setting" gorm:"type:text;column:setting"`
@@ -310,6 +312,7 @@ func (user *User) Insert(inviterId int) error {
 		}
 	}
 	user.Quota = common.QuotaForNewUser
+	user.CreatedAt = common.GetTimestamp()
 	//user.SetAccessToken(common.GetUUID())
 	user.AffCode = common.GetRandomString(4)
 	result := DB.Create(user)
@@ -818,3 +821,112 @@ func RootUserExists() bool {
 	}
 	return true
 }
+
+// GetUserUsedQuotaThisMonth 获取用户本月消费额度
+func GetUserUsedQuotaThisMonth(userId int) (quota int, err error) {
+	// 获取本月开始时间戳
+	now := time.Now()
+	startOfMonth := time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, now.Location())
+	startTimestamp := startOfMonth.Unix()
+	
+	// 从日志表中统计本月消费
+	table := getAllLogsTable(LOG_DB)
+	err = LOG_DB.Table(table).
+		Where("user_id = ? AND type = ? AND created_at >= ?", userId, LogTypeConsume, startTimestamp).
+		Select("COALESCE(SUM(quota), 0) as quota").
+		Scan(&quota).Error
+	
+	return quota, err
+}
+
+// GetUserTotalUsedQuota 获取用户累计消费额度
+func GetUserTotalUsedQuota(userId int) (quota int, err error) {
+	// 从日志表中统计所有消费
+	table := getAllLogsTable(LOG_DB)
+	err = LOG_DB.Table(table).
+		Where("user_id = ? AND type = ?", userId, LogTypeConsume).
+		Select("COALESCE(SUM(quota), 0) as quota").
+		Scan(&quota).Error
+	
+	return quota, err
+}
+
+// GetInvitedUsers 获取用户邀请的好友列表
+func GetInvitedUsers(inviterId int) ([]*User, error) {
+	var users []*User
+	err := DB.Where("inviter_id = ?", inviterId).
+		Select("id, username, display_name, created_at").
+		Order("created_at DESC").
+		Find(&users).Error
+	
+	return users, err
+}
+
+// GetInvitationProgress 获取用户邀请进度信息
+func GetInvitationProgress(userId int) (map[string]interface{}, error) {
+	user, err := GetUserById(userId, false)
+	if err != nil {
+		return nil, err
+	}
+	
+	currentInvites := user.AffCount
+	
+	// 定义奖励阶梯
+	rewardTiers := []map[string]interface{}{
+		{"threshold": 1, "youGet": "3元兑换券", "friendGets": "3元兑换券"},
+		{"threshold": 5, "youGet": "5元兑换券", "friendGets": "5元兑换券"},
+		{"threshold": 10, "youGet": "10元兑换券", "friendGets": "8元兑换券"},
+	}
+	
+	// 找到下一个目标阶梯
+	var nextTier map[string]interface{}
+	for _, tier := range rewardTiers {
+		if currentInvites < tier["threshold"].(int) {
+			nextTier = tier
+			break
+		}
+	}
+	
+	// 找到当前达到的阶梯
+	var currentTier map[string]interface{}
+	for i := len(rewardTiers) - 1; i >= 0; i-- {
+		if currentInvites >= rewardTiers[i]["threshold"].(int) {
+			currentTier = rewardTiers[i]
+			break
+		}
+	}
+	
+	// 计算进度百分比
+	progressPercent := 0
+	if nextTier != nil {
+		prevTierThreshold := 0
+		// 找到nextTier在rewardTiers中的索引
+		nextTierIndex := -1
+		for i, tier := range rewardTiers {
+			if tier["threshold"].(int) == nextTier["threshold"].(int) {
+				nextTierIndex = i
+				break
+			}
+		}
+		if nextTierIndex > 0 {
+			prevTierThreshold = rewardTiers[nextTierIndex-1]["threshold"].(int)
+		}
+		tierTotal := nextTier["threshold"].(int) - prevTierThreshold
+		tierProgress := currentInvites - prevTierThreshold
+		if tierTotal > 0 {
+			progressPercent = int(float64(tierProgress) / float64(tierTotal) * 100)
+		}
+	} else {
+		progressPercent = 100
+	}
+	
+	return map[string]interface{}{
+		"current_invites":   currentInvites,
+		"progress_percent":  progressPercent,
+		"next_tier":         nextTier,
+		"current_tier":      currentTier,
+		"reward_tiers":      rewardTiers,
+	}, nil
+}
+
+

@@ -459,10 +459,43 @@ func GetSelf(c *gin.Context) {
 		})
 		return
 	}
+	
+	// 获取本月消费和累计消费
+	monthlyUsage, err := model.GetUserUsedQuotaThisMonth(id)
+	if err != nil {
+		monthlyUsage = 0
+	}
+	
+	totalUsage, err := model.GetUserTotalUsedQuota(id)
+	if err != nil {
+		totalUsage = 0
+	}
+	
+	// 扩展用户数据
+	userData := map[string]interface{}{
+		"id":                    user.Id,
+		"username":              user.Username,
+		"display_name":          user.DisplayName,
+		"role":                  user.Role,
+		"status":                user.Status,
+		"email":                 user.Email,
+		"quota":                 user.Quota,
+		"used_quota":            totalUsage, // 使用从日志统计的累计消费
+		"request_count":         user.RequestCount,
+		"group":                 user.Group,
+		"aff_code":              user.AffCode,
+		"aff_count":             user.AffCount,
+		"aff_quota":             user.AffQuota,
+		"aff_history_quota":     user.AffHistoryQuota,
+		"inviter_id":            user.InviterId,
+		"created_at":            user.CreatedAt,
+		"used_quota_this_month": monthlyUsage,
+	}
+	
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
 		"message": "",
-		"data":    user,
+		"data":    userData,
 	})
 	return
 }
@@ -1049,3 +1082,54 @@ func UpdateUserSetting(c *gin.Context) {
 		"message": "设置已更新",
 	})
 }
+
+
+// GetInvitationHistory 获取邀请好友历史
+func GetInvitationHistory(c *gin.Context) {
+	userId := c.GetInt("id")
+	
+	invitedUsers, err := model.GetInvitedUsers(userId)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "获取邀请记录失败",
+		})
+		return
+	}
+	
+	// 格式化返回数据
+	var formattedUsers []map[string]interface{}
+	for _, user := range invitedUsers {
+		formattedUsers = append(formattedUsers, map[string]interface{}{
+			"id":           user.Id,
+			"username":     user.Username,
+			"display_name": user.DisplayName,
+			"created_at":   user.CreatedAt,
+		})
+	}
+	
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"data":    formattedUsers,
+	})
+}
+
+// GetInvitationProgress 获取邀请进度信息
+func GetInvitationProgress(c *gin.Context) {
+	userId := c.GetInt("id")
+	
+	progress, err := model.GetInvitationProgress(userId)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "获取邀请进度失败",
+		})
+		return
+	}
+	
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"data":    progress,
+	})
+}
+

@@ -71,6 +71,7 @@ const TopUp = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
   const [invitationHistory, setInvitationHistory] = useState([]);
+  const [invitationProgress, setInvitationProgress] = useState(null);
   
   // 定义金额选项，均匀分布在2行
   const amountOptions = [
@@ -290,6 +291,7 @@ const TopUp = () => {
     getAmount(5).then(() => {
       setIsLoading(false);
     });
+    fetchInvitationProgress();
   }, []);
 
   const renderAmount = () => {
@@ -364,6 +366,20 @@ const TopUp = () => {
       showError('加载邀请记录时发生错误');
     } finally {
       setModalLoading(false);
+    }
+  };
+
+  const fetchInvitationProgress = async () => {
+    try {
+      const res = await API.get('/api/user/invitation-progress');
+      const { success, data } = res.data;
+      if (success) {
+        setInvitationProgress(data);
+      } else {
+        showError('无法加载邀请进度');
+      }
+    } catch (error) {
+      showError('加载邀请进度时发生错误');
     }
   };
 
@@ -615,29 +631,23 @@ const TopUp = () => {
       });
     };
 
-    const currentInvites = user ? user.aff_count || 0 : 0;
-    
-    const rewardTiers = [
+    const currentInvites = invitationProgress ? invitationProgress.current_invites : (user ? user.aff_count || 0 : 0);
+    const progressPercent = invitationProgress ? invitationProgress.progress_percent : 0;
+    const rewardTiers = invitationProgress ? invitationProgress.reward_tiers : [
       { threshold: 1, youGet: '3元兑换券', friendGets: '3元兑换券' },
       { threshold: 5, youGet: '5元兑换券', friendGets: '5元兑换券' },
       { threshold: 10, youGet: '<strong>10元兑换券</strong>', friendGets: '<strong>8元兑换券</strong>' },
     ];
 
-    let nextTier = rewardTiers.find(tier => currentInvites < tier.threshold);
-    let currentTier = [...rewardTiers].reverse().find(tier => currentInvites >= tier.threshold);
-    let progressPercent = 0;
-    let progressLabel = `已邀请 ${currentInvites} 人`;
-
+    let nextTier = invitationProgress ? invitationProgress.next_tier : null;
+    let currentTier = invitationProgress ? invitationProgress.current_tier : null;
+    
+    // 根据后台数据生成进度标签
+    let progressLabel = `${currentInvites} 人`;
     if (nextTier) {
-      const prevTierThreshold = rewardTiers[rewardTiers.indexOf(nextTier) - 1]?.threshold || 0;
-      const tierTotal = nextTier.threshold - prevTierThreshold;
-      const tierProgress = currentInvites - prevTierThreshold;
-      progressPercent = Math.round((tierProgress / tierTotal) * 100);
       progressLabel = `${currentInvites} / ${nextTier.threshold} 人`;
-    } else {
-      // 已达到或超过最高阶梯
-      progressPercent = 100;
-      progressLabel = `已邀请 ${currentInvites} 人，太棒了！`;
+    } else if (currentInvites > 0) {
+      progressLabel = `${currentInvites} 人，太棒了！`;
     }
 
     return (
