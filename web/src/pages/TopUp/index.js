@@ -212,8 +212,9 @@ const TopUp = () => {
     }
     setOpen(false);
     try {
+      // 后端统一计算支付金额，前端只传递原始充值金额
       const res = await API.post('/api/user/pay', {
-        amount: parseInt(topUpCount),
+        amount: parseInt(topUpCount), // 原始充值金额
         top_up_code: topUpCode,
         payment_method: payWay,
       });
@@ -914,6 +915,7 @@ const TopUp = () => {
                       >
                         {t('支付宝支付')}
                       </Button>
+                      {/* 微信支付按钮暂时注释
                       <Button
                         type="primary"
                         theme="light"
@@ -933,6 +935,7 @@ const TopUp = () => {
                       >
                         {t('微信支付')}
                       </Button>
+                      */}
                     </div>
                   </div>
                 </Form>

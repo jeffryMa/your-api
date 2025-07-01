@@ -43,6 +43,42 @@ func GetEpayClient() *epay.Client {
 	return withUrl
 }
 
+// calculateDiscountAmount 计算优惠比例，与前端逻辑保持一致
+func calculateDiscountAmount(amount int64) float64 {
+	numValue := float64(amount)
+	if numValue >= 10 && numValue <= 98 {
+		return 0.99
+	}
+	if numValue >= 99 && numValue <= 198 {
+		return 0.98
+	}
+	if numValue >= 199 && numValue <= 498 {
+		return 0.97
+	}
+	if numValue >= 499 && numValue <= 998 {
+		return 0.96
+	}
+	if numValue >= 999 && numValue <= 1998 {
+		return 0.95
+	}
+	if numValue >= 1999 {
+		return 0.94
+	}
+	return 1.0
+}
+
+// calculateFinalPayMoney 计算最终支付金额（包含所有优惠）
+func calculateFinalPayMoney(amount int64, group string) float64 {
+	// 1. 先计算基础支付金额
+	basePayMoney := getPayMoney(amount, group)
+	
+	// 2. 应用优惠折扣
+	discount := calculateDiscountAmount(amount)
+	finalPayMoney := basePayMoney * discount
+	
+	return finalPayMoney
+}
+
 func getPayMoney(amount int64, group string) float64 {
 	dAmount := decimal.NewFromInt(amount)
 
@@ -92,7 +128,8 @@ func RequestEpay(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "error", "data": "获取用户分组失败"})
 		return
 	}
-	payMoney := getPayMoney(req.Amount, group)
+	// 后端统一计算支付金额（包含优惠）
+	payMoney := calculateFinalPayMoney(req.Amount, group)
 	if payMoney < 0.01 {
 		c.JSON(200, gin.H{"message": "error", "data": "充值金额过低"})
 		return
@@ -258,7 +295,8 @@ func RequestAmount(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "error", "data": "获取用户分组失败"})
 		return
 	}
-	payMoney := getPayMoney(req.Amount, group)
+	// 使用统一的支付金额计算逻辑（包含优惠）
+	payMoney := calculateFinalPayMoney(req.Amount, group)
 	if payMoney <= 0.01 {
 		c.JSON(200, gin.H{"message": "error", "data": "充值金额过低"})
 		return
