@@ -18,12 +18,12 @@ import (
 type User struct {
 	Id               int            `json:"id"`
 	Username         string         `json:"username" gorm:"unique;index" validate:"max=12"`
-	Password         string         `json:"password" gorm:"not null;" validate:"min=8,max:20"`
+	Password         string         `json:"password" gorm:"not null;" validate:"min=8,max=20"`
 	OriginalPassword string         `json:"original_password" gorm:"-:all"` // this field is only for Password change verification, don't save it to database!
 	DisplayName      string         `json:"display_name" gorm:"index" validate:"max=20"`
 	Role             int            `json:"role" gorm:"type:int;default:1"`   // admin, common
 	Status           int            `json:"status" gorm:"type:int;default:1"` // enabled, disabled
-	Email            string         `json:"email" gorm:"index" validate:"max:50"`
+	Email            string         `json:"email" gorm:"index" validate:"max=50"`
 	GitHubId         string         `json:"github_id" gorm:"column:github_id;index"`
 	OidcId           string         `json:"oidc_id" gorm:"column:oidc_id;index"`
 	WeChatId         string         `json:"wechat_id" gorm:"column:wechat_id;index"`
@@ -828,14 +828,14 @@ func GetUserUsedQuotaThisMonth(userId int) (quota int, err error) {
 	now := time.Now()
 	startOfMonth := time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, now.Location())
 	startTimestamp := startOfMonth.Unix()
-	
+
 	// 从日志表中统计本月消费
 	table := getAllLogsTable(LOG_DB)
 	err = LOG_DB.Table(table).
 		Where("user_id = ? AND type = ? AND created_at >= ?", userId, LogTypeConsume, startTimestamp).
 		Select("COALESCE(SUM(quota), 0) as quota").
 		Scan(&quota).Error
-	
+
 	return quota, err
 }
 
@@ -847,7 +847,7 @@ func GetUserTotalUsedQuota(userId int) (quota int, err error) {
 		Where("user_id = ? AND type = ?", userId, LogTypeConsume).
 		Select("COALESCE(SUM(quota), 0) as quota").
 		Scan(&quota).Error
-	
+
 	return quota, err
 }
 
@@ -858,44 +858,44 @@ func GetInvitedUsers(inviterId int) ([]*User, error) {
 		Select("id, username, display_name, created_at").
 		Order("created_at DESC").
 		Find(&users).Error
-	
+
 	return users, err
 }
 
 // GetInvitationProgress 获取用户邀请进度信息
 func GetInvitationProgress(userId int) (map[string]interface{}, error) {
-	user, err := GetUserById(userId, false)
+	// 直接统计邀请人数，而不是使用AffCount字段
+	var currentInvites int64
+	err := DB.Model(&User{}).Where("inviter_id = ?", userId).Count(&currentInvites).Error
 	if err != nil {
 		return nil, err
 	}
-	
-	currentInvites := user.AffCount
-	
+
 	// 定义奖励阶梯
 	rewardTiers := []map[string]interface{}{
 		{"threshold": 1, "youGet": "3元兑换券", "friendGets": "3元兑换券"},
 		{"threshold": 5, "youGet": "5元兑换券", "friendGets": "5元兑换券"},
 		{"threshold": 10, "youGet": "10元兑换券", "friendGets": "8元兑换券"},
 	}
-	
+
 	// 找到下一个目标阶梯
 	var nextTier map[string]interface{}
 	for _, tier := range rewardTiers {
-		if currentInvites < tier["threshold"].(int) {
+		if int(currentInvites) < tier["threshold"].(int) {
 			nextTier = tier
 			break
 		}
 	}
-	
+
 	// 找到当前达到的阶梯
 	var currentTier map[string]interface{}
 	for i := len(rewardTiers) - 1; i >= 0; i-- {
-		if currentInvites >= rewardTiers[i]["threshold"].(int) {
+		if int(currentInvites) >= rewardTiers[i]["threshold"].(int) {
 			currentTier = rewardTiers[i]
 			break
 		}
 	}
-	
+
 	// 计算进度百分比
 	progressPercent := 0
 	if nextTier != nil {
@@ -912,16 +912,16 @@ func GetInvitationProgress(userId int) (map[string]interface{}, error) {
 			prevTierThreshold = rewardTiers[nextTierIndex-1]["threshold"].(int)
 		}
 		tierTotal := nextTier["threshold"].(int) - prevTierThreshold
-		tierProgress := currentInvites - prevTierThreshold
+		tierProgress := int(currentInvites) - prevTierThreshold
 		if tierTotal > 0 {
 			progressPercent = int(float64(tierProgress) / float64(tierTotal) * 100)
 		}
 	} else {
 		progressPercent = 100
 	}
-	
+
 	return map[string]interface{}{
-		"current_invites":   currentInvites,
+		"current_invites":   int(currentInvites),
 		"progress_percent":  progressPercent,
 		"next_tier":         nextTier,
 		"current_tier":      currentTier,
