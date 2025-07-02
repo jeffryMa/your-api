@@ -327,6 +327,16 @@ const UsersTable = () => {
               >
                 {t('编辑')}
               </Button>
+              <Button
+                theme='light'
+                type='primary'
+                style={{ marginRight: 1 }}
+                onClick={() => {
+                  window.open(`/log?username=${encodeURIComponent(record.username)}`, '_blank');
+                }}
+              >
+                {t('日志查看')}
+              </Button>
               <Popconfirm
                 title={t('确定是否要注销此用户？')}
                 content={t('相当于删除用户，此修改将不可逆')}

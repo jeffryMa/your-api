@@ -9,6 +9,7 @@ import {
   showSuccess,
   timestamp2string,
 } from '../helpers';
+import { useLocation } from 'react-router-dom';
 
 import BubbleText from "./BubbleText.js";
 
@@ -78,6 +79,7 @@ const colors = [
 
 const LogsTable = () => {
   const { t } = useTranslation();
+  const location = useLocation();
 
   function renderType(type) {
     switch (type) {
@@ -1097,6 +1099,15 @@ const LogsTable = () => {
       });
     handleEyeClick();
   }, []);
+
+  // 初始化时从 URL 读取 username 参数
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const usernameParam = params.get('username');
+    if (usernameParam) {
+      setInputs((inputs) => ({ ...inputs, username: usernameParam }));
+    }
+  }, [location.search]);
 
   const expandRowRender = (record, index) => {
     return <Descriptions data={expandData[record.key]} />;
