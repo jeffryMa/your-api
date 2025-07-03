@@ -110,20 +110,14 @@ const TopUp = () => {
     return 1;
   };
 
-  // 统一格式化实付金额显示（仅用于上方卡片，前端自己算的原价/折后价）
-  const renderDiscountedAmount = (amount, discount) => {
-    if (discount < 1) {
-      return `${(amount * discount).toFixed(2)} ${t('元')} (${(discount * 100).toFixed(0)}${t('折')})`;
-    }
-    return `${amount.toFixed(2)} ${t('元')}`;
-  };
+
 
   // 只展示后端返回的实付金额和折扣信息（下方和弹窗用）
-  const renderFinalAmount = (amount, discount) => {
+  const renderFinalAmount = (finalAmount, discount) => {
     if (discount < 1) {
-      return `${amount.toFixed(2)} ${t('元')} (${(discount * 100).toFixed(0)}${t('折')})`;
+      return `${finalAmount.toFixed(2)} ${t('元')} (${(discount * 100).toFixed(0)}${t('折')})`;
     }
-    return `${amount.toFixed(2)} ${t('元')}`;
+    return `${finalAmount.toFixed(2)} ${t('元')}`;
   };
 
   // 处理金额选择
@@ -311,26 +305,11 @@ const TopUp = () => {
     fetchInvitationProgress();
   }, []);
 
-  const renderAmount = () => {
-    const discountedAmount = amount * discount;
-    if (discount < 1) {
-      return (
-        <>
-          <span style={{ textDecoration: 'line-through', color: '#999', marginRight: '8px' }}>
-            {amount.toFixed(2)} {t('元')}
-          </span>
-          <span style={{ color: '#ff4d4f', fontWeight: 'bold' }}>
-            {renderDiscountedAmount(amount, discount)}
-          </span>
-        </>
-      );
-    }
-    return renderDiscountedAmount(amount, discount);
-  };
+
 
   const calculateSavings = () => {
     if (discount < 1) {
-      return (amount - (amount * discount)).toFixed(2);
+      return (topUpCount - (topUpCount * discount)).toFixed(2);
     }
     return 0;
   };
@@ -829,7 +808,7 @@ const TopUp = () => {
               {t('充值数量')}：{topUpCount}
             </p>
             <p>
-              {t('实付金额')}：{renderFinalAmount(amount, discount)}
+              {t('实付金额')}：{renderFinalAmount(topUpCount * discount, discount)}
             </p>
             <p>{t('是否确认充值？')}</p>
           </Modal>
@@ -917,7 +896,7 @@ const TopUp = () => {
                       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <span>{t('实付金额')}:</span>
                         <span style={{ fontWeight: 'bold', fontSize: '18px', color: '#ff4d4f' }}>
-                          {isLoading ? '计算中...' : renderFinalAmount(amount, discount)}
+                          {isLoading ? '计算中...' : renderFinalAmount(topUpCount * discount, discount)}
                         </span>
                       </div>
                       {discount < 1 && (

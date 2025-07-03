@@ -134,8 +134,14 @@ func GetAllUsers(startIdx int, num int) (users []*User, total int64, err error) 
 		return nil, 0, err
 	}
 
-	// Get paginated users within same transaction
-	err = tx.Unscoped().Order("id desc").Limit(num).Offset(startIdx).Omit("password").Find(&users).Error
+	// Get paginated users with real-time invitation count using subquery
+	err = tx.Unscoped().
+		Select("*, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id) as aff_count").
+		Order("id desc").
+		Limit(num).
+		Offset(startIdx).
+		Omit("password").
+		Find(&users).Error
 	if err != nil {
 		tx.Rollback()
 		return nil, 0, err
@@ -201,8 +207,13 @@ func SearchUsers(keyword string, group string, startIdx int, num int) ([]*User, 
 		return nil, 0, err
 	}
 
-	// 获取分页数据
-	err = query.Omit("password").Order("id desc").Limit(num).Offset(startIdx).Find(&users).Error
+	// 获取分页数据，包含实时邀请人数统计
+	err = query.Select("*, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id) as aff_count").
+		Omit("password").
+		Order("id desc").
+		Limit(num).
+		Offset(startIdx).
+		Find(&users).Error
 	if err != nil {
 		tx.Rollback()
 		return nil, 0, err
@@ -223,9 +234,9 @@ func GetUserById(id int, selectAll bool) (*User, error) {
 	user := User{Id: id}
 	var err error = nil
 	if selectAll {
-		err = DB.First(&user, "id = ?", id).Error
+		err = DB.Select("*, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id) as aff_count").First(&user, "id = ?", id).Error
 	} else {
-		err = DB.Omit("password").First(&user, "id = ?", id).Error
+		err = DB.Select("*, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id) as aff_count").Omit("password").First(&user, "id = ?", id).Error
 	}
 	return &user, err
 }
@@ -860,6 +871,13 @@ func GetInvitedUsers(inviterId int) ([]*User, error) {
 		Find(&users).Error
 
 	return users, err
+}
+
+// GetRealTimeInvitationCount 获取用户实时邀请人数
+func GetRealTimeInvitationCount(userId int) (int, error) {
+	var count int64
+	err := DB.Model(&User{}).Where("inviter_id = ?", userId).Count(&count).Error
+	return int(count), err
 }
 
 // GetInvitationProgress 获取用户邀请进度信息

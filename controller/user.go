@@ -471,6 +471,12 @@ func GetSelf(c *gin.Context) {
 		totalUsage = 0
 	}
 	
+	// 获取实时邀请人数
+	realTimeAffCount, err := model.GetRealTimeInvitationCount(id)
+	if err != nil {
+		realTimeAffCount = 0
+	}
+	
 	// 扩展用户数据
 	userData := map[string]interface{}{
 		"id":                    user.Id,
@@ -484,7 +490,7 @@ func GetSelf(c *gin.Context) {
 		"request_count":         user.RequestCount,
 		"group":                 user.Group,
 		"aff_code":              user.AffCode,
-		"aff_count":             user.AffCount,
+		"aff_count":             realTimeAffCount, // 使用实时邀请人数
 		"aff_quota":             user.AffQuota,
 		"aff_history_quota":     user.AffHistoryQuota,
 		"inviter_id":            user.InviterId,
@@ -1130,6 +1136,27 @@ func GetInvitationProgress(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
 		"data":    progress,
+	})
+}
+
+// GetRealTimeInvitationCount 获取实时邀请人数
+func GetRealTimeInvitationCount(c *gin.Context) {
+	userId := c.GetInt("id")
+	
+	count, err := model.GetRealTimeInvitationCount(userId)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "获取邀请人数失败",
+		})
+		return
+	}
+	
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"data": map[string]interface{}{
+			"invitation_count": count,
+		},
 	})
 }
 

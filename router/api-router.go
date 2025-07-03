@@ -62,6 +62,7 @@ func SetApiRouter(router *gin.Engine) {
 				selfRoute.PUT("/setting", controller.UpdateUserSetting)
 				selfRoute.GET("/invitation-history", controller.GetInvitationHistory)
 				selfRoute.GET("/invitation-progress", controller.GetInvitationProgress)
+				selfRoute.GET("/invitation-count", controller.GetRealTimeInvitationCount)
 			}
 
 			adminRoute := userRoute.Group("/")
