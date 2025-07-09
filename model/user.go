@@ -134,9 +134,9 @@ func GetAllUsers(startIdx int, num int) (users []*User, total int64, err error) 
 		return nil, 0, err
 	}
 
-	// Get paginated users with real-time invitation count using subquery
+	// Get paginated users with real-time invitation count and valid invitation count using subquery
 	err = tx.Unscoped().
-		Select("*, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id) as aff_count").
+		Select("*, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id) as aff_count, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id AND u2.request_count > 0) as valid_aff_count").
 		Order("id desc").
 		Limit(num).
 		Offset(startIdx).
@@ -207,8 +207,8 @@ func SearchUsers(keyword string, group string, startIdx int, num int) ([]*User, 
 		return nil, 0, err
 	}
 
-	// 获取分页数据，包含实时邀请人数统计
-	err = query.Select("*, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id) as aff_count").
+	// 获取分页数据，包含实时邀请人数统计和有效邀请人数统计
+	err = query.Select("*, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id) as aff_count, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id AND u2.request_count > 0) as valid_aff_count").
 		Omit("password").
 		Order("id desc").
 		Limit(num).
@@ -234,9 +234,9 @@ func GetUserById(id int, selectAll bool) (*User, error) {
 	user := User{Id: id}
 	var err error = nil
 	if selectAll {
-		err = DB.Select("*, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id) as aff_count").First(&user, "id = ?", id).Error
+		err = DB.Select("*, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id) as aff_count, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id AND u2.request_count > 0) as valid_aff_count").First(&user, "id = ?", id).Error
 	} else {
-		err = DB.Select("*, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id) as aff_count").Omit("password").First(&user, "id = ?", id).Error
+		err = DB.Select("*, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id) as aff_count, (SELECT COUNT(*) FROM users u2 WHERE u2.inviter_id = users.id AND u2.request_count > 0) as valid_aff_count").Omit("password").First(&user, "id = ?", id).Error
 	}
 	return &user, err
 }
@@ -866,7 +866,7 @@ func GetUserTotalUsedQuota(userId int) (quota int, err error) {
 func GetInvitedUsers(inviterId int) ([]*User, error) {
 	var users []*User
 	err := DB.Where("inviter_id = ?", inviterId).
-		Select("id, username, display_name, created_at").
+		Select("id, username, display_name, created_at, request_count").
 		Order("created_at DESC").
 		Find(&users).Error
 
@@ -880,11 +880,18 @@ func GetRealTimeInvitationCount(userId int) (int, error) {
 	return int(count), err
 }
 
+// GetValidInvitationCount 获取用户有效邀请人数（request_count > 0）
+func GetValidInvitationCount(userId int) (int, error) {
+	var count int64
+	err := DB.Model(&User{}).Where("inviter_id = ? AND request_count > 0", userId).Count(&count).Error
+	return int(count), err
+}
+
 // GetInvitationProgress 获取用户邀请进度信息
 func GetInvitationProgress(userId int) (map[string]interface{}, error) {
-	// 直接统计邀请人数，而不是使用AffCount字段
+	// 直接统计有效邀请人数（request_count > 0），而不是使用AffCount字段
 	var currentInvites int64
-	err := DB.Model(&User{}).Where("inviter_id = ?", userId).Count(&currentInvites).Error
+	err := DB.Model(&User{}).Where("inviter_id = ? AND request_count > 0", userId).Count(&currentInvites).Error
 	if err != nil {
 		return nil, err
 	}

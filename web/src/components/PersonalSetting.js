@@ -586,6 +586,11 @@ const PersonalSetting = () => {
                   <Descriptions.Item itemKey={t('邀请人数')}>
                     {userState?.user?.aff_count}
                   </Descriptions.Item>
+                  <Descriptions.Item itemKey={t('有效邀请人数')}>
+                    <span style={{ color: 'var(--semi-color-success)' }}>
+                      {userState?.user?.valid_aff_count || 0}
+                    </span>
+                  </Descriptions.Item>
                 </Descriptions>
               </div>
             </Card>

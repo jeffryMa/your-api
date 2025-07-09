@@ -172,6 +172,21 @@ const UsersTable = () => {
 
 
               </Tooltip>
+              <Tooltip content={t('有效邀请人数')}>
+                <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
+                     style={{
+                       marginLeft: '5px',
+                       background: 'linear-gradient(to right, var(--semi-color-success-light-default), var(--semi-color-success-light-hover))',
+                       color: 'var(--semi-color-success)',
+                       borderColor: 'var(--semi-color-success-light-active)',
+                       borderWidth: '1px',
+                       borderStyle: 'solid'
+                     }}>
+                  <span className="flex items-center">
+                      {renderNumber(record.valid_aff_count || 0)}
+                  </span>
+                </div>
+              </Tooltip>
               <Tooltip content={t('邀请总收益')}>
                 <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium shadow-sm"
                      style={{

@@ -33,9 +33,9 @@ import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 import Text from '@douyinfe/semi-ui/lib/es/typography/text';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { 
-  IconCreditCard, 
-  IconGift, 
+import {
+  IconCreditCard,
+  IconGift,
   IconTickCircle,
   IconHistory,
   IconArrowDown,
@@ -72,7 +72,11 @@ const TopUp = () => {
   const [modalLoading, setModalLoading] = useState(false);
   const [invitationHistory, setInvitationHistory] = useState([]);
   const [invitationProgress, setInvitationProgress] = useState(null);
-  
+  const [invitationCounts, setInvitationCounts] = useState({
+    total: 0,
+    valid: 0
+  });
+
   // 定义金额选项，均匀分布在2行
   const amountOptions = [
     { value: 5, label: '5元' },
@@ -377,6 +381,20 @@ const TopUp = () => {
     } catch (error) {
       showError('加载邀请进度时发生错误');
     }
+    
+    // 获取邀请人数数据
+    try {
+      const countRes = await API.get('/api/user/invitation-count');
+      const { success, data } = countRes.data;
+      if (success) {
+        setInvitationCounts({
+          total: data.invitation_count || 0,
+          valid: data.valid_invitation_count || 0
+        });
+      }
+    } catch (error) {
+      console.error('获取邀请人数失败:', error);
+    }
   };
 
   const showInvitationModal = () => {
@@ -395,9 +413,9 @@ const TopUp = () => {
     const discountValue = calculateDiscount(value);
     const discountText = getDiscountText(discountValue);
     const estimatedQuota = estimateQuota(value);
-    
+
     return (
-      <div 
+      <div
         onClick={() => handleAmountChange(value.toString())}
         style={{
           width: '100%',
@@ -436,11 +454,11 @@ const TopUp = () => {
             {discountText}
           </div>
         )}
-        
+
         <div style={{ fontSize: '22px', fontWeight: 'bold', marginBottom: '8px', color: '#333' }}>
           {value} {t('元')}
         </div>
-        
+
         {discountValue < 1 ? (
           <>
             <div style={{ fontSize: '14px', color: '#666', marginBottom: '4px' }}>
@@ -468,7 +486,7 @@ const TopUp = () => {
             </div>
           </>
         )}
-        
+
         {isSelected && (
           <div style={{ position: 'absolute', bottom: '8px', right: '8px', color: '#0077fa' }}>
             <IconTickCircle />
@@ -482,7 +500,7 @@ const TopUp = () => {
     if (discount === 1) {
       return null;
     }
-    
+
     return (
       <div style={{ marginBottom: '16px' }}>
         <div style={{
@@ -497,8 +515,8 @@ const TopUp = () => {
           fontSize: '16px'
         }}>
           <IconGift style={{ marginRight: '8px' }} />
-          当前享受 <span style={{ 
-            fontSize: '20px', 
+          当前享受 <span style={{
+            fontSize: '20px',
             margin: '0 4px',
             textShadow: '1px 1px 2px rgba(0,0,0,0.2)'
           }}>{(discount * 100).toFixed(0)}折</span> 优惠
@@ -588,7 +606,7 @@ const TopUp = () => {
       borderTopLeftRadius: '8px',
       borderTopRightRadius: '8px'
     };
-    
+
     const tableRowStyle = {
       padding: '12px',
       borderBottom: '1px solid #dee2e6',
@@ -601,7 +619,7 @@ const TopUp = () => {
       color: 'var(--semi-color-text-0)',
       marginBottom: '1rem',
     };
-    
+
     const textStyle = {
       fontSize: '16px',
       color: 'var(--semi-color-text-1)',
@@ -620,7 +638,7 @@ const TopUp = () => {
     }
 
     const referralLink = `${window.location.origin}/register?aff=${user.aff_code}`;
-    
+
     const copyLink = () => {
       if (referralLink) {
         // 先尝试 clipboard API
@@ -664,7 +682,7 @@ const TopUp = () => {
 
     let nextTier = invitationProgress ? invitationProgress.next_tier : null;
     let currentTier = invitationProgress ? invitationProgress.current_tier : null;
-    
+
     // 根据后台数据生成进度标签
     let progressLabel = `${currentInvites} 人`;
     if (nextTier) {
@@ -681,8 +699,8 @@ const TopUp = () => {
         </div>
 
         <div style={{ marginBottom: '1.5rem' }}>
-          <Progress 
-            percent={progressPercent} 
+          <Progress
+            percent={progressPercent}
             stroke={{
               '0%': 'var(--semi-color-primary-light-default)',
               '100%': 'var(--semi-color-primary)',
@@ -692,6 +710,42 @@ const TopUp = () => {
             format={() => progressLabel}
             style={{ height: '24px' }}
           />
+        </div>
+
+        {/* 邀请统计信息 */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          marginBottom: '1.5rem',
+          padding: '16px',
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          borderRadius: '8px',
+          border: '1px solid var(--semi-color-border)'
+        }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--semi-color-primary)' }}>
+              {invitationCounts.total}
+            </div>
+            <div style={{ fontSize: '14px', color: 'var(--semi-color-text-2)' }}>
+              总共邀请
+            </div>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--semi-color-success)' }}>
+              {invitationCounts.valid}
+            </div>
+            <div style={{ fontSize: '14px', color: 'var(--semi-color-text-2)' }}>
+              有效邀请
+            </div>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--semi-color-warning)' }}>
+              {invitationCounts.total > 0 ? Math.round((invitationCounts.valid / invitationCounts.total) * 100) : 0}%
+            </div>
+            <div style={{ fontSize: '14px', color: 'var(--semi-color-text-2)' }}>
+              达标率
+            </div>
+          </div>
         </div>
 
         <Text style={textStyle}>
@@ -710,8 +764,8 @@ const TopUp = () => {
               const rowStyle = {
                 display: 'flex',
                 ...tableRowStyle,
-                ...(isCurrent && { 
-                  backgroundColor: 'var(--semi-color-primary-light-active)', 
+                ...(isCurrent && {
+                  backgroundColor: 'var(--semi-color-primary-light-active)',
                   fontWeight: 'bold',
                   color: 'var(--semi-color-primary)',
                  }),
@@ -728,9 +782,9 @@ const TopUp = () => {
           </div>
         </div>
 
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
           gap: '12px',
           padding: '12px',
           backgroundColor: '#f4f6f8',
@@ -774,6 +828,18 @@ const TopUp = () => {
           return date.toLocaleString();
         },
       },
+
+      {
+        title: '是否达标',
+        dataIndex: 'is_qualified',
+        render: (isQualified) => {
+          return isQualified ? (
+            <Tag color="green" size="small">已达标</Tag>
+          ) : (
+            <Tag color="red" size="small">未达标</Tag>
+          );
+        },
+      },
     ];
 
     return (
@@ -782,7 +848,7 @@ const TopUp = () => {
         visible={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
         footer={null}
-        width={600}
+        width={700}
       >
         <Spin spinning={modalLoading}>
           <Table columns={columns} dataSource={invitationHistory} pagination={false} />
@@ -813,13 +879,13 @@ const TopUp = () => {
             <p>{t('是否确认充值？')}</p>
           </Modal>
           {renderHistoryModal()}
-          
+
           <Row gutter={[24, 24]}>
             <Col xs={24} lg={8}>
               {renderMyWallet()}
               {renderInviteCard()}
             </Col>
-            
+
             <Col xs={24} lg={16}>
               <Card style={{ borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', height: '100%' }}>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
@@ -827,9 +893,9 @@ const TopUp = () => {
                   <Title heading={4} style={{ margin: 0 }}>{t('在线充值')}</Title>
                 </div>
                 <Form style={{ height: 'calc(100% - 50px)', display: 'flex', flexDirection: 'column' }}>
-                  <Tabs 
-                    type="line" 
-                    activeKey={amountType} 
+                  <Tabs
+                    type="line"
+                    activeKey={amountType}
                     onChange={key => {
                       if (key === 'custom') {
                         switchToCustomAmount();
@@ -852,7 +918,7 @@ const TopUp = () => {
                           </Col>
                         ))}
                       </Row>
-                      
+
                       <Row gutter={[16, 16]} style={{ marginTop: '16px' }}>
                         {amountOptions.slice(4).map((option, index) => (
                           <Col xs={12} sm={12} md={6} key={index + 4}>
@@ -879,13 +945,13 @@ const TopUp = () => {
                       </div>
                     </TabPane>
                   </Tabs>
-                  
+
                   <div style={{ marginTop: 'auto' }}>
                     {renderDiscountInfo()}
-                    
-                    <div style={{ 
-                      padding: '16px', 
-                      backgroundColor: 'rgba(0, 119, 250, 0.05)', 
+
+                    <div style={{
+                      padding: '16px',
+                      backgroundColor: 'rgba(0, 119, 250, 0.05)',
                       borderRadius: '12px',
                       marginBottom: '16px'
                     }}>
@@ -910,19 +976,19 @@ const TopUp = () => {
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px' }}>
                         <span>{t('预计到账额度')}:</span>
                         <span style={{ fontWeight: 'bold', color: '#0077fa' }}>
-                          {amountType === 'custom' ? 
-                            renderQuota(Math.round(topUpCount * 500000)) : 
+                          {amountType === 'custom' ?
+                            renderQuota(Math.round(topUpCount * 500000)) :
                             renderQuota(estimateQuota(Number(selectedAmount)))}
                         </span>
                       </div>
                     </div>
-                    
+
                     <div style={{ display: 'flex', gap: '12px' }}>
                       <Button
                         type="primary"
                         theme="light"
                         onClick={() => preTopUp('zfb')}
-                        style={{ 
+                        style={{
                           flex: 1,
                           height: '48px',
                           fontSize: '16px',

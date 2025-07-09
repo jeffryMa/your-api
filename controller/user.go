@@ -477,6 +477,12 @@ func GetSelf(c *gin.Context) {
 		realTimeAffCount = 0
 	}
 	
+	// 获取有效邀请人数
+	validAffCount, err := model.GetValidInvitationCount(id)
+	if err != nil {
+		validAffCount = 0
+	}
+	
 	// 扩展用户数据
 	userData := map[string]interface{}{
 		"id":                    user.Id,
@@ -491,6 +497,7 @@ func GetSelf(c *gin.Context) {
 		"group":                 user.Group,
 		"aff_code":              user.AffCode,
 		"aff_count":             realTimeAffCount, // 使用实时邀请人数
+		"valid_aff_count":       validAffCount, // 使用有效邀请人数
 		"aff_quota":             user.AffQuota,
 		"aff_history_quota":     user.AffHistoryQuota,
 		"inviter_id":            user.InviterId,
@@ -1111,6 +1118,8 @@ func GetInvitationHistory(c *gin.Context) {
 			"username":     user.Username,
 			"display_name": user.DisplayName,
 			"created_at":   user.CreatedAt,
+			"request_count": user.RequestCount,
+			"is_qualified": user.RequestCount > 0, // 是否达标：request_count > 0
 		})
 	}
 	
@@ -1152,10 +1161,20 @@ func GetRealTimeInvitationCount(c *gin.Context) {
 		return
 	}
 	
+	validCount, err := model.GetValidInvitationCount(userId)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "获取有效邀请人数失败",
+		})
+		return
+	}
+	
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
 		"data": map[string]interface{}{
 			"invitation_count": count,
+			"valid_invitation_count": validCount,
 		},
 	})
 }
