@@ -80,9 +80,9 @@ const TopUp = () => {
     { value: 50, label: '50元' },
     { value: 100, label: '100元' },
     { value: 200, label: '200元' },
+    { value: 300, label: '300元' },
     { value: 500, label: '500元' },
     { value: 1000, label: '1000元' },
-    { value: 2000, label: '2000元' },
   ];
 
   // Placeholder data for new sections
@@ -101,12 +101,12 @@ const TopUp = () => {
   // 计算折扣
   const calculateDiscount = (value) => {
     const numValue = Number(value);
-    if (numValue >= 10 && numValue <= 98) return 0.99;
-    if (numValue >= 99 && numValue <= 198) return 0.98;
-    if (numValue >= 199 && numValue <= 498) return 0.97;
-    if (numValue >= 499 && numValue <= 998) return 0.96;
-    if (numValue >= 999 && numValue <= 1998) return 0.95;
-    if (numValue >= 1999) return 0.94;
+    if (numValue >= 10 && numValue <= 49) return 0.95;
+    if (numValue >= 50 && numValue <= 99) return 0.9;
+    if (numValue >= 100 && numValue <= 199) return 0.85;
+    if (numValue >= 200 && numValue <= 299) return 0.8;
+    if (numValue >= 300 && numValue <= 499) return 0.75;
+    if (numValue >= 500) return 0.7;
     return 1;
   };
 

@@ -46,23 +46,23 @@ func GetEpayClient() *epay.Client {
 // calculateDiscountAmount 计算优惠比例，与前端逻辑保持一致
 func calculateDiscountAmount(amount int64) float64 {
 	numValue := float64(amount)
-	if numValue >= 10 && numValue <= 98 {
-		return 0.99
-	}
-	if numValue >= 99 && numValue <= 198 {
-		return 0.98
-	}
-	if numValue >= 199 && numValue <= 498 {
-		return 0.97
-	}
-	if numValue >= 499 && numValue <= 998 {
-		return 0.96
-	}
-	if numValue >= 999 && numValue <= 1998 {
+	if numValue >= 10 && numValue <= 49 {
 		return 0.95
 	}
-	if numValue >= 1999 {
-		return 0.94
+	if numValue >= 50 && numValue <= 99 {
+		return 0.9
+	}
+	if numValue >= 100 && numValue <= 199 {
+		return 0.85
+	}
+	if numValue >= 200 && numValue <= 299 {
+		return 0.8
+	}
+	if numValue >= 300 && numValue <= 499 {
+		return 0.75
+	}
+	if numValue >= 500 {
+		return 0.7
 	}
 	return 1.0
 }
