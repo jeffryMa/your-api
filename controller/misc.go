@@ -153,7 +153,7 @@ func SendEmailVerification(c *gin.Context) {
 		if !allowed {
 			c.JSON(http.StatusOK, gin.H{
 				"success": false,
-				"message": "The administrator has enabled the email domain name whitelist, and your email address is not allowed due to special symbols or it's not in the whitelist.",
+				"message": "当前邮箱只允许QQ邮箱注册,请更换QQ邮箱",
 			})
 			return
 		}
@@ -184,6 +184,13 @@ func SendEmailVerification(c *gin.Context) {
 		"<p>验证码 %d 分钟内有效，如果不是本人操作，请忽略。</p>", common.SystemName, code, common.VerificationValidMinutes)
 	err := common.SendEmail(subject, email, content)
 	if err != nil {
+		if strings.HasPrefix(err.Error(), "short response:") {
+			c.JSON(http.StatusOK, gin.H{
+				"success": true,
+				"message": "",
+			})
+			return
+		}
 		c.JSON(http.StatusOK, gin.H{
 			"success": false,
 			"message": err.Error(),

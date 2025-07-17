@@ -76,6 +76,8 @@ const TopUp = () => {
     total: 0,
     valid: 0
   });
+  const [openTransfer, setOpenTransfer] = useState(false);
+  const [transferAmount, setTransferAmount] = useState(0);
 
   // 定义金额选项，均匀分布在2行
   const amountOptions = [
@@ -589,6 +591,135 @@ const TopUp = () => {
     </Card>
   );
 
+  const handleTransfer = async () => {
+    if (transferAmount < 1) {
+      showError(t('划转金额最低为1'));
+      return;
+    }
+    const res = await API.post(`/api/user/aff_transfer`, {
+      quota: transferAmount,
+    });
+    const { success, message } = res.data;
+    if (success) {
+      showSuccess(message);
+      setOpenTransfer(false);
+      getUserQuota();
+    } else {
+      showError(message);
+    }
+  };
+
+  const renderInviteRewardCard = () => {
+    // 获取邀请链接，和 renderInviteCard 保持一致
+    const referralLink = user ? `${window.location.origin}/register?aff=${user.aff_code}` : '';
+    const copyLink = () => {
+      if (referralLink) {
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(referralLink).then(() => {
+            showSuccess('邀请链接已复制到剪贴板');
+          }, () => {
+            fallbackCopyTextToClipboard(referralLink);
+          });
+        } else {
+          fallbackCopyTextToClipboard(referralLink);
+        }
+      }
+    };
+    function fallbackCopyTextToClipboard(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.top = 0;
+      textArea.style.left = 0;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showSuccess('邀请链接已复制到剪贴板');
+      } catch (err) {
+        showError('复制失败，请手动复制');
+      }
+      document.body.removeChild(textArea);
+    }
+    return (
+      <Card style={{ borderRadius: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)', marginBottom: '24px', background: 'linear-gradient(135deg, #f8fafc 60%, #e0f7fa 100%)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
+          <IconGift size="large" style={{ marginRight: '12px', color: '#ff9800' }} />
+          <Title heading={4} style={{ margin: 0, color: '#ff9800' }}>{t('邀请奖励')}</Title>
+        </div>
+        {/* 邀请地址显示 */}
+        {user && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            padding: '12px',
+            backgroundColor: '#f4f6f8',
+            borderRadius: '8px',
+            marginBottom: '16px',
+            border: '1px solid #eee',
+          }}>
+            <Text style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flexGrow: 1 }}>{referralLink}</Text>
+            <Button
+              theme="light"
+              icon={<IconCopy />}
+              onClick={copyLink}
+            >
+              复制
+            </Button>
+          </div>
+        )}
+        <Row gutter={16} style={{ marginBottom: '12px' }}>
+          <Col span={8} style={{ textAlign: 'center' }}>
+            <Text type='tertiary'>{t('待使用收益')}</Text>
+            <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#ff7043', margin: '4px 0' }}>{renderQuota(user && user.aff_quota != null ? user.aff_quota : 0)}</div>
+            <Button size="small" theme="solid" style={{ background: '#ff9800', color: '#fff' }} onClick={() => setOpenTransfer(true)}>{t('划转')}</Button>
+          </Col>
+          <Col span={8} style={{ textAlign: 'center', borderLeft: '1px solid #eee' }}>
+            <Text type='tertiary'>{t('总收益')}</Text>
+            <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#43a047', margin: '4px 0' }}>{renderQuota(user && user.aff_history_quota != null ? user.aff_history_quota : 0)}</div>
+          </Col>
+          <Col span={8} style={{ textAlign: 'center', borderLeft: '1px solid #eee' }}>
+            <Text type='tertiary'>{t('总邀请人数')}</Text>
+            {/* 还原为不可点击的纯文本 */}
+            <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#1976d2', margin: '4px 0' }}>
+              {user && user.aff_count != null ? user.aff_count : 0}
+            </div>
+          </Col>
+        </Row>
+        <Modal
+          title={t('请输入要划转的数量')}
+          visible={openTransfer}
+          onOk={handleTransfer}
+          onCancel={() => setOpenTransfer(false)}
+          maskClosable={false}
+          size={'small'}
+          centered={true}
+        >
+          <div style={{ marginTop: 20 }}>
+            <Text>{t('可用额度')} {renderQuota(user && user.aff_quota != null ? user.aff_quota : 0)}</Text>
+            <Input
+              style={{ marginTop: 5 }}
+              value={user && user.aff_quota != null ? user.aff_quota : 0}
+              disabled={true}
+            />
+          </div>
+          <div style={{ marginTop: 20 }}>
+            <Text>{t('划转额度')}</Text>
+            <Input
+              type="number"
+              min={1}
+              style={{ marginTop: 5 }}
+              value={transferAmount}
+              onChange={v => setTransferAmount(Number(v))}
+            />
+          </div>
+        </Modal>
+      </Card>
+    );
+  };
+
   const renderInviteCard = () => {
     const cardStyle = {
       backgroundColor: 'var(--semi-color-primary-light-default)',
@@ -883,7 +1014,7 @@ const TopUp = () => {
           <Row gutter={[24, 24]}>
             <Col xs={24} lg={8}>
               {renderMyWallet()}
-              {renderInviteCard()}
+              {renderInviteRewardCard()}
             </Col>
 
             <Col xs={24} lg={16}>
