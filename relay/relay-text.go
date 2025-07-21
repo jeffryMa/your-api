@@ -128,6 +128,17 @@ func TextHelper(c *gin.Context) (openaiErr *dto.OpenAIErrorWithStatusCode) {
 		c.Set("prompt_tokens", promptTokens)
 	}
 
+	// 新增：模型token限制拦截
+	modelName := relayInfo.OriginModelName
+	limit := model_setting.GetModelTokenLimit(modelName)
+	if limit > 0 && promptTokens > limit {
+		return service.OpenAIErrorWrapperLocal(
+			fmt.Errorf("请求的 token 数量超出模型限制（%d）", limit),
+			"model_token_limit_exceeded",
+			http.StatusBadRequest,
+		)
+	}
+
 	priceData, err := helper.ModelPriceHelper(c, relayInfo, promptTokens, int(math.Max(float64(textRequest.MaxTokens), float64(textRequest.MaxCompletionTokens))))
 	if err != nil {
 		return service.OpenAIErrorWrapperLocal(err, "model_price_error", http.StatusInternalServerError)

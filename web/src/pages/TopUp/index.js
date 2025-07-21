@@ -108,11 +108,7 @@ const TopUp = () => {
   const calculateDiscount = (value) => {
     const numValue = Number(value);
     if (numValue >= 10 && numValue <= 49) return 0.95;
-    if (numValue >= 50 && numValue <= 99) return 0.9;
-    if (numValue >= 100 && numValue <= 199) return 0.85;
-    if (numValue >= 200 && numValue <= 299) return 0.8;
-    if (numValue >= 300 && numValue <= 499) return 0.75;
-    if (numValue >= 500) return 0.7;
+    if (numValue >= 50) return 0.9;
     return 1;
   };
 
@@ -592,12 +588,12 @@ const TopUp = () => {
   );
 
   const handleTransfer = async () => {
-    if (transferAmount < 1) {
-      showError(t('划转金额最低为1'));
+    if (!Number.isInteger(transferAmount) || transferAmount < 1) {
+      showError(t('划转金额最低为1元，且必须为整数'));
       return;
     }
-    const res = await API.post(`/api/user/aff_transfer`, {
-      quota: transferAmount,
+    const res = await API.post(`/api/user/aff_transfer_amount`, {
+      amount: transferAmount,
     });
     const { success, message } = res.data;
     if (success) {
@@ -689,7 +685,7 @@ const TopUp = () => {
           </Col>
         </Row>
         <Modal
-          title={t('请输入要划转的数量')}
+          title={t('请输入要划转的金额')}
           visible={openTransfer}
           onOk={handleTransfer}
           onCancel={() => setOpenTransfer(false)}
@@ -698,21 +694,34 @@ const TopUp = () => {
           centered={true}
         >
           <div style={{ marginTop: 20 }}>
-            <Text>{t('可用额度')} {renderQuota(user && user.aff_quota != null ? user.aff_quota : 0)}</Text>
+            <Text>{t('可用金额')} {((user && user.aff_quota != null ? user.aff_quota : 0) / 500000).toFixed(2)}元</Text>
             <Input
               style={{ marginTop: 5 }}
-              value={user && user.aff_quota != null ? user.aff_quota : 0}
+              value={((user && user.aff_quota != null ? user.aff_quota : 0) / 500000).toFixed(2)}
               disabled={true}
             />
           </div>
           <div style={{ marginTop: 20 }}>
-            <Text>{t('划转额度')}</Text>
+            <Text>{t('划转金额')}</Text>
             <Input
               type="number"
               min={1}
+              step={1}
               style={{ marginTop: 5 }}
               value={transferAmount}
-              onChange={v => setTransferAmount(Number(v))}
+              onChange={v => {
+                // Only allow integer values >= 1
+                if (v === '' || v === null) {
+                  setTransferAmount('');
+                } else {
+                  const intValue = Math.floor(Number(v));
+                  if (intValue < 1) {
+                    setTransferAmount(1);
+                  } else {
+                    setTransferAmount(intValue);
+                  }
+                }
+              }}
             />
           </div>
         </Modal>

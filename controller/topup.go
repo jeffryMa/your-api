@@ -49,20 +49,8 @@ func calculateDiscountAmount(amount int64) float64 {
 	if numValue >= 10 && numValue <= 49 {
 		return 0.95
 	}
-	if numValue >= 50 && numValue <= 99 {
+	if numValue >= 50 {
 		return 0.9
-	}
-	if numValue >= 100 && numValue <= 199 {
-		return 0.85
-	}
-	if numValue >= 200 && numValue <= 299 {
-		return 0.8
-	}
-	if numValue >= 300 && numValue <= 499 {
-		return 0.75
-	}
-	if numValue >= 500 {
-		return 0.7
 	}
 	return 1.0
 }

@@ -59,6 +59,7 @@ func SetApiRouter(router *gin.Engine) {
 				selfRoute.POST("/pay", controller.RequestEpay)
 				selfRoute.POST("/amount", controller.RequestAmount)
 				selfRoute.POST("/aff_transfer", controller.TransferAffQuota)
+				selfRoute.POST("/aff_transfer_amount", controller.TransferAffAmount)
 				selfRoute.PUT("/setting", controller.UpdateUserSetting)
 				selfRoute.GET("/invitation-history", controller.GetInvitationHistory)
 				selfRoute.GET("/invitation-progress", controller.GetInvitationProgress)

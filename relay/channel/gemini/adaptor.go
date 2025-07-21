@@ -165,6 +165,29 @@ func (a *Adaptor) DoRequest(c *gin.Context, info *relaycommon.RelayInfo, request
 }
 
 func (a *Adaptor) DoResponse(c *gin.Context, resp *http.Response, info *relaycommon.RelayInfo) (usage any, err *dto.OpenAIErrorWithStatusCode) {
+// 	if resp != nil && resp.StatusCode == 429 {
+// 		bodyBytes, _ := io.ReadAll(resp.Body)
+// 		bodyStr := string(bodyBytes)
+// 		if strings.Contains(bodyStr, "doesn't have a freequota tier") {
+// 			// 自动禁用渠道
+// 			go func(channelId int) {
+// 				_ = model.UpdateChannelStatusById(channelId, common.ChannelStatusAutoDisabled, "Gemini欠费自动禁用")
+// 			}(info.ChannelId)
+// 			// 返回自定义错误
+// 			err = &dto.OpenAIErrorWithStatusCode{
+// 				Error: dto.OpenAIError{
+// 					Message: "您被限流，请联系管理员",
+// 					Type:    "channel_quota_exceeded",
+// 					Code:    "channel_quota_exceeded",
+// 				},
+// 				StatusCode: 400,
+// 			}
+// 			return nil, err
+// 		}
+// 		// 其它429错误，重建resp.Body供后续处理
+// 		resp.Body = io.NopCloser(strings.NewReader(bodyStr))
+// 	}
+
 	if strings.HasPrefix(info.UpstreamModelName, "imagen") {
 		return GeminiImageHandler(c, resp, info)
 	}

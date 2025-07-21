@@ -18,6 +18,7 @@ export default function SettingGlobalModel(props) {
     'global.pass_through_request_enabled': false,
     'general_setting.ping_interval_enabled': false,
     'general_setting.ping_interval_seconds': 60,
+    'global.model_token_limit': '', // 新增
   });
   const refForm = useRef();
   const [inputsRow, setInputsRow] = useState(inputs);
@@ -54,9 +55,10 @@ export default function SettingGlobalModel(props) {
   }
 
   useEffect(() => {
-    const currentInputs = {};
-    for (let key in props.options) {
-      if (Object.keys(inputs).includes(key)) {
+    // 以 inputs 的 key 为基准，props.options 里有就用，没有就用默认
+    const currentInputs = { ...inputs };
+    for (let key in currentInputs) {
+      if (props.options.hasOwnProperty(key)) {
         currentInputs[key] = props.options[key];
       }
     }
@@ -87,6 +89,32 @@ export default function SettingGlobalModel(props) {
                   }
                   extraText={
                     '开启后，所有请求将直接透传给上游，不会进行任何处理（重定向和渠道适配也将失效）,请谨慎开启'
+                  }
+                />
+              </Col>
+            </Row>
+            {/* 新增模型token限制配置项 */}
+            <Row>
+              <Col xs={24} sm={24} md={16} lg={12} xl={8}>
+                <Form.TextArea
+                  label={t('模型最大Token限制（JSON，key为平台模型名称）')}
+                  field={'global.model_token_limit'}
+                  placeholder={t('如 {"my-gpt4-proxy": 20000, "my-claude3": 16000}')}
+                  extraText={t('示例：{"my-gpt4-proxy": 20000, "my-claude3": 16000}，key为平台自定义模型名称')}
+                  autosize={{ minRows: 4, maxRows: 10 }}
+                  trigger='blur'
+                  stopValidateWithError
+                  rules={[
+                    {
+                      validator: (rule, value) => verifyJSON(value),
+                      message: t('不是合法的 JSON 字符串'),
+                    },
+                  ]}
+                  onChange={(value) =>
+                    setInputs({
+                      ...inputs,
+                      'global.model_token_limit': value,
+                    })
                   }
                 />
               </Col>

@@ -421,6 +421,44 @@ func TransferAffQuota(c *gin.Context) {
 	})
 }
 
+type TransferAffAmountRequest struct {
+	Amount int `json:"amount" binding:"required"`
+}
+
+func TransferAffAmount(c *gin.Context) {
+	id := c.GetInt("id")
+	user, err := model.GetUserById(id, true)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
+		return
+	}
+	tran := TransferAffAmountRequest{}
+	if err := c.ShouldBindJSON(&tran); err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
+		return
+	}
+	// 金额转为额度（假设1元=500000额度，按实际业务调整）
+	quota := tran.Amount * 500000
+	err = user.TransferAffQuotaToQuota(quota)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "划转失败 " + err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "划转成功",
+	})
+}
+
 func GetAffCode(c *gin.Context) {
 	id := c.GetInt("id")
 	user, err := model.GetUserById(id, true)
