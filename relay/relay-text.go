@@ -131,7 +131,9 @@ func TextHelper(c *gin.Context) (openaiErr *dto.OpenAIErrorWithStatusCode) {
 	// 新增：模型token限制拦截
 	modelName := relayInfo.OriginModelName
 	limit := model_setting.GetModelTokenLimit(modelName)
+	common.LogInfo(c, fmt.Sprintf("模型token限制检查: modelName='%s', limit=%d, promptTokens=%d", modelName, limit, promptTokens))
 	if limit > 0 && promptTokens > limit {
+		common.LogWarn(c, fmt.Sprintf("触发模型token限制: modelName=%s, limit=%d, promptTokens=%d", modelName, limit, promptTokens))
 		return service.OpenAIErrorWrapperLocal(
 			fmt.Errorf("请求的 token 数量超出模型限制（%d）", limit),
 			"model_token_limit_exceeded",

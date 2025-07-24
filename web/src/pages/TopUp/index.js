@@ -1009,6 +1009,44 @@ const TopUp = () => {
             maskClosable={false}
             size={'small'}
             centered={true}
+            footer={
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: isMobile() ? 'column' : 'row',
+                  gap: isMobile() ? 16 : 8,
+                  width: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: isMobile() ? '12px 0' : '0',
+                }}
+              >
+                <Button
+                  onClick={handleCancel}
+                  style={{
+                    width: isMobile() ? '90%' : 120,
+                    height: isMobile() ? 48 : 36,
+                    fontSize: isMobile() ? 18 : 16,
+                  }}
+                  size={isMobile() ? 'large' : 'default'}
+                >
+                  {t('取消')}
+                </Button>
+                <Button
+                  type="primary"
+                  onClick={onlineTopUp}
+                  style={{
+                    width: isMobile() ? '90%' : 120,
+                    height: isMobile() ? 56 : 40,
+                    fontSize: isMobile() ? 20 : 16,
+                    fontWeight: 600,
+                  }}
+                  size={isMobile() ? 'large' : 'default'}
+                >
+                  {t('确定')}
+                </Button>
+              </div>
+            }
           >
             <p>
               {t('充值数量')}：{topUpCount}
